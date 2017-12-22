@@ -31,14 +31,13 @@
       var crBid = <?php echo $getBTCUSD_info['bid'];?>;
       $("#bidPrice").html(crBid);
 
-      var counter = 1;
-      while(true){
-        alert(counter);
-        if (!(counter%3)){
-          alert("reload now");
-          Location.reload();
-        }
-        counter += 100;
-      }
+      // the below should be info of other platforms
+      <?php
+      $getBTCUSD_info = json_decode(file_get_contents("https://api.bitfinex.com/v1/pubticker/BTCUSD"), true);
+      ?>
+      var crAsk = <?php echo $getBTCUSD_info['ask'];?>;
+      $("#askPrice").html(crAsk);
+      var crBid = <?php echo $getBTCUSD_info['bid'];?>;
+      $("#bidPrice").html(crBid);
   </script>
 </html>
