@@ -3,21 +3,24 @@
   <head>
     <meta charset="utf-8">
     <title>for testing purposes</title>
-    <link rel="stylesheet" href="debug/debugStyle.css">
-    <link rel="stylesheet" href="debug/style.css">
-    <script src = "debug/script.js"></script>
-    <script src = "debug/z-debugHTML.js"></script>
+    <link rel="stylesheet" href="styles.css">
 
-    <script src = TBapp-script.js"></script>
 
-    <script src= "debug/debugFunctions.js"></script>
+
   </head>
 
 
   <body class = "zone" ng-app = "TBapp">
-    <!--z-test></z-test><!---->
+    <a> here is the php tag </a>
+    <?php
+      echo '<br>';
+      include 'onlineScripts/finex.php';
 
-    <!--z-debug class = "zone"></z-debug><!---->
+      echo "lala<br>";
+    ?>
+    <a> above is php tag </a>
   </body>
+
+  <script src = "script.js"></script>
 
 </html>

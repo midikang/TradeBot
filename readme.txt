@@ -37,6 +37,6 @@ Additions:
 Issues:
 -
 
+Credit:
+	the project uses github.com/coinables' php code that works with bitfinex's API.
 
-rendered view:	
-http://htmlpreview.github.io/?https://github.com/qinzian/Bitfinex-API-PHP/blob/master/index.html
