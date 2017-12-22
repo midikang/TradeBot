@@ -10,15 +10,14 @@
   </head>
 
 
-  <body class = "zone" ng-app = "TBapp">
-    <a> here is the php tag </a>
-    <?php
-      echo '<br>';
-      include 'onlineScripts/finex.php';
+  <body class = "zone">
 
-      echo "lala<br>";
+    <?php
+    echo 'req_res.php starts here<br>';
+    include "php/req_res.php";
+    echo '<br>req_res.php ends here';
     ?>
-    <a> above is php tag </a>
+
   </body>
 
   <script src = "script.js"></script>
