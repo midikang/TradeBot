@@ -1,7 +1,5 @@
-import requests
+from Trader import Trader
 
-url = "https://api.bitfinex.com/v1/pubticker/btcusd"
+bot = Trader("bitfinex")
 
-response = requests.request("GET", url)
-
-print(response.text)
+print(bot.getCoinInfo('btc','usd'))
