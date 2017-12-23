@@ -46,7 +46,7 @@ class bitfinex{
   "order_id":448364249
    }
    */
-   
+
    public function cancel_order($order_id)
    {
       $request = "/v1/order/cancel";
@@ -56,7 +56,7 @@ class bitfinex{
 	  );
 	  return $this->hash_request($data);
    }
-   
+
    public function cancel_all()
    {
    $request = "/v1/order/cancel/all";
@@ -65,7 +65,7 @@ class bitfinex{
    );
    return $this->hash_request($data);
    }
-   
+
    public function account_info()
    {
    $request = "/v1/account_infos";
@@ -119,7 +119,7 @@ class bitfinex{
   "address":"3FdY9coNq47MLiKhG2FLtKzdaXS3hZpSo4"
    }
    */
-   
+
    public function positions()
    {
    $request = "/v1/positions";
@@ -157,7 +157,7 @@ class bitfinex{
    $request = "/v1/position/claim";
    $data = array(
       "request" => $request,
-      "position_id" => (int)$position_id, 
+      "position_id" => (int)$position_id,
       "amount" => $amount
    );
    return $this->hash_request($data);
@@ -175,7 +175,7 @@ class bitfinex{
   "pl":"-2.2304"
    }
    */
-   
+
    public function fetch_balance()
    {
    $request = "/v1/balances";
@@ -218,7 +218,7 @@ class bitfinex{
   "available":"1"
    }]
    */
-   
+
    public function margin_infos()
    {
    $request = "/v1/margin_infos";
@@ -244,7 +244,7 @@ class bitfinex{
     "tradable_balance":"-0.329243259666666667"
    }]
    */
-   
+
    public function transfer($amount, $currency, $from, $to)
    {
    $request = "/v1/transfer";
@@ -297,4 +297,3 @@ class bitfinex{
 }
 
 ?>
-
