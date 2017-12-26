@@ -9,7 +9,7 @@ function sendPOSTreq($cmd, $args){
     case "getAccInfo":
     return postSender.account_info();
   default:
-      throw new Exception("handling unknown cmd: '".$cmd."' in ".$_GET['platform'].'/'.$_GET['reqType']."_req.php");
+      throwErr("cmd: '".$cmd."'");
   }
 
 }
