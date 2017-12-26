@@ -32,7 +32,7 @@ function getCoinInfo($targetPair){
   $allTicker = json_decode(getAllCoinsInfo(), true);
 
   foreach($allTicker as $obj){
-	if ($obj['symbol'] == $targetPair){
+	if ($obj['symbol'] == strtoupper($targetPair)){
 		return json_encode($obj);
 	}
   }

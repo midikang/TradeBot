@@ -3,10 +3,10 @@ import time
 import datetime
 
 platform = "poloniex"
-pair = 'btc_xpm'
+pair = 'wtcbtc'
 #finexBot = Trader("bitfinex")
-
-bot = Trader("poloniex")
+#poloniexBox = Trader("poloniex");
+bot = Trader("binance")
 
 rate = 10
 startTime = round(time.time())
