@@ -24,6 +24,6 @@ Issues:
 - sending POST requests using python to bitfinex's server
 
 Credit:
-	- the project uses github.com/coinables' open php lib that works with bitfinex's API.
-	- bitfinex's API
+	- github |coinables|: php wrapper for bitfinex API
+	- pastebin |compcentral|: php wrapper for poloniex API
 

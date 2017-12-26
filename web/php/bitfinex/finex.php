@@ -291,9 +291,10 @@ class bitfinex{
          CURLOPT_POSTFIELDS => ""
       ));
       $ccc = curl_exec($ch);
+
+      if ($ccc === false) throw new Exception('Curl error: '.curl_error($ch));
       return json_decode($ccc, true);
    }
 
 }
-
 ?>

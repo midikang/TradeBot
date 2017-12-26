@@ -2,10 +2,12 @@ from Trader import Trader
 import time
 import datetime
 
-platform = "bitfinex"
-coin = "btc"
-currency = "usd"
-bot = Trader(platform)
+platform = "poloniex"
+coin = "xpm"
+currency = "btc"
+#finexBot = Trader("bitfinex")
+
+bot = Trader("poloniex")
 
 rate = 10
 startTime = round(time.time())
