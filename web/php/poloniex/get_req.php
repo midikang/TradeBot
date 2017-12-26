@@ -11,7 +11,8 @@ function sendGETreq($cmd){
       return getTradingPairs();
 
     default:
-      throw new Exception("handling unknown cmd: '".$cmd."' in bitfinex publicAPI.php");
+      throw new Exception("handling unknown cmd: '".$cmd."' in ".$_GET['platform'].'/'.$_GET['reqType']."_req.php");
+
   }
 }
 
@@ -21,7 +22,7 @@ function getAllCoinsInfo(){
   return getJSONstr($url);
 }
 
-public function getTradingPairs() {
+function getTradingPairs() {
   return array_keys(json_decode( getAllCoinsInfo(), true ));
 }
 

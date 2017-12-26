@@ -5,7 +5,8 @@ switch($cmd){
     return getCoinInfo($_GET["coin"], $_GET["currency"]);
 
   default:
-    throw new Exception("handling unknown cmd: '".$cmd."' in bitfinex publicAPI.php");
+      throw new Exception("handling unknown cmd: '".$cmd."' in ".$_GET['platform'].'/'.$_GET['reqType']."_req.php");
+
 }
 
 }

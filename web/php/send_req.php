@@ -2,16 +2,17 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>sends and receives POST request</title>
+    <title>sends and receives GET/POST request</title>
   </head>
+
   <?php
-    require_once($_GET['platform']."/tradingAPI.php");
+    require_once($_GET['platform']."/".$_GET['reqType']."_req.php");
   ?>
 
   <body>
     <a class = "json_response">
       <?php
-        echo sendPOSTreq($_GET["cmd"], $_GET["args"]);
+        echo sendGETreq($_GET["cmd"]);
       ?>
     </a>
   </body>
