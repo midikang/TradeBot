@@ -7,6 +7,7 @@
 
   <?php
     require_once($_GET['platform']."/".$_GET['reqType']."_req.php");
+    require_once("gen_func.php");
   ?>
 
   <body>

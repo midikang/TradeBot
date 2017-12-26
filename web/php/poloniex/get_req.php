@@ -1,8 +1,8 @@
-<?php // a set of functions that are specific to bitfinex's API
+<?php // a set of functions that are specific to poloniex's API
 function sendGETreq($cmd){
   switch($cmd){
     case "getCoinInfo":
-      return getCoinInfo($_GET["coin"]);
+      return getCoinInfo($_GET["pair"]);
 
     case "getTradeHistory":
       return getTradeHistory();
@@ -11,8 +11,7 @@ function sendGETreq($cmd){
       return getTradingPairs();
 
     default:
-      throw new Exception("handling unknown cmd: '".$cmd."' in ".$_GET['platform'].'/'.$_GET['reqType']."_req.php");
-
+      throwErr("cmd: '".$cmd."'");
   }
 }
 
@@ -26,10 +25,10 @@ function getTradingPairs() {
   return array_keys(json_decode( getAllCoinsInfo(), true ));
 }
 
-function getCoinInfo($coin){
+function getCoinInfo($pair){
   $allTicker = json_decode(getAllCoinsInfo(), true);
 
-  return json_encode($allTicker[strtoupper('btc_'.$coin)]);
+  return json_encode($allTicker[strtoupper($pair)]);
 }
 
 /* add new more functions here
@@ -40,15 +39,4 @@ function ______($coin, $currency){
 }
 // */
 
-function getJSONstr($url){
-  $opts = array('http' =>
-    array(
-      'method'  => 'GET',
-      'timeout' => 10
-    )
-  );
-  $context = stream_context_create($opts);
-  $feed = file_get_contents($url, false, $context);
-  return $feed;
-}
 ?>

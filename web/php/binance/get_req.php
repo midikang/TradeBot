@@ -1,8 +1,11 @@
-<?php // a set of functions that are specific to bitfinex's API
+<?php // a set of functions that are specific to binance's API
 function sendGETreq($cmd){
   switch($cmd){
     case "getCoinInfo":
-      return getCoinInfo($_GET["coin"], $_GET["currency"]);
+      return getCoinInfo($_GET["pair"]);
+
+    case "getAllCoinsInfo":
+      return getAllCoinsInfo();
 
     case "getTradeHistory":
       return getTradeHistory();
@@ -11,13 +14,12 @@ function sendGETreq($cmd){
       return getTradingPairs();
 
     default:
-      throw new Exception("handling unknown cmd: '".$cmd."' in ".$_GET['platform'].'/'.$_GET['reqType']."_req.php");
-
+      throwErr("cmd: '".$cmd."'");
   }
 }
 
 function getAllCoinsInfo(){
-  $url = "https://poloniex.com/public?command=returnTicker";
+  $url = "https://api.binance.com/api/v1/ticker/allBookTickers";
 
   return getJSONstr($url);
 }
@@ -26,10 +28,18 @@ function getTradingPairs() {
   return array_keys(json_decode( getAllCoinsInfo(), true ));
 }
 
-function getCoinInfo($coin){
+function getCoinInfo($targetPair){
   $allTicker = json_decode(getAllCoinsInfo(), true);
 
-  return json_encode($allTicker[strtoupper('btc_'.$coin)]);
+  foreach($allTicker as $obj){
+	if ($obj['symbol'] == $targetPair){
+		return json_encode($obj);
+	}
+  }
+
+  throwErr("pair: '".$targetPair."'");
+
+  
 }
 
 /* add new more functions here
@@ -40,15 +50,4 @@ function ______($coin, $currency){
 }
 // */
 
-function getJSONstr($url){
-  $opts = array('http' =>
-    array(
-      'method'  => 'GET',
-      'timeout' => 10
-    )
-  );
-  $context = stream_context_create($opts);
-  $feed = file_get_contents($url, false, $context);
-  return $feed;
-}
 ?>

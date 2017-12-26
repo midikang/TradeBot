@@ -2,17 +2,16 @@
 function sendGETreq($cmd){
 switch($cmd){
   case "getCoinInfo":
-    return getCoinInfo($_GET["coin"], $_GET["currency"]);
+    return getCoinInfo($_GET["pair"]);
 
   default:
-      throw new Exception("handling unknown cmd: '".$cmd."' in ".$_GET['platform'].'/'.$_GET['reqType']."_req.php");
-
+      throwErr("cmd: '".$cmd."'");
 }
 
 }
 
-function getCoinInfo($coin, $currency){
-  $url = "https://api.bitfinex.com/v1/pubticker/".$coin.$currency;
+function getCoinInfo($pair){
+  $url = "https://api.bitfinex.com/v1/pubticker/".$pair;
 
   return getJSONstr($url);
 }
@@ -24,16 +23,4 @@ function ______($coin, $currency){
   return getJSONstr($url);
 }
 // */
-
-function getJSONstr($url){
-  $opts = array('http' =>
-    array(
-      'method'  => 'GET',
-      'timeout' => 10
-    )
-  );
-  $context = stream_context_create($opts);
-  $feed = file_get_contents($url, false, $context);
-  return $feed;
-}
 ?>
