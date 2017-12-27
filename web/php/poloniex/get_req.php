@@ -15,7 +15,7 @@ function sendGETreq($cmd){
   }
 }
 
-function getAllCoinsInfo(){
+function getCoinInfo(){
   $url = "https://poloniex.com/public?command=returnTicker";
 
   return getJSONstr($url);
@@ -25,8 +25,10 @@ function getTradingPairs() {
   return array_keys(json_decode( getAllCoinsInfo(), true ));
 }
 
-function getCoinInfo($pair){
-  $allTicker = json_decode(getAllCoinsInfo(), true);
+function getCoinInfo($pair = 'All'){
+  $url = "https://poloniex.com/public?command=returnTicker";
+
+  $allTicker = json_decode(getJSONstr($url), true);
 
   return json_encode($allTicker[strtoupper($pair)]);
 }

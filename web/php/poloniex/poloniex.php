@@ -15,52 +15,6 @@ class poloniex {
 		$this->api_secret = $api_secret;
 	}
 
-  private function headers($data)
-  {
-    //$data["nonce"] = strval(round(microtime(true) * 10,0));
-    $mt = explode(' ', microtime());
-		$data['nonce'] = $mt[1].substr($mt[0], 2, 6);
-
-    // generate the POST data string
-		$post_data = http_build_query($data, '', '&');
-    $sign = hash_hmac('sha512', $post_data, $secret);
-    return array(
-      'Key: '.$this->api_key,
-			'Sign: '.$sign,
-      'PostData: '.$post_data
-    );
-  }
-
-  private function hash_request($data)
-  {
-    $ch = curl_init();
-    $bfurl = $this->url . $data["request"];
-    $headers = $this->headers($data);
-
-    // curl handle (initialize if required)
-		static $ch = null;
-		if (is_null($ch)) {
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-      // this following might need to be changed
-			curl_setopt($ch, CURLOPT_USERAGENT,
-				'Mozilla/4.0 (compatible; Poloniex PHP bot; '.php_uname('a').'; PHP/'.phpversion().')'
-			);
-		}
-		curl_setopt($ch, CURLOPT_URL, $this->trading_url);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-
-		// run the query
-		$res = curl_exec($ch);
-
-		if ($res === false) throw new Exception('Curl error: '.curl_error($ch));
-		//echo $res;
-		return json_decode($res, true);
-  }
-
 	private function query(array $req = array()) {
 		// generate a nonce to avoid problems with 32bit systems
     $mt = explode(' ', microtime());
@@ -72,36 +26,25 @@ class poloniex {
 
 		// generate the extra headers
 		$headers = array(
-			'Key: '.$key,
+			'Key: '.$this->api_key,
 			'Sign: '.$sign,
 		);
 
-		// curl handle (initialize if required)
-		static $ch = null;
-		if (is_null($ch)) {
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_USERAGENT,
-				'Mozilla/4.0 (compatible; Poloniex PHP bot; '.php_uname('a').'; PHP/'.phpversion().')'
-			);
-		}
-		curl_setopt($ch, CURLOPT_URL, $this->trading_url);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		$ch = curl_init();
+		curl_setopt_array($ch, array(
+			 CURLOPT_URL => $this->trading_url,
+			 CURLOPT_POST => true,
+			 CURLOPT_RETURNTRANSFER => true,
+			 CURLOPT_HTTPHEADER => $headers,
+			 CURLOPT_SSL_VERIFYPEER => false,
+			 CURLOPT_POSTFIELDS => $post_data
+		));
 
-		// run the query
 		$res = curl_exec($ch);
 
 		if ($res === false) throw new Exception('Curl error: '.curl_error($ch));
 		//echo $res;
-		$dec = json_decode($res, true);
-		if (!$dec){
-			//throw new Exception('Invalid data: '.$res);
-			return false;
-		}else{
-			return $dec;
-		}
+		return json_decode($res, true);
 	}
 
 	protected function retrieveJSON($URL) {
@@ -207,8 +150,7 @@ class poloniex {
 		if($pair == "ALL"){
 			return $prices;
 		}else{
-			$pair = strtoupper($pair);
-			if(isset($prices[$pair])){
+			if(isset($prices[$pair])){ // check whether the given key exists
 				return $prices[$pair];
 			}else{
 				return array();
