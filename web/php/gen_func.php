@@ -8,8 +8,8 @@ function getJSONstr($url){
     )
   );
   $context = stream_context_create($opts);
-  $feed = file_get_contents($url, false, $context);
-  return $feed;
+  $jsonStr = file_get_contents($url, false, $context);
+  return $jsonStr;
 }
 
 function handlingErr($msg){
