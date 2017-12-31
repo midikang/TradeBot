@@ -12,6 +12,10 @@ function getJSONstr($url){
   return $jsonStr;
 }
 
+function getJSON($url){
+  return json_decode(getJSONstr($url), true);
+}
+
 function handlingErr($msg){
 	throw new Exception("\n".$_GET['platform'].'/'.$_GET['reqType']."_req.php\nHandling unknown ".$msg);
 }

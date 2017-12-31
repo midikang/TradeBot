@@ -6,14 +6,14 @@
   </head>
 
   <?php
-    require_once($_GET['platform']."/".$_GET['reqType']."_req.php");
     require_once("gen_func.php");
+    require_once($_GET['platform']."/".$_GET['reqType']."_req.php");
   ?>
 
   <body>
     <a class = "json_response">
       <?php
-        echo sendGETreq($_GET["cmd"]);
+        echo call_func($_GET['cmd']);
       ?>
     </a>
   </body>

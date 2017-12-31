@@ -1,17 +1,34 @@
 <?php // a set of functions that are specific to bitfinex's API
-function sendGETreq($cmd){
-switch($cmd){
-  case "getCoinInfo":
-    return getCoinInfo($_GET["pair"]);
+function call_func($cmd){
+  switch($cmd){
+    case "getCoinInfo":
+      return getCoinInfo($_GET["pair"]);
 
-  default:
-      throwErr("cmd: '".$cmd."'");
+    default:
+        throwErr("cmd: '".$cmd."'");
+  }
 }
 
-}
+function getCoinInfo($pair = "ALL"){
+  //echo $pair;
+  if ($pair == "ALL"){
+    $allInfo = array();
+    $allPairs = json_decode(validPairs(), true);
 
-function getCoinInfo($pair){
+    foreach ($allPairs as $crPair){
+      $allInfo[$pair] = getCoinInfo($crPair);
+    }
+
+    return json_encode($allInfo);
+  }
+
   $url = "https://api.bitfinex.com/v1/pubticker/".$pair;
+
+  return getJSONstr($url);
+}
+
+function validPairs(){
+  $url = "https://api.bitfinex.com/v1/symbols";
 
   return getJSONstr($url);
 }

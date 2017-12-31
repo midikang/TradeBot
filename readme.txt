@@ -1,7 +1,10 @@
 project5: crypto-trading bot
 
 Next v1.2 (Backend):
-- write a sample process that decides how to make money
+- write a sample process that detects opportunity for arbitrage
+
+- write a super class trader.py that will increase code reusability 
+	the post_sender class in each platform folder will extend this super class
 
 - try to send POST requests for other things (e.g. acc info)
 
