@@ -7,7 +7,14 @@
 
   <?php
     require_once("gen_func.php");
-    require_once($_GET['platform']."/".$_GET['reqType']."_req.php");
+
+    if ($_GET['reqType'] == 'get'){
+      require_once($_GET['platform']."/get_req.php");
+    } else if ($_GET['reqType'] == 'post'){
+      require_once($_GET['platform'].'zqis.php');  //setup vars $api_key and $api_secret
+      require_once($_GET['platform'].'index.php');
+      require_once($_GET['platform']."/post_req.php");
+    }
   ?>
 
   <body>
@@ -16,5 +23,6 @@
         echo call_func($_GET['cmd']);
       ?>
     </a>
+
   </body>
 </html>

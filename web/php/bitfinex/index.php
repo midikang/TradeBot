@@ -1,37 +1,11 @@
 <?php
 
-class Bot extends trader{
+class bitfinex extends trader{
 
   public function __construct($apikey, $secret)
   {
      parent::__construct($apikey, $secret, "https://api.bitfinex.com", "https://api.bitfinex.com", "sha384");
   }
-
-############################### GET #####################################
-
-  public static function getCoinInfo(){
-    echo $_GET["pair"];
-    if ($_GET['pair'] == "ALL"){
-      $allInfo = array();
-      $allPairs = $this->validPairs();
-
-      foreach ($allPairs as $pair){
-        $allInfo[$pair] = getCoinInfo($pair);
-      }
-
-      return $allInfo;
-    }
-
-    return $this->sendGET($public_url."/v1/pubticker/".$pair);
-  }
-
-  public static function validPairs(){
-    $url = "https://api.bitfinex.com/v1/symbols";
-
-    return $this->sendGET($url);
-  }
-
-############################### POST #####################################
 
    public function buy($symbol, $amount, $price, $side, $type)
    {
@@ -45,7 +19,7 @@ class Bot extends trader{
          "side" => $side,
          "type" => $type
       );
-      return $this->hash_request($data);
+      return $this->query($data);
    }
    /*
    response
@@ -76,7 +50,7 @@ class Bot extends trader{
 	     "request" => $request,
 	     "order_id" => (int)$order_id
 	  );
-	  return $this->hash_request($data);
+	  return $this->query($data);
    }
 
    public function cancel_all()
@@ -85,7 +59,7 @@ class Bot extends trader{
    $data = array(
       "request" => $request
    );
-   return $this->hash_request($data);
+   return $this->query($data);
    }
 
    public function account_info()
@@ -94,7 +68,7 @@ class Bot extends trader{
    $data = array(
       "request" => $request
    );
-   return $this->hash_request($data);
+   return $this->query($data);
    }
    /*
    response
@@ -127,7 +101,7 @@ class Bot extends trader{
       "wallet_name" => $wallet,
       "renew" => $renew
    );
-   return $this->hash_request($data);
+   return $this->query($data);
    }
    /*
    depost generates a BTC address to deposit funds into bitfinex
@@ -148,7 +122,7 @@ class Bot extends trader{
    $data = array(
       "request" => $request
    );
-   return $this->hash_request($data);
+   return $this->query($data);
    }
    /*
    response
@@ -171,7 +145,7 @@ class Bot extends trader{
       "request" => $request,
       "position_id" => (int)$position_id
    );
-   return $this->hash_request($data);
+   return $this->query($data);
    }
 
    public function claim_position($position_id, $amount)
@@ -182,7 +156,7 @@ class Bot extends trader{
       "position_id" => (int)$position_id,
       "amount" => $amount
    );
-   return $this->hash_request($data);
+   return $this->query($data);
    }
    /*
    response
@@ -204,7 +178,7 @@ class Bot extends trader{
    $data = array(
       "request" => $request
    );
-   return $this->hash_request($data);
+   return $this->query($data);
    }
    /*
    response
@@ -247,7 +221,7 @@ class Bot extends trader{
    $data = array(
       "request" => $request
    );
-   return $this->hash_request($data);
+   return $this->query($data);
    }
    /*
    [{
@@ -277,7 +251,7 @@ class Bot extends trader{
       "walletfrom" => $from,
       "walletto" => $to
    );
-   return $this->hash_request($data);
+   return $this->query($data);
    }
    /*
    response
@@ -287,35 +261,14 @@ class Bot extends trader{
    }]
    */
 
-   private function headers($data)
+   private function generateHeaders($req, $post_data, $sign)
    {
-      $data["nonce"] = strval(round(microtime(true) * 10,0));
-      $payload = base64_encode(json_encode($data));
-      $signature = hash_hmac("sha384", $payload, $this->secret);
+      $payload = base64_encode(json_encode($req));
       return array(
          "X-BFX-APIKEY: " . $this->apikey,
          "X-BFX-PAYLOAD: " .$payload,
-         "X-BFX-SIGNATURE: " . $signature
+         "X-BFX-SIGNATURE: " . $sign
       );
-   }
-
-   private function hash_request($data)
-   {
-      $ch = curl_init();
-      $bfurl = $this->url . $data["request"];
-      $headers = $this->headers($data);
-      curl_setopt_array($ch, array(
-         CURLOPT_URL => $bfurl,
-         CURLOPT_POST => true,
-         CURLOPT_RETURNTRANSFER => true,
-         CURLOPT_HTTPHEADER => $headers,
-         CURLOPT_SSL_VERIFYPEER => false,
-         CURLOPT_POSTFIELDS => ""
-      ));
-      $ccc = curl_exec($ch);
-
-      if ($ccc === false) throw new Exception('Curl error: '.curl_error($ch));
-      return json_decode($ccc, true);
    }
 
 }

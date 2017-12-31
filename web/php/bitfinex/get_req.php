@@ -4,6 +4,9 @@ function call_func($cmd){
     case "getCoinInfo":
       return getCoinInfo($_GET["pair"]);
 
+    case "validPairs":
+    return validPairs();
+    
     default:
         throwErr("cmd: '".$cmd."'");
   }

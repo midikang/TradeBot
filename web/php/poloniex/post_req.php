@@ -4,7 +4,7 @@ require_once('poloniex.php');
 $postSender = new poloniex($api_key, $api_secret);
 
 
-function sendPOSTreq($cmd, $args){
+function call_func($cmd, $args){
   switch($cmd){
     case "getAccInfo":
     return postSender.account_info();
