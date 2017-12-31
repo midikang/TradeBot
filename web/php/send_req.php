@@ -11,9 +11,10 @@
     if ($_GET['reqType'] == 'get'){
       require_once($_GET['platform']."/get_req.php");
     } else if ($_GET['reqType'] == 'post'){
-      require_once($_GET['platform'].'zqis.php');  //setup vars $api_key and $api_secret
-      require_once($_GET['platform'].'index.php');
-      require_once($_GET['platform']."/post_req.php");
+      require_once('trader.php');
+      require_once($_GET['platform'].'/zqis.php');  //setup vars $api_key and $api_secret
+      require_once($_GET['platform'].'/bot.php');
+      require_once($_GET['platform'].'/post_req.php');
     }
   ?>
 
