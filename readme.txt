@@ -1,12 +1,10 @@
 project5: crypto-trading bot
 
-Next v1.2 (Backend):
+Next v1.3 (Backend):
 - write a sample process that detects opportunity for arbitrage
 
 - write a super class trader.py that will increase code reusability 
 	the post_sender class in each platform folder will extend this super class
-
-- try to send POST requests for other things (e.g. acc info)
 
 
 Basic Design:
@@ -20,9 +18,6 @@ Basic Design:
 
 - variety of .php files that performs different tasks; each .php file sends a unique POST request
 
-
-Issues:
-- sending POST requests using python to specified servers
 
 Credit:
 	- github |coinables|: php wrapper for bitfinex API
