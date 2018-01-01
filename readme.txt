@@ -1,11 +1,10 @@
 project5: crypto-trading bot
 
-Next v1.3 (Backend):
+Current v1.4 (Support):
+- use all the reusable codes for binance and yobit and coinegg
+
+Next v2.0 (Backend):
 - write a sample process that detects opportunity for arbitrage
-
-- write a super class trader.py that will increase code reusability 
-	the post_sender class in each platform folder will extend this super class
-
 
 Basic Design:
 	(Main - Python)
