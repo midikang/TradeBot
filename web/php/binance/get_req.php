@@ -1,39 +1,41 @@
-<?php // a set of functions that are specific to bitfinex's API
+<?php // a set of functions that are specific to poloniex's API
 function call_func($cmd){
   switch($cmd){
     case "getCoinInfo":
-      return getCoinInfo($_GET["pair"]);
+      return getCoinInfo($_GET["currency"]."_".$_GET["coin"]);
 
-    case "validPairs":
-    return validPairs();
-    
+    case "getValidPairs":
+      return getValidPairs();
+
     default:
-        throwErr("cmd: '".$cmd."'");
+      throwErr("cmd: '".$cmd."'");
   }
 }
 
-function getCoinInfo($pair = "ALL"){
-  //echo $pair;
-  if ($pair == "ALL"){
-    $allInfo = array();
-    $allPairs = json_decode(validPairs(), true);
+function getValidPairs() {
+  $url = "https://api.binance.com/api/v1/ticker/allPrices";
+  $allTickerStr = getCoinInfo();
 
-    foreach ($allPairs as $crPair){
-      $allInfo[$pair] = getCoinInfo($crPair);
+  //print_r(json_decode( $allTickerStr, true ));
+  return json_encode(array_keys(json_decode( $allTickerStr, true )));
+}
+
+function getCoinInfo($pair = 'ALL'){
+  $urlSingleTicker = "https://api.binance.com/api/v1/ticker/24hr?symbol="
+
+  if ($pair == "ALL"){
+    $urlAllPrices = "https://api.binance.com/api/v1/ticker/allPrices";
+
+    $allPrices = getJSON($urlAllPrices);
+    $allTickers = {};
+    foreach ($allPrices as $crPair){
+      $allTickers[$crPair['symbol']] = getJSON($urlSingleTicker.$crPair);
     }
 
-    return json_encode($allInfo);
+    return json_encode($allTickers);
   }
 
-  $url = "https://api.bitfinex.com/v1/pubticker/".$pair;
-
-  return getJSONstr($url);
-}
-
-function validPairs(){
-  $url = "https://api.bitfinex.com/v1/symbols";
-
-  return getJSONstr($url);
+  $allPrices = getJSONstr($urlSingleTicker.$crPair);
 }
 
 /* add new more functions here
@@ -43,4 +45,5 @@ function ______($coin, $currency){
   return getJSONstr($url);
 }
 // */
+
 ?>

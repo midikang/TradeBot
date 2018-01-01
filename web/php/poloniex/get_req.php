@@ -2,7 +2,7 @@
 function call_func($cmd){
   switch($cmd){
     case "getCoinInfo":
-      return getCoinInfo($_GET["currency"]."_".$_GET["coin"]);
+      return getCoinInfo( strtoupper($_GET["currency"]."_".$_GET["coin"]) );
 
     case "getValidPairs":
       return getValidPairs();
@@ -13,24 +13,20 @@ function call_func($cmd){
 }
 
 function getValidPairs() {
-  $allTickerStr = getCoinInfo();
+  $url = "https://poloniex.com/public?command=returnOrderBook&currencyPair=ALL&depth=0";
+
+  $allOrderBook = getJSON($url);
 
   //print_r(json_decode( $allTickerStr, true ));
-  return json_encode(array_keys(json_decode( $allTickerStr, true )));
+  return json_encode(array_keys( $allOrderBook ));
 }
 
 function getCoinInfo($pair = 'ALL'){
-  $url = "https://poloniex.com/public?command=returnTicker";
+  $url = "https://poloniex.com/public?command=returnOrderBook&currencyPair=".$pair."&depth=3";
 
-  $allTickerStr = getJSONstr($url);
-  if ($pair == "ALL"){
-    return $allTickerStr;
-  }
+  $orderBookStr = getJSONstr($url);
 
-  $tickerArr = json_decode(getJSONstr($url), true);
-
-  //return json_encode($tickerArr[$pair]);
-  return json_encode($tickerArr[strtoupper($pair)]);
+  return $orderBookStr;
 }
 
 /* add new more functions here

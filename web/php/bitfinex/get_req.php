@@ -24,8 +24,7 @@ function getCoinInfo($pair = "ALL"){
 
     return json_encode($allInfo);
   }
-
-  $url = "https://api.bitfinex.com/v1/pubticker/".$pair;
+  $url = "https://api.bitfinex.com/v1/book/".$pair;
 
   return getJSONstr($url);
 }
