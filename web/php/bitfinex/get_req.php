@@ -4,8 +4,8 @@ function call_func($cmd){
     case "getCoinInfo":
       return getCoinInfo($_GET["coin"].$_GET["currency"]);
 
-    case "validPairs":
-    return validPairs();
+    case "getValidPairs":
+    return getValidPairs();
 
     default:
         throwErr("cmd: '".$cmd."'");
@@ -30,7 +30,7 @@ function getCoinInfo($pair = "ALL"){
   return getJSONstr($url);
 }
 
-function validPairs(){
+function getValidPairs(){
   $url = "https://api.bitfinex.com/v1/symbols";
 
   return getJSONstr($url);
