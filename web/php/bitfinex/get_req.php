@@ -2,11 +2,11 @@
 function call_func($cmd){
   switch($cmd){
     case "getCoinInfo":
-      return getCoinInfo($_GET["pair"]);
+      return getCoinInfo($_GET["coin"].$_GET["currency"]);
 
     case "validPairs":
     return validPairs();
-    
+
     default:
         throwErr("cmd: '".$cmd."'");
   }

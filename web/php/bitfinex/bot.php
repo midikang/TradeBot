@@ -6,7 +6,17 @@ class bitfinex extends trader{
      parent::__construct($api_key, $api_secret, "https://api.bitfinex.com", "https://api.bitfinex.com");
   }
 
-  public function buy($symbol, $amount, $price, $side, $type)
+  public function buy($pair, $amt, $price, $type)
+  {
+    return $this->newOrder($pair, $amt, $price, "buy", $type);
+  }
+
+  public function sell($pair, $amt, $price, $type)
+  {
+    return $this->newOrder($pair, $amt, $price, "sell", $type);
+  }
+
+  public function newOrder($symbol, $amount, $price, $side, $type)
   {
     $request = "/v1/order/new";
     $data = array(
@@ -18,6 +28,8 @@ class bitfinex extends trader{
        "side" => $side,
        "type" => $type
     );
+
+    $this->trading_url = $this->trading_url . $request;
     return $this->query($data);
   }
 
