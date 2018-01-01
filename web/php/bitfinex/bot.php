@@ -3,7 +3,7 @@ class bitfinex extends trader{
 
   public function __construct($api_key, $api_secret)
   {
-     parent::__construct($api_key, $api_secret, "https://api.bitfinex.com", "https://api.bitfinex.com");
+     parent::__construct($api_key, $api_secret, "https://api.bitfinex.com");
   }
 
   public function buy($pair, $amt, $price, $type)

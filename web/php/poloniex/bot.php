@@ -4,63 +4,26 @@
 	// NOTE: currency pairs are reverse of what most exchanges use...
 	//       For instance, instead of XPM_BTC, use BTC_XPM
 
-class poloniex {
-	private $api_key;
-	private $api_secret;
-	private $trading_url = "https://poloniex.com/tradingApi";
-	private $public_url = "https://poloniex.com/public";
-
+class poloniex extends trader{
 	public function __construct($api_key, $api_secret) {
-		$this->api_key = $api_key;
-		$this->api_secret = $api_secret;
+		 parent::__construct($api_key, $api_secret, "https://poloniex.com/tradingApi");
 	}
 
-	private function query(array $req = array()) {
-		// generate a nonce to avoid problems with 32bit systems
-    $mt = explode(' ', microtime());
-    $req['nonce'] = $mt[1].substr($mt[0], 2, 6);
+	protected function generatePostData($req){
+		return http_build_query($req, '', '&');
+	}
 
-    // generate the POST data string
-    $post_data = http_build_query($req, '', '&');
-    $sign = hash_hmac('sha512', $post_data, $api_secret);
-
-		// generate the extra headers
-		$headers = array(
+	protected function generateHeaders($req, $post_data)
+	{
+		$payload = base64_encode(json_encode($req));
+		$signature = hash_hmac('sha512', $post_data, $this->api_secret);
+		return array(
 			'Key: '.$this->api_key,
-			'Sign: '.$sign,
+			'Sign: '.$signature
 		);
-
-		$ch = curl_init();
-		curl_setopt_array($ch, array(
-			 CURLOPT_URL => $this->trading_url,
-			 CURLOPT_POST => true,
-			 CURLOPT_RETURNTRANSFER => true,
-			 CURLOPT_HTTPHEADER => $headers,
-			 CURLOPT_SSL_VERIFYPEER => false,
-			 CURLOPT_POSTFIELDS => $post_data
-		));
-
-		$res = curl_exec($ch);
-
-		if ($res === false) throw new Exception('Curl error: '.curl_error($ch));
-		//echo $res;
-		return json_decode($res, true);
 	}
 
-	protected function retrieveJSON($URL) {
-		$opts = array('http' =>
-			array(
-				'method'  => 'GET',
-				'timeout' => 10
-			)
-		);
-		$context = stream_context_create($opts);
-		$feed = file_get_contents($URL, false, $context);
-		$json = json_decode($feed, true);
-		return $json;
-	}
-
-	public function get_balances() {
+	public function getBalances() {
 		return $this->query(
 			array(
 				'command' => 'returnBalances'
@@ -68,6 +31,37 @@ class poloniex {
 		);
 	}
 
+	public function buy($pair, $rate, $amt) {
+		return $this->newOrder("buy", $pair, $rate, $amt);
+	}
+
+	public function sell($pair, $rate, $amt) {
+		return $this->newOrder("sell", $pair, $rate, $amt);
+	}
+
+	protected function newOrder($side, $pair, $rate, $amt){
+		return $this->query(
+			array(
+				'command' => $side,
+				'currencyPair' => strtoupper($pair),
+				'rate' => $rate,
+				'amount' => $amount
+			)
+		);
+	}
+
+	public function withdraw($currency, $amount, $address) {
+		return $this->query(
+			array(
+				'command' => 'withdraw',
+				'currency' => strtoupper($currency),
+				'amount' => $amount,
+				'address' => $address
+			)
+		);
+	}
+
+	/*
 	public function get_open_orders($pair) {
 		return $this->query(
 			array(
@@ -86,28 +80,6 @@ class poloniex {
 		);
 	}
 
-	public function buy($pair, $rate, $amount) {
-		return $this->query(
-			array(
-				'command' => 'buy',
-				'currencyPair' => strtoupper($pair),
-				'rate' => $rate,
-				'amount' => $amount
-			)
-		);
-	}
-
-	public function sell($pair, $rate, $amount) {
-		return $this->query(
-			array(
-				'command' => 'sell',
-				'currencyPair' => strtoupper($pair),
-				'rate' => $rate,
-				'amount' => $amount
-			)
-		);
-	}
-
 	public function cancel_order($pair, $order_number) {
 		return $this->query(
 			array(
@@ -118,33 +90,7 @@ class poloniex {
 		);
 	}
 
-	public function withdraw($currency, $amount, $address) {
-		return $this->query(
-			array(
-				'command' => 'withdraw',
-				'currency' => strtoupper($currency),
-				'amount' => $amount,
-				'address' => $address
-			)
-		);
-	}
-
-	public function get_trade_history($pair) {
-		$trades = $this->retrieveJSON($this->public_url.'?command=returnTradeHistory&currencyPair='.strtoupper($pair));
-		return $trades;
-	}
-
-	public function get_order_book($pair) {
-		$orders = $this->retrieveJSON($this->public_url.'?command=returnOrderBook&currencyPair='.strtoupper($pair));
-		return $orders;
-	}
-
-	public function get_volume() {
-		$volume = $this->retrieveJSON($this->public_url.'?command=return24hVolume');
-		return $volume;
-	}
-
-	public function get_ticker($pair = "ALL") {
+	public function getTicker($pair = "ALL") {
 		$pair = strtoupper($pair);
 		$prices = $this->retrieveJSON($this->public_url.'?command=returnTicker');
 		if($pair == "ALL"){
@@ -158,14 +104,9 @@ class poloniex {
 		}
 	}
 
-	public function get_trading_pairs() {
-		$tickers = $this->retrieveJSON($this->public_url.'?command=returnTicker');
-		return array_keys($tickers);
-	}
-
 	public function get_total_btc_balance() {
-		$balances = $this->get_balances();
-		$prices = $this->get_ticker();
+		$balances = $this->getBalances();
+		$prices = $this->getTicker();
 
 		$tot_btc = 0;
 
@@ -196,5 +137,7 @@ class poloniex {
 
 		return $tot_btc;
 	}
+
+	// */
 }
 ?>

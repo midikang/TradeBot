@@ -2,17 +2,17 @@
 function call_func($cmd){
   switch($cmd){
     case "getCoinInfo":
-      return getCoinInfo($_GET["pair"]);
+      return getCoinInfo($_GET["currency"]."_".$_GET["coin"]);
 
-    case "validPairs":
-      return validPairs();
+    case "getValidPairs":
+      return getValidPairs();
 
     default:
       throwErr("cmd: '".$cmd."'");
   }
 }
 
-function validPairs() {
+function getValidPairs() {
   $allTickerStr = getCoinInfo();
 
   //print_r(json_decode( $allTickerStr, true ));
@@ -24,7 +24,6 @@ function getCoinInfo($pair = 'ALL'){
 
   $allTickerStr = getJSONstr($url);
   if ($pair == "ALL"){
-
     return $allTickerStr;
   }
 
