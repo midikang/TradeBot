@@ -22,14 +22,6 @@ def reFormatPair(plat, pair):
         '''.format(plat))
     return tmp
 
-def translate(pair):
-    dictionary = {}
-
-    if pair in list(dictionary.keys()):
-        return dictionary[pair]
-
-    return pair
-
 def reFormatJSON(pyRes, keys):
     tmp = {};
     for key in pyRes:
