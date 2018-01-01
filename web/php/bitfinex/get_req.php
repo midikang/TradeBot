@@ -12,18 +12,7 @@ function call_func($cmd){
   }
 }
 
-function getCoinInfo($pair = "ALL"){
-  //echo $pair;
-  if ($pair == "ALL"){
-    $allInfo = array();
-    $allPairs = json_decode(validPairs(), true);
-
-    foreach ($allPairs as $crPair){
-      $allInfo[$pair] = getCoinInfo($crPair);
-    }
-
-    return json_encode($allInfo);
-  }
+function getCoinInfo($pair){
   $url = "https://api.bitfinex.com/v1/book/".$pair;
 
   return getJSONstr($url);
