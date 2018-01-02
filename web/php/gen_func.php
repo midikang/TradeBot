@@ -1,10 +1,11 @@
 <?php // functions that gets used by all php scripts
 
-function getJSONstr($url){
+function getJSONstr($url, $headers = ""){
   $opts = array('http' =>
     array(
       'method'  => 'GET',
-      'timeout' => 10
+      'timeout' => 10,
+      'header'  => $headers
     )
   );
   $context = stream_context_create($opts);
@@ -12,8 +13,8 @@ function getJSONstr($url){
   return $jsonStr;
 }
 
-function getJSON($url){
-  return json_decode(getJSONstr($url), true);
+function getJSON($url, $headers = ""){
+  return json_decode(getJSONstr($url, $headers), true);
 }
 
 function handlingErr($msg){
