@@ -1,8 +1,8 @@
 <?php // a set of functions that are specific to poloniex's API
 function call_func($cmd){
   switch($cmd){
-    case "getCoinInfo":
-      return getCoinInfo( strtoupper($_GET["currency"]."_".$_GET["coin"]) );
+    case "getOrderBook":
+      return getOrderBook( strtoupper($_GET["currency"]."_".$_GET["coin"]) );
 
     case "getValidPairs":
       return getValidPairs();
@@ -21,8 +21,8 @@ function getValidPairs() {
   return json_encode(array_keys( $allOrderBook ));
 }
 
-function getCoinInfo($pair = 'ALL'){
-  $url = "https://poloniex.com/public?command=returnOrderBook&currencyPair=".$pair."&depth=3";
+function getOrderBook($pair){
+  $url = "https://poloniex.com/public?command=returnOrderBook&currencyPair=".$pair."&depth=5";
 
   $orderBookStr = getJSONstr($url);
 

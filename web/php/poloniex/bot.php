@@ -15,7 +15,6 @@ class poloniex extends trader{
 
 	protected function generateHeaders($req, $post_data)
 	{
-		$payload = base64_encode(json_encode($req));
 		$signature = hash_hmac('sha512', $post_data, $this->api_secret);
 		return array(
 			'Key: '.$this->api_key,
