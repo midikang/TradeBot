@@ -8,115 +8,72 @@ class binance extends trader{
 
   public function buy($pair, $amt, $price, $type)
   {
-    return $this->newOrder($pair, $amt, $price, "buy");
+    return $this->newOrder($pair, $amt, $price, "BUY");
   }
 
   public function sell($pair, $amt, $price, $type)
   {
-    return $this->newOrder($pair, $amt, $price, "sell");
+    return $this->newOrder($pair, $amt, $price, "SELL");
   }
 
-  public function newOrder($pair, $amount, $price, $side)
+  public function newOrder($pair, $amount, $price, $side, $type = "LIMIT")
   {
-    $request = "/v1/order/new";
-    $data = array(
+    //$request = "/api/v3/order";
+    $request = "/api/v3/order/test"; // doesn't actually put up order if request succ
+    $req = array(
        "symbol" => $pair,
-       "amount" => $amount,
-       "price" => $price,
        "side" => $side,
+       "type" => $type,
+       "timeInForce" => "GTC",
+       "quantity" => $amount,
+       "price" => $price,
+       "recvWindow" => 600000
     );
 
     $this->trading_url = $this->trading_url . $request;
-    return $this->query($data);
+    return $this->query($req);
   }
-
-  /*
-  public function cancel_order($order_id)
-  {
-    $request = "/v1/order/cancel";
-    $data = array(
-
-     "order_id" => (int)$order_id
-    );
-    return $this->query($data);
-  }
-
-  public function cancel_all()
-  {
-    $request = "/v1/order/cancel/all";
-    $data = array(
-    );
-    return $this->query($data);
-  }
-
-  // */
 
   public function getBalances()
   {
     $request = "/api/v3/account";
-    $data = array(
-      "timestamp" => $this->generateNonce()
+    $req = array(
     );
 
-    $post_data = $this->generatePostData($data);
-    $url = $this->trading_url . $request."?".$post_data;
+    $this->trading_url = $this->trading_url.$request;
+    return $this->query($req, "GET");
+  }
 
-    $headers = $this->generateHeaders($data, $post_data);
+  protected function generateNonce(){
+    return number_format(microtime(true)*1000,0,'.','');
+  }
 
-    echo $url;
-		$ch = curl_init();
-		curl_setopt_array($ch, array(
-			 CURLOPT_URL => $url,
-			 CURLOPT_POST => false,
-			 CURLOPT_RETURNTRANSFER => true,
-			 CURLOPT_HTTPHEADER => $headers,
-			 CURLOPT_SSL_VERIFYPEER => false,
-			 CURLOPT_POSTFIELDS =>""
-		));
+  protected function setNonce($req){
+    $req['timestamp'] = $this->generateNonce();
 
-		$res = curl_exec($ch);
-
-		if ($res === false) throw new Exception('Curl error: '.curl_error($ch));
-		return $res;
+    return $req;
   }
 
   protected function generatePostData($req){
-    $queryStr = http_build_query($req, '', '&');
-    $signature = hash_hmac("sha256", $queryStr, $this->api_secret);
-    $req['signature'] = $signature;
-
     return http_build_query($req, '', '&');
   }
 
   protected function generateHeaders($req, $post_data)
   {
-    return array(
-       "X-MBX-APIKEY: " . $this->api_key,
-    );
+    return "X-MBX-APIKEY: " . $this->api_key;
   }
 
-  protected function query(array $req = array(), $isPost = true) {
-		$this->setNonce($req);
+  protected function query(array $req = array(), $method = "POST") {
+    $req = $this->setNonce($req);
 
-		$post_data = "";//$this->generatePostData($req);
+    $queryStr = $this->generatePostData($req);
+    $signature = hash_hmac("sha256", $queryStr, $this->api_secret);
 
-		$headers = $this->generateHeaders($req, $post_data);
-
-		$ch = curl_init();
-		curl_setopt_array($ch, array(
-			 CURLOPT_URL => $this->trading_url,
-			 CURLOPT_POST => $isPost,
-			 CURLOPT_RETURNTRANSFER => true,
-			 CURLOPT_HTTPHEADER => $headers,
-			 CURLOPT_SSL_VERIFYPEER => false,
-			 CURLOPT_POSTFIELDS => $post_data
-		));
-
-		$res = curl_exec($ch);
-
-		if ($res === false) throw new Exception('Curl error: '.curl_error($ch));
-		return $res;
+    $headers = $this->generateHeaders($req, $queryStr);
+		$url = $this->trading_url."?".$queryStr."&signature=".$signature;
+    return getJSONstr($url, $headers, $method);
 	}
+
 
 }
 ?>

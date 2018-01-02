@@ -30,12 +30,4 @@ function getOrderBook($pair){
   return getJSONstr($url);
 }
 
-/* add new more functions here
-function ______($coin, $currency){
-  $url = "";
-
-  return getJSONstr($url);
-}
-// */
-
 ?>
