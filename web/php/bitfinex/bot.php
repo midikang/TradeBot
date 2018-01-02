@@ -1,10 +1,12 @@
 <?php
 class bitfinex extends trader{
-  private $orderType, $minTradeAmt;
+  private $orderType;
 
   public function __construct($api_key, $api_secret){
     $this->orderType = 'LIMIT';
     $this->minTradeAmt = 0.04;
+
+    $this->withdrawFee = 0;
 
     parent::__construct($api_key, $api_secret, "https://api.bitfinex.com");
   }
@@ -55,7 +57,7 @@ class bitfinex extends trader{
        "X-BFX-SIGNATURE: " . $signature
     );
   }
-  
+
   /*
   public function cancel_order($order_id)
   {

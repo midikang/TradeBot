@@ -5,10 +5,12 @@
 	//       For instance, instead of XPM_BTC, use BTC_XPM
 
 class poloniex extends trader{
-	private $minTradeAmt;
+	
 
 	public function __construct($api_key, $api_secret) {
 		$this->minTradeAmt = 0.01;
+
+		$this->withdrawFee = 0;
 
 		parent::__construct($api_key, $api_secret, "https://poloniex.com/tradingApi");
 	}
