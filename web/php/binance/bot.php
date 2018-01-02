@@ -42,12 +42,11 @@ class binance extends trader{
 
   public function getBalances()
   {
-    $request = "/api/v3/account";
+    $requestURL = "/api/v3/account";
     $req = array(
     );
 
-    $this->trading_url = $this->trading_url.$request;
-    return $this->query($req, "GET");
+    return $this->query($req, "GET", $requestURL);
   }
 
   protected function generateNonce(){
@@ -56,7 +55,6 @@ class binance extends trader{
 
   protected function setNonce($req){
     $req['timestamp'] = $this->generateNonce();
-
     return $req;
   }
 
@@ -66,18 +64,19 @@ class binance extends trader{
 
   protected function generateHeaders($req, $post_data)
   {
-    return "X-MBX-APIKEY: " . $this->api_key;
+    return array("X-MBX-APIKEY: " . $this->api_key);
   }
 
-  protected function query(array $req = array(), $method = "POST") {
+  protected function query(array $req = array(), $method = "POST", $requestURL = "") {
     $req = $this->setNonce($req);
 
-    $queryStr = $this->generatePostData($req);
-    $signature = hash_hmac("sha256", $queryStr, $this->api_secret);
+    $post_data = $this->generatePostData($req);
+    $signature = hash_hmac("sha256", $post_data, $this->api_secret);
 
-    $headers = $this->generateHeaders($req, $queryStr);
-		$url = $this->trading_url."?".$queryStr."&signature=".$signature;
-    return getJSONstr($url, $headers, $method);
+    $headers = $this->generateHeaders($req, $post_data);
+		$url = $this->trading_url."$requestURL?$post_data&signature=$signature";
+
+    return getJSONstr($url, $headers[0], $method);
 	}
 
 

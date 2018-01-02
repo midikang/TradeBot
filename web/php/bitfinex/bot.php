@@ -5,7 +5,7 @@ class bitfinex extends trader{
   public function __construct($api_key, $api_secret){
     $this->orderType = 'LIMIT';
     $this->minTradeAmt = 0.04;
-    
+
     parent::__construct($api_key, $api_secret, "https://api.bitfinex.com");
   }
 
@@ -35,6 +35,28 @@ class bitfinex extends trader{
     return $this->query($data, $requestURL);
   }
 
+  public function getBalances()
+  {
+    $requestURL = "/v1/balances";
+    $data = array(
+      "request" => $requestURL
+    );
+
+    return $this->query($data, $requestURL);
+  }
+
+  protected function generateHeaders($req, $post_data)
+  {
+    $payload = base64_encode(json_encode($req));
+    $signature = hash_hmac("sha384", $payload, $this->api_secret);
+    return array(
+       "X-BFX-APIKEY: " . $this->api_key,
+       "X-BFX-PAYLOAD: " . $payload,
+       "X-BFX-SIGNATURE: " . $signature
+    );
+  }
+  
+  /*
   public function cancel_order($order_id)
   {
     $requestURL = "/v1/order/cancel";
@@ -74,28 +96,6 @@ class bitfinex extends trader{
     $this->trading_url = $this->trading_url . $request;
     return $this->query($data);
   }
-
-  public function getBalances()
-  {
-    $requestURL = "/v1/balances";
-    $data = array(
-      "request" => $requestURL
-    );
-
-    return $this->query($data, $requestURL);
-  }
-
-  protected function generateHeaders($req, $post_data)
-  {
-    $payload = base64_encode(json_encode($req));
-    $signature = hash_hmac("sha384", $payload, $this->api_secret);
-    return array(
-       "X-BFX-APIKEY: " . $this->api_key,
-       "X-BFX-PAYLOAD: " . $payload,
-       "X-BFX-SIGNATURE: " . $signature
-    );
-  }
-/*
   public function deposit($method, $wallet, $renew)
   {
     $request = "/v1/deposit/new";
