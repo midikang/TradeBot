@@ -5,21 +5,12 @@
 	//       For instance, instead of XPM_BTC, use BTC_XPM
 
 class poloniex extends trader{
+	private $minTradeAmt;
+
 	public function __construct($api_key, $api_secret) {
-		 parent::__construct($api_key, $api_secret, "https://poloniex.com/tradingApi");
-	}
+		$this->minTradeAmt = 0.01;
 
-	protected function generatePostData($req){
-		return http_build_query($req, '', '&');
-	}
-
-	protected function generateHeaders($req, $post_data)
-	{
-		$signature = hash_hmac('sha512', $post_data, $this->api_secret);
-		return array(
-			'Key: '.$this->api_key,
-			'Sign: '.$signature
-		);
+		parent::__construct($api_key, $api_secret, "https://poloniex.com/tradingApi");
 	}
 
 	public function getBalances() {
@@ -39,6 +30,10 @@ class poloniex extends trader{
 	}
 
 	protected function newOrder($side, $pair, $rate, $amt){
+		if ($amount < $this->minTradeAmt){
+      invalidErr("trade amt = $amt < min amt = {$this->minTradeAmt}");
+    }
+
 		return $this->query(
 			array(
 				'command' => $side,
@@ -57,6 +52,19 @@ class poloniex extends trader{
 				'amount' => $amount,
 				'address' => $address
 			)
+		);
+	}
+
+	protected function generatePostData($req){
+		return http_build_query($req, '', '&');
+	}
+
+	protected function generateHeaders($req, $post_data)
+	{
+		$signature = hash_hmac('sha512', $post_data, $this->api_secret);
+		return array(
+			'Key: '.$this->api_key,
+			'Sign: '.$signature
 		);
 	}
 
