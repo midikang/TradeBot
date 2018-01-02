@@ -1,33 +1,39 @@
 <?php
 class binance extends trader{
+  private $orderType, $recvWindow, $minTradeAmt, $timeInForce;
 
-  public function __construct($api_key, $api_secret)
-  {
-     parent::__construct($api_key, $api_secret, "https://api.binance.com");
+  public function __construct($api_key, $api_secret){
+    $this->minTradeAmt = 0.02;
+    $this->orderType = 'LIMIT';
+    $this->recvWindow = 6000;
+    $this->timeInForce = "GTC";
+    parent::__construct($api_key, $api_secret, "https://api.binance.com");
   }
 
-  public function buy($pair, $amt, $price, $type)
+  public function buy($pair, $amt, $price)
   {
     return $this->newOrder($pair, $amt, $price, "BUY");
   }
 
-  public function sell($pair, $amt, $price, $type)
+  public function sell($pair, $amt, $price)
   {
     return $this->newOrder($pair, $amt, $price, "SELL");
   }
 
-  public function newOrder($pair, $amount, $price, $side, $type = "LIMIT")
-  {
+  public function newOrder($pair, $amount, $price, $side) {
+    if ($amount < $this->minTradeAmt){
+      invalidErr("trade amt = $amount < min amt = {$this->minTradeAmt}");
+    }
     //$request = "/api/v3/order";
     $request = "/api/v3/order/test"; // doesn't actually put up order if request succ
     $req = array(
        "symbol" => $pair,
        "side" => $side,
        "type" => $type,
-       "timeInForce" => "GTC",
+       "timeInForce" => $this->timeInForce,
        "quantity" => $amount,
        "price" => $price,
-       "recvWindow" => 600000
+       "recvWindow" => $this->recvWindow
     );
 
     $this->trading_url = $this->trading_url . $request;

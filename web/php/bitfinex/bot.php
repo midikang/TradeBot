@@ -1,22 +1,24 @@
 <?php
 class bitfinex extends trader{
+  private $orderType, $minTradeAmt;
 
-  public function __construct($api_key, $api_secret)
-  {
-     parent::__construct($api_key, $api_secret, "https://api.bitfinex.com");
+  public function __construct($api_key, $api_secret){
+    $this->orderType = 'LIMIT';
+    $this->minTradeAmt = 0.04;
+    parent::__construct($api_key, $api_secret, "https://api.bitfinex.com");
   }
 
-  public function buy($pair, $amt, $price, $type)
+  public function buy($pair, $amt, $price)
   {
-    return $this->newOrder($pair, $amt, $price, "buy", $type);
+    return $this->newOrder($pair, $amt, $price, "buy");
   }
 
-  public function sell($pair, $amt, $price, $type)
+  public function sell($pair, $amt, $price)
   {
-    return $this->newOrder($pair, $amt, $price, "sell", $type);
+    return $this->newOrder($pair, $amt, $price, "sell");
   }
 
-  public function newOrder($symbol, $amount, $price, $side, $type)
+  public function newOrder($symbol, $amount, $price, $side)
   {
     $request = "/v1/order/new";
     $data = array(
@@ -26,7 +28,7 @@ class bitfinex extends trader{
        "price" => $price,
        "exchange" => "bitfinex",
        "side" => $side,
-       "type" => $type
+       "type" => $this->orderType
     );
 
     $this->trading_url = $this->trading_url . $request;
@@ -93,45 +95,6 @@ class bitfinex extends trader{
       "method" => $method,
       "wallet_name" => $wallet,
       "renew" => $renew
-    );
-    return $this->query($data);
-  }
-
-  public function positions()
-  {
-    $request = "/v1/positions";
-    $data = array(
-      "request" => $request
-    );
-    return $this->query($data);
-  }
-
-  public function close_position($position_id)
-  {
-    $request = "/v1/position/close";
-    $data = array(
-      "request" => $request,
-      "position_id" => (int)$position_id
-    );
-    return $this->query($data);
-  }
-
-  public function claim_position($position_id, $amount)
-  {
-    $request = "/v1/position/claim";
-    $data = array(
-      "request" => $request,
-      "position_id" => (int)$position_id,
-      "amount" => $amount
-    );
-    return $this->query($data);
-  }
-
-  public function margin_infos()
-  {
-    $request = "/v1/margin_infos";
-    $data = array(
-      "request" => $request
     );
     return $this->query($data);
   }
