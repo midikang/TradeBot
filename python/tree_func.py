@@ -59,24 +59,59 @@ def populateTree(tradingPairs, rootPair):
     ''' populateTree([TradingPairs], TradingPair) -> rootPair'''
     firstCoin = rootPair.getHead()
 
+    #"""
+    visitedOfBreadth = [set()]
+    breadth = [rootPair]
+    while(len(breadth)):
+        #print("looping")
+        # take out first item of each list
+        crVisited = visitedOfBreadth[0]
+        visitedOfBreadth.remove(crVisited)
+        crNode = breadth[0]
+        breadth.remove(crNode)
 
+        if crNode.getTail() == firstCoin:
+            continue; # no need for nextNodes if we successfully formed a loop
+
+        crVisited.add(crNode.getTail())
+        nextNodes = list(filter( lambda x: crNode.comesBefore(x) and
+                                            x.getTail() not in crVisited
+                                            , tradingPairs ))
+        #print(len(nextNodes))
+        # update the visited and breadth list
+        for nextNode in nextNodes:
+            crNode.addChild(nextNode)
+            breadth.append(nextNode)
+            visitedOfBreadth.append(set(crVisited))
+
+        if len(nextNodes) == 0:
+            ''' remove the branch leading up to leaf; Delete all the way up
+                from leaf to root, stop only if the parent has > 1 children '''
+            #print("crNode: {} reached cannot finish loop".format(crNode))
+            parent = crNode.getParent()
+            while parent is not None:
+                kids = parent.getChildren()
+                parent.rmChild(crNode)
+                #print("lala\t"+str(len(kids)))
+                if len(kids) > 0:
+                    break
+
+                # crParent cannot lead to other children, so keep deleting
+                parent = parent.getParent()
 
     """
-    def recurse(crNode, visitedNodes = set(), visitedPaths = set()):
+    def recurse(crNode, visitedNodes = set()):
         '''determines whether the crNode will lead to forming a valid path'''
         if crNode.getTail() == firstCoin: # crNode leads back to firstCoin
             return True
 
-        visitedPaths.add(crNode.getSymbol())
         visitedNodes.add(crNode.getTail())
         nextNodes = list(filter( lambda x: crNode.comesBefore(x) and
                                             not x.getTail() in visitedNodes
-                                            and
-                                            not x.getSymbol() in visitedPaths
                                             , tradingPairs ))
 
         for nextNode in nextNodes:
-            if recurse( nextNode, set(visitedNodes), set(visitedPaths) ): # make a copy of visitedCoins
+            if recurse( nextNode, set(visitedNodes) ): # make a copy of visitedNodes
                 crNode.addChild(nextNode) # only add pairs that leads to forming a path
 
         # crNode leads to forming a path => prevNode should adopt crNode as child
@@ -84,7 +119,7 @@ def populateTree(tradingPairs, rootPair):
 
     recurse(rootPair)
     #recurse(rootPair, {rootPair.getTail()}, {rootPair.getSymbol()} )
-    """
+    # """
 
 
     return rootPair
