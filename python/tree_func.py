@@ -59,6 +59,9 @@ def populateTree(tradingPairs, rootPair):
     ''' populateTree([TradingPairs], TradingPair) -> rootPair'''
     firstCoin = rootPair.getHead()
 
+
+
+    """
     def recurse(crNode, visitedNodes = set(), visitedPaths = set()):
         '''determines whether the crNode will lead to forming a valid path'''
         if crNode.getTail() == firstCoin: # crNode leads back to firstCoin
@@ -81,5 +84,7 @@ def populateTree(tradingPairs, rootPair):
 
     recurse(rootPair)
     #recurse(rootPair, {rootPair.getTail()}, {rootPair.getSymbol()} )
+    """
+
 
     return rootPair
