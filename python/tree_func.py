@@ -1,15 +1,23 @@
 from TradingPair import TradingPair
+from helper_func import reFormatPair
 
 def treeToList(rootNode):
     ''' rootNode is the root of the tree
-        returns a list containing all paths, where each path is a list'''
+        returns a list containing all branches, where each branch is a list'''
+    branchList = []
 
-    treeStr = rootNode.nodeStr()
-    lines = treeStr.split("\n")
+    def populateBranchList(node, branch = []):
+        kids = node.getChildren()
 
-    allpaths = []
+        branch.append(node)
+        if len(kids) == 0: # reached leaf
+            branchList.append(branch)
+        else:
+            for k in kids:
+                populateBranchList(k, list(branch))
 
-
+    populateBranchList(rootNode)
+    return branchList
 
 
 def getTreeStats(rootNode):
@@ -20,19 +28,22 @@ def getTreeStats(rootNode):
     lines = treeStr.split("\n")
 
     leaves = {}
+    totalLeaves = 0
     for line in lines:
         linelist = line.split()
         #print(linelist)
         if linelist[-1] == "0": # found a leaf
-            dictKey = linelist[0]+"steps"
+            totalLeaves += 1
 
+            dictKey = linelist[0]+"steps"
             if dictKey in leaves:
                 leaves[dictKey] += 1
 
             else:
                 leaves[dictKey] = 1
 
-    return treeStr, reFormatJSON(leaves)
+    leaves["total"] = totalLeaves
+    return treeStr, leaves
 
 def validTradingPairs(platform, validSymbols):
     tradingPairs = []
