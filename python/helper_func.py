@@ -1,4 +1,9 @@
+from __future__ import print_function
+from sys import stderr
 import json
+
+def eprint(*args, **kwargs):
+    print(*args, file=stderr, **kwargs)
 
 def reFormatPair(plat, pair):
     if (len(pair) == 6):
@@ -6,6 +11,22 @@ def reFormatPair(plat, pair):
 
     elif ("_" in pair):
         tmp = pair.split("_")
+
+    elif ("-" in pair):
+        tmp = pair.split("-")
+
+    else:
+        # use dictionary to translate
+        '''
+        for c in dict:
+            if pair startswith c:
+                tmp = [pair[:len(c)], pair[len(c):]]
+            elif pair endswith c:
+                tmp = [pair[len(c):], pair[:len(c)]]
+            else:
+                print("dict knows nothing about: "+pair)
+                exit()
+        '''
 
 
     if (plat == "bitfinex"):
