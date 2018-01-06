@@ -5,11 +5,7 @@
 	//       For instance, instead of XPM_BTC, use BTC_XPM
 
 class poloniex extends trader{
-	
-
 	public function __construct($api_key, $api_secret) {
-		$this->minTradeAmt = 0.01;
-
 		$this->withdrawFee = 0;
 
 		parent::__construct($api_key, $api_secret, "https://poloniex.com/tradingApi");
@@ -32,16 +28,17 @@ class poloniex extends trader{
 	}
 
 	protected function newOrder($side, $pair, $rate, $amt){
-		if ($amount < $this->minTradeAmt){
+		/*
+		if ($amt < $this->minTradeAmt){
       invalidErr("trade amt = $amt < min amt = {$this->minTradeAmt}");
-    }
+    }*/
 
 		return $this->query(
 			array(
 				'command' => $side,
 				'currencyPair' => strtoupper($pair),
 				'rate' => $rate,
-				'amount' => $amount
+				'amount' => $amt
 			)
 		);
 	}
@@ -70,6 +67,16 @@ class poloniex extends trader{
 		);
 	}
 
+	public function cancel_order($pair, $order_number) {
+		return $this->query(
+			array(
+				'command' => 'cancelOrder',
+				'currencyPair' => strtoupper($pair),
+				'orderNumber' => $order_number
+			)
+		);
+	}
+
 	/*
 	public function get_open_orders($pair) {
 		return $this->query(
@@ -85,16 +92,6 @@ class poloniex extends trader{
 			array(
 				'command' => 'returnTradeHistory',
 				'currencyPair' => strtoupper($pair)
-			)
-		);
-	}
-
-	public function cancel_order($pair, $order_number) {
-		return $this->query(
-			array(
-				'command' => 'cancelOrder',
-				'currencyPair' => strtoupper($pair),
-				'orderNumber' => $order_number
 			)
 		);
 	}
