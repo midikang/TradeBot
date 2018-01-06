@@ -7,7 +7,7 @@ def treeToList(rootNode):
                 where each branch is a list containing TradingPairs'''
     branchList = []
 
-    """
+    """                     Iterative approach
     branchOfBreadth = [[]]
     breadth = [rootNode]
     i = 0
@@ -75,17 +75,8 @@ def getTreeStats(rootNode):
                 leaves[dictKey] = 1
 
     leaves["total"] = totalLeaves
+    leaves["start"] = str(rootNode)
     return treeStr, leaves
-
-def validTradingPairs(platform, validSymbols):
-    tradingPairs = []
-    for symbol in validSymbols:
-        pairLst = reFormatPair(platform, symbol)
-        tradingPairs.append( TradingPair(pairLst, symbol, platform) )
-        pairLst.reverse()
-        tradingPairs.append( TradingPair(pairLst, symbol, platform, True) )
-
-    return tradingPairs
 
 def populateTree(tradingPairs, rootNode):
     ''' populateTree([TradingPairs], TradingPair) -> rootNode'''
@@ -108,14 +99,15 @@ def populateTree(tradingPairs, rootNode):
             continue; # no need for nextNodes if we successfully formed a loop
 
         crVisited.add(crNode.getTail())
-        print(crVisited)
+        #print(crVisited)
         nextNodes = list(filter( lambda x: crNode.comesBefore(x) and
                                             x.getTail() not in crVisited
                                             , tradingPairs ))
         #print(len(nextNodes))
         # update the visited and breadth list
         for nextNode in nextNodes:
-            crNode.addChild(nextNode)
+            child = nextNode.duplicate()
+            crNode.addChild(child)
             breadth.append(nextNode)
             visitedOfBreadth.append(set(crVisited))
 
@@ -135,19 +127,25 @@ def populateTree(tradingPairs, rootNode):
                 parent = parent.getParent()
 
     """
+    #for p in tradingPairs: print(p)
     def recurse(crNode, visitedNodes = set()):
         '''determines whether the crNode will lead to forming a valid path'''
         if crNode.getTail() == firstCoin: # crNode leads back to firstCoin
+            #print(str(crNode)+" reached end")
             return True
 
         visitedNodes.add(crNode.getTail())
         nextNodes = list(filter( lambda x: crNode.comesBefore(x) and
-                                            not x.getTail() in visitedNodes
+                                            x.getTail() not in visitedNodes
                                             , tradingPairs ))
 
+        #print("{}->{}kids".format(crNode, len(nextNodes)) )
+        #for p in nextNodes: print(p, end="")
+        #print()
+
         for nextNode in nextNodes:
-            if recurse( nextNode, set(visitedNodes) ): # make a copy of visitedNodes
-                child = nextNode.duplicate()
+            child = nextNode.duplicate()
+            if recurse( child, set(visitedNodes) ): # make a copy of visitedNodes
                 crNode.addChild(child) # only add pairs that leads to forming a path
 
         # crNode leads to forming a path => prevNode should adopt crNode as child
