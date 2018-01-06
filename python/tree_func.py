@@ -3,9 +3,41 @@ from helper_func import reFormatPair
 
 def treeToList(rootNode):
     ''' rootNode is the root of the tree
-        returns a list containing all branches, where each branch is a list'''
+        returns a list containing all branches,
+                where each branch is a list containing TradingPairs'''
     branchList = []
 
+    """
+    branchOfBreadth = [[]]
+    breadth = [rootNode]
+    i = 0
+    while(len(breadth)):
+        i += 1
+        #print(i)
+        # take out first item of each list
+        crBranch = branchOfBreadth[0]
+
+        #print(len(crBranch))
+        if (len(crBranch) > 8):
+            for i in crBranch: print(i, end='')
+            exit()
+
+        branchOfBreadth.remove(crBranch)
+        crNode = breadth[0]
+        breadth.remove(crNode)
+
+        # update the visited and breadth list
+        crBranch.append(crNode)
+
+        kids = crNode.getChildren()
+        if len(kids) == 0:
+            branchList.append(crBranch)
+
+        for c in kids:
+            breadth.append(c)
+            branchOfBreadth.append(list(crBranch))
+
+    """
     def populateBranchList(node, branch = []):
         kids = node.getChildren()
 
@@ -16,7 +48,7 @@ def treeToList(rootNode):
             for k in kids:
                 populateBranchList(k, list(branch))
 
-    populateBranchList(rootNode)
+    populateBranchList(rootNode) # """
     return branchList
 
 
@@ -55,15 +87,17 @@ def validTradingPairs(platform, validSymbols):
 
     return tradingPairs
 
-def populateTree(tradingPairs, rootPair):
-    ''' populateTree([TradingPairs], TradingPair) -> rootPair'''
-    firstCoin = rootPair.getHead()
+def populateTree(tradingPairs, rootNode):
+    ''' populateTree([TradingPairs], TradingPair) -> rootNode'''
+    firstCoin = rootNode.getHead()
 
-    #"""
+    """
     visitedOfBreadth = [set()]
-    breadth = [rootPair]
+    breadth = [rootNode]
+    i = 0
     while(len(breadth)):
-        #print("looping")
+        i+=1
+        #print(i)
         # take out first item of each list
         crVisited = visitedOfBreadth[0]
         visitedOfBreadth.remove(crVisited)
@@ -74,6 +108,7 @@ def populateTree(tradingPairs, rootPair):
             continue; # no need for nextNodes if we successfully formed a loop
 
         crVisited.add(crNode.getTail())
+        print(crVisited)
         nextNodes = list(filter( lambda x: crNode.comesBefore(x) and
                                             x.getTail() not in crVisited
                                             , tradingPairs ))
@@ -87,7 +122,7 @@ def populateTree(tradingPairs, rootPair):
         if len(nextNodes) == 0:
             ''' remove the branch leading up to leaf; Delete all the way up
                 from leaf to root, stop only if the parent has > 1 children '''
-            #print("crNode: {} reached cannot finish loop".format(crNode))
+            #print("{} -X-> {}".format(crNode, firstCoin))
             parent = crNode.getParent()
             while parent is not None:
                 kids = parent.getChildren()
@@ -112,14 +147,15 @@ def populateTree(tradingPairs, rootPair):
 
         for nextNode in nextNodes:
             if recurse( nextNode, set(visitedNodes) ): # make a copy of visitedNodes
-                crNode.addChild(nextNode) # only add pairs that leads to forming a path
+                child = nextNode.duplicate()
+                crNode.addChild(child) # only add pairs that leads to forming a path
 
         # crNode leads to forming a path => prevNode should adopt crNode as child
         return len(crNode.getChildren())
 
-    recurse(rootPair)
-    #recurse(rootPair, {rootPair.getTail()}, {rootPair.getSymbol()} )
+    recurse(rootNode)
+    #recurse(rootNode, {rootNode.getTail()}, {rootNode.getSymbol()} )
     # """
 
 
-    return rootPair
+    return rootNode
