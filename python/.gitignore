@@ -4,4 +4,7 @@ processes.py
 
 TradingPair.py
 
+resources/*
+__pycache__/*
+
 
