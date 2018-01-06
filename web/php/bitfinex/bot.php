@@ -4,7 +4,6 @@ class bitfinex extends trader{
 
   public function __construct($api_key, $api_secret){
     $this->orderType = 'LIMIT';
-    $this->minTradeAmt = 0.04;
 
     $this->withdrawFee = 0;
 
