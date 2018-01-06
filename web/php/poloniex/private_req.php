@@ -15,6 +15,9 @@ function call_func($cmd){
     case "sell":
       return $GLOBALS['postSender']->sell($_GET["currency"]."_".$_GET["coin"], $_GET["price"], $_GET["amt"]);
 
+    case "cancel":
+      return $GLOBALS['postSender']->cancel_order();
+
     case "withdraw":
       return $GLOBALS['postSender']->withdraw();
 
