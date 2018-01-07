@@ -1,23 +1,25 @@
 from TradingPair import TradingPair
 
-def validTradingPairs(platform, validSymbols):
-    # cannot utilize symbol2TP because of fear of platforms like poloniex, where their symbols are swapped
+def getAllTPs(platform, validSymbols):
     tradingPairs = []
     for symbol in validSymbols:
-        pairLst = reFormatPair(platform, symbol)
-        tradingPairs.append( TradingPair(pairLst, symbol, platform) )
-        pairLst.reverse()
-        tradingPairs.append( TradingPair(pairLst, symbol, platform, True) )
+        pl = symbol2pl(platform, symbol)
+        tradingPairs.append( TradingPair(pl) )
+        pl.reverse()
+        tradingPairs.append( TradingPair(pl, isInverted = True) )
 
     return tradingPairs
 
-def symbol2TP(platform, symbol, validTPs):
-    ''' validTPs is a set of all valid symbols in string '''
-    pairLst = reFormatPair(platform, symbol)
+def pl2TP(plat, pl, validpls):
+    ''' pl2TP(poloniex, [btc,ltc], [[btc,ltc]]) -> TP([btc,ltc], not inverted)
+        pl2TP(poloniex, [ltc,btc], [[btc,ltc]) -> TP([btc,ltc], inverted)
 
-    return TradingPair(pairLst, symbol, platform, symbol not in validTPs)
+        validpl is the validPairs list where each item is a pl'''
 
-def reFormatPair(plat, symbol):
+    return TradingPair(pl, platform = plat, isInverted = "-".join(pl) in validpls)
+
+def symbol2pl(plat, symbol):
+    ''' func(bitfinex, btc-ltc) ->  [btc,ltc] '''
     delimiter = list(filter(lambda x: x in symbol,["-","_"," "]))
     if delimiter:
         tmp = symbol.split(delimiter[0])
@@ -41,9 +43,8 @@ def reFormatPair(plat, symbol):
                 #exit()
         '''
 
-
     if (plat == "bitfinex"):
-        pass;
+        pass
 
     elif (plat == "poloniex"):
         tmp.reverse()
@@ -57,7 +58,8 @@ def reFormatPair(plat, symbol):
     else:
         print('''
         ################# ERROR ####################################################
-        ##  trying to reFormatPair: |{}| for unrecognized platform: {}
+        ##  trying to process: |{}| for unrecognized platform: {}
         ################# ERROR ####################################################
-        '''.format(plat))
+        '''.format(tmp, plat))
+        exit()
     return tmp

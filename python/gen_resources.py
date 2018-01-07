@@ -1,9 +1,12 @@
 from Trader import Trader
 from helper_func import eprint
 from tree_func import *
+from tp_func import *
 import sys
 #from processes import findPaths
 
+#print(sys.argv)
+#exit()
 platform = sys.argv[1]
 amt = 0.04
 #finexBot = Trader("bitfinex")
@@ -20,12 +23,11 @@ reducedList = onlinelist[:totalPairs]
 #print("reducedList:\n"+str(reducedList))
 #print("onlinelist:\n"+str(onlinelist))
 #exit()
-nodelist = validTradingPairs(platform, reducedList)
+nodelist = getAllTPs(platform, reducedList)
 #for p in nodelist:    print(p)
 #print(len(nodelist))
 #exit()
 
-#rootPair = TradingPair(reFormatPair(platform, onlinelist[0]), onlinelist[0], platform)
 i=0
 for r in nodelist:#[7:8]:
     i += 1
