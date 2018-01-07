@@ -1,6 +1,3 @@
-from TradingPair import TradingPair
-from helper_func import reFormatPair
-
 def treeToList(rootNode):
     ''' rootNode is the root of the tree
         returns a list containing all branches,
