@@ -3,7 +3,6 @@ class binance extends trader{
   private $orderType, $recvWindow, $timeInForce;
 
   public function __construct($api_key, $api_secret){
-    $this->minTradeAmt = 0.02;
     $this->orderType = 'LIMIT';
     $this->recvWindow = 6000;
     $this->timeInForce = "GTC";
