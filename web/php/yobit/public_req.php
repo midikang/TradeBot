@@ -2,7 +2,7 @@
 function call_func($cmd){
   switch($cmd){
     case "getOrderBook":
-      return getOrderBook("$_GET["coin"]_$_GET["currency"]");
+      return getOrderBook($_GET['coin'].'_'.$_GET['currency']);
 
     case "getValidPairs":
     return getValidPairs();
