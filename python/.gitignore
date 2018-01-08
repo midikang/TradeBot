@@ -3,6 +3,7 @@ Trader.py
 processes.py
 
 TradingPair.py
+Monitor.py
 
 resources/*
 __pycache__/*
