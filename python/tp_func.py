@@ -10,16 +10,17 @@ def getAllTPs(platform, validSymbols):
 
     return tradingPairs
 
-def pl2TP(plat, pl, validpls):
-    ''' pl2TP(poloniex, [btc,ltc], [[btc,ltc]]) -> TP([btc,ltc], not inverted)
-        pl2TP(poloniex, [ltc,btc], [[btc,ltc]) -> TP([btc,ltc], inverted)
+def ps2TP(plat, ps, validpsSet):
+    ''' pl2TP(poloniex, ["btc-ltc"], ["btc-ltc"]) -> TP([btc,ltc], not inverted)
+        pl2TP(poloniex, ["ltc-btc"], ["btc-ltc") -> TP([btc,ltc], inverted)
 
-        validpl is the validPairs list where each item is a pl'''
+        validpsSet is a set where each item is a ps'''
 
-    return TradingPair(pl, platform = plat, isInverted = "-".join(pl) in validpls)
+    return TradingPair(ps.split("-"), platform = plat, isInverted = ps not in validpsSet)
 
 def symbol2pl(plat, symbol):
     ''' func(bitfinex, btc-ltc) ->  [btc,ltc] '''
+    symbol = symbol.lower()
     delimiter = list(filter(lambda x: x in symbol,["-","_"," "]))
     if delimiter:
         tmp = symbol.split(delimiter[0])
