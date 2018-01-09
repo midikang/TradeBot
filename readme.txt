@@ -1,10 +1,12 @@
 project5: crypto-trading bot
 
 Current v1.4 (Support):
-- use all the reusable codes for binance and yobit and coinegg
+- test and finish implementing yobit's .php files
 
-Next v2.0 (Backend):
-- write a sample process that detects opportunity for arbitrage
+Next v2.1 (Backend):
+- write processes / trading strategies
+- how to decide how much to trade for a given process
+- logger to see monthly progress with a given process
 
 Basic Design:
 	(Main - Python)
