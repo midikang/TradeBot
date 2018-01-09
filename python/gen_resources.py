@@ -1,20 +1,17 @@
-from Trader import Trader
 from helper_func import eprint
+import sys
+if len(sys.argv) != 2:
+    eprint("Usage: python test.py platform (opt: redirect to resources/platform/all_paths.txt)")
+    exit()
+
+from Trader import Trader
 from tree_func import *
 from tp_func import *
-import sys
-#from processes import findPaths
 
-#print(sys.argv)
-#exit()
 platform = sys.argv[1]
-amt = 0.04
-#finexBot = Trader("bitfinex")
-#poloniexBox = Trader("poloniex");
 bot = Trader(platform)
 
 onlinelist = bot.getValidPairs() # """
-#onlinelist = "BCN-BTC<>BTC-ETH<>ETH-USDT<>USDT-ZEC<>ZEC-XMR<>XMR-USDT<>USDT-LTC<>LTC-XMR<>XMR-BCN".split("<>")
 totalPairs = len(onlinelist)
 print("totalPairs: "+str(totalPairs))
 
@@ -37,7 +34,7 @@ for r in nodelist:#[7:8]:
     populateTree(nodelist, rootPair)
     #print(len(rootPair.getChildren()))
     #continue
-#exit()
+    #exit()
     #'''
     allPaths = treeToList(rootPair)
     for path in allPaths:
