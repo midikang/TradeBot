@@ -45,9 +45,8 @@ def treeToList(rootNode):
             for k in kids:
                 populateBranchList(k, list(branch))
 
-    populateBranchList(rootNode) # """
+    populateBranchList(rootNode)
     return branchList
-
 
 def getTreeStats(rootNode):
     ''' return info on the amount of leaves, amount of branches of diff lengths,
@@ -154,3 +153,28 @@ def populateTree(tradingPairs, rootNode):
 
 
     return rootNode
+
+def getUniqueBranches(allBranches):
+    existingBranches = set()
+    uniqueBranches = []
+    for branchStr in allBranches:
+        b = branchStr.strip().split("<>")[1:]
+        #print(b)
+        if "<>".join(b) in existingBranches:
+            continue;
+
+        uniqueBranches.append(branchStr.strip())
+        for v in getVariationsOfBranch(b, len(b)):
+            #print("\t\t"+str(v))
+            existingBranches.add("<>".join(v))
+
+    return uniqueBranches
+
+def getVariationsOfBranch(branch,size):
+    variations = []
+    tmp = list(branch)
+    tmp.extend(branch)
+    for i in range(size):
+        variations.append(tmp[i:size+i])
+
+    return variations
