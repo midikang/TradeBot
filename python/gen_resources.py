@@ -3,6 +3,9 @@ import sys
 if len(sys.argv) != 2:
     eprint("Usage: python test.py platform (opt: redirect to resources/platform/all_paths.txt)")
     exit()
+elif sys.argv[1] == "help" :
+    eprint("Usage: python test.py platform (opt: redirect to resources/platform/all_paths.txt)")
+    exit()
 
 from Trader import Trader
 from tree_func import *
@@ -11,9 +14,10 @@ from tp_func import *
 platform = sys.argv[1]
 bot = Trader(platform)
 
-onlinelist = bot.getValidPairs() # """
+onlinelist = bot.getValidPairs()
+#onlinelist = ["btc-usd","btc-xrp","eth-usd","eth-xrp","zec-eth","zec-btc"]
 totalPairs = len(onlinelist)
-print("totalPairs: "+str(totalPairs))
+#print("totalPairs: "+str(totalPairs))
 
 reducedList = onlinelist[:totalPairs]
 
@@ -25,11 +29,11 @@ nodelist = getAllTPs(platform, reducedList)
 #print(len(nodelist))
 #exit()
 
-i=0
+#i=0
 for r in nodelist:#[7:8]:
-    i += 1
+    #i += 1
     rootPair = r
-    eprint("{}\t\t {}/{}".format(r, i, len(nodelist)))
+    #eprint("{}\t\t {}/{}".format(r, i, len(nodelist)))
 
     populateTree(nodelist, rootPair)
     #print(len(rootPair.getChildren()))
