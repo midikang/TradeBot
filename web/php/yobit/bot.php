@@ -29,26 +29,24 @@ class yobit extends trader{
     return $this->query($data);
   }
 
-  public function getBalances()
-  {
+  public function getBalances(){
     $data = array(
       "method" => "getInfo"
     );
-
-    return $this->query($data);
+    // return $this->query($data);
+    $balances = json_decode($this->query($data), true)["return"]["funds"];
+    return json_encode(balances);
   }
 
   protected function generateNonce(){
-    $tmp = round(microtime(true) / 2147483646,0);
-    return strval($tmp);
+    return time();
   }
 
   protected function generatePostData($req){
 		return http_build_query($req, '', '&');
 	}
 
-  protected function generateHeaders($req, $post_data)
-  {
+  protected function generateHeaders($req, $post_data){
     $signature = hash_hmac("sha512", $post_data, $this->api_secret);
     return array(
        "Key: ".$this->api_key,
