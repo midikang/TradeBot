@@ -1,12 +1,16 @@
 project5: crypto-trading bot
 
-Current v1.4 (Support):
-- test and finish implementing yobit's bot.php
-- test and finish implementing zb's bot.php
+Current v1.4 	(Support):
+- find out what's with the yobit "funds" key
+- figure out why cannot pass auth test for zb's trading req
 
-Next v2.2 (Backend):
-- re-generate all paths with the aforementioned path filter applied
+		(Backend):
+- re-generate all paths with the unique filter applied
+- create .sh files to automate the creation of resources/*.txt files
 
+- check out cross plat arbitrage detection
+
+Next v3 (Backend)
 - write processes / trading strategies
 - how to decide how much to trade for a given process
 - logger to see monthly progress with a given process
