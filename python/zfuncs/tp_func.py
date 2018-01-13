@@ -56,6 +56,9 @@ def symbol2pl(plat, symbol):
     elif (plat == "yobit"):
         pass
 
+    elif (plat == "zb"):
+        pass
+
     else:
         print('''
         ################# ERROR ####################################################
