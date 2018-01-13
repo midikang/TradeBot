@@ -4,8 +4,7 @@ Current v1.4 (Support):
 - test and finish implementing yobit's bot.php
 - test and finish implementing zb's bot.php
 
-Next v2.1 (Backend):
-- simplify the list of all paths, to avoid writing down paths with same pathValue in gen_resources(
+Next v2.2 (Backend):
 - re-generate all paths with the aforementioned path filter applied
 
 - write processes / trading strategies
