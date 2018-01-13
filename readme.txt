@@ -1,12 +1,11 @@
 project5: crypto-trading bot
 
-Current v1.4 	(Support):
+Current v1.5 	(Support):
 - find out what's with the yobit "funds" key
 - figure out why cannot pass auth test for zb's trading req
 
 		(Backend):
 - re-generate all paths with the unique filter applied
-- create .sh files to automate the creation of resources/*.txt files
 
 - check out cross plat arbitrage detection
 
