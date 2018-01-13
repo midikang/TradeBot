@@ -1,10 +1,10 @@
 from zfuncs.helper_func import eprint
 import sys
 if len(sys.argv) != 2:
-    eprint("Usage: python test.py platform (opt: redirect to resources/platform/all_paths.txt)")
+    eprint("Usage: python gen_resources.py platform (opt: redirect to resources/platform/all_paths.txt)")
     exit()
 elif sys.argv[1] == "help" :
-    eprint("Usage: python test.py platform (opt: redirect to resources/platform/all_paths.txt)")
+    eprint("Usage: python gen_resources.py platform (opt: redirect to resources/platform/all_paths.txt)")
     exit()
 
 from zclasses.Trader import Trader
@@ -12,10 +12,15 @@ from zfuncs.tree_func import getTreeStats, populateTree, treeToList
 from zfuncs.tp_func import getAllTPs
 
 platform = sys.argv[1]
-bot = Trader(platform)
+#eprint(platform)
+if platform == "test":
+    platform = "bitfinex"
+    onlinelist = ["btc-usd","btc-xrp","eth-usd","eth-xrp","zec-eth","zec-btc"]
+else:
+    bot = Trader(platform)
+    onlinelist = bot.getValidPairs()
 
-onlinelist = bot.getValidPairs()
-#onlinelist = ["btc-usd","btc-xrp","eth-usd","eth-xrp","zec-eth","zec-btc"]
+
 totalPairs = len(onlinelist)
 #print("totalPairs: "+str(totalPairs))
 
