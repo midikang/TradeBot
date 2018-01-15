@@ -4,9 +4,9 @@ def getAllTPs(platform, validSymbols):
     tradingPairs = []
     for symbol in validSymbols:
         pl = symbol2pl(platform, symbol)
-        tradingPairs.append( TradingPair(pl) )
+        tradingPairs.append( TradingPair(pl, symbol = symbol) )
         pl.reverse()
-        tradingPairs.append( TradingPair(pl, isInverted = True) )
+        tradingPairs.append( TradingPair(pl, symbol = symbol, isInverted = True) )
 
     return tradingPairs
 
