@@ -5,6 +5,7 @@ Current v1.6 	(Support):
 
 		(Backend):
 - implement 2 sub classes of Monitor, one checks single platform and one checks double platform
+- implement Translator class using binance.txt in under python/resources
 
 Next v2 (Backend)
 - write processes, i.e. trading strategies
