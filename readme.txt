@@ -1,16 +1,15 @@
 project5: crypto-trading bot
 
-Current v1.5 	(Support):
-- find out what's with the yobit "funds" key
+Current v1.6 	(Support):
 - figure out why cannot pass auth test for zb's trading req
 
 		(Backend):
-- re-generate all paths with the unique filter applied
+- implement 2 sub classes of Monitor, one checks single platform and one checks double platform
 
-- check out cross plat arbitrage detection
+Next v2 (Backend)
+- write processes, i.e. trading strategies
 
-Next v3 (Backend)
-- write processes / trading strategies
+Next v3 (Log)
 - how to decide how much to trade for a given process
 - logger to see monthly progress with a given process
 
@@ -23,7 +22,7 @@ Basic Design:
 	(Support - php/HTML)
 - Where the most of the user specific i/o is handled
 
-- variety of .php files that performs different tasks; each .php file sends a unique POST request
+- variety of .php files that performs different tasks
 
 
 References Used:
