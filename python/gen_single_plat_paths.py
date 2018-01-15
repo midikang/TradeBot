@@ -1,10 +1,10 @@
 from zfuncs.helper_func import eprint
 import sys
 if len(sys.argv) != 2:
-    eprint("Usage: python gen_resources.py platform (opt: redirect to resources/platform/all_paths.txt)")
+    eprint("Usage: python gen_single_plat_paths.py platform (opt: redirect to resources/platform/all_paths.txt)")
     exit()
 elif sys.argv[1] == "help" :
-    eprint("Usage: python gen_resources.py platform (opt: redirect to resources/platform/all_paths.txt)")
+    eprint("Usage: python gen_single_plat_paths.py platform (opt: redirect to resources/platform/all_paths.txt)")
     exit()
 
 from zclasses.Trader import Trader
