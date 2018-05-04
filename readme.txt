@@ -1,18 +1,24 @@
 project5: crypto-trading bot
 
-Current v1.6 	(Support):
+Support v1.6:
 - figure out why cannot pass auth test for zb's trading req
 
-		(Backend):
-- implement 2 sub classes of Monitor, one checks single platform and one checks double platform
-- implement Translator class using binance.txt in under python/resources
 
-Next v2 (Backend)
-- write processes, i.e. trading strategies
+Main v2.2:
+- implement different sub classes of trader that handles different aspects of trading, 
+	in this order:
+	checker, orderer, distributor, logger
 
-Next v3 (Log)
+- test the bots
+translator, generator
+
+- incorporate the translator bot into the implementation of zclasses/zfuncs/tp_funcs.py's functions and test it
+
+
+
 - how to decide how much to trade for a given process
 - logger to see monthly progress with a given process
+
 
 Basic Design:
 	(Main - Python)
