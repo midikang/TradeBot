@@ -1,4 +1,10 @@
-*.py
+Trader.py
+Translator.py
+Checker.py
+Generator.py
+TradingPair.py
+CoinDict.py
+
 
 __pycache__/*
 
