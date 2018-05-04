@@ -2,7 +2,7 @@ test*
 processes.py
 
 
-zclasses/*
+
 __pycache__/*
 
 *.lnk
