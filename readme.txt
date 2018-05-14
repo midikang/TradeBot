@@ -2,17 +2,16 @@ project5: crypto-trading bot
 
 Support v1.6:
 - figure out why cannot pass auth test for zb's trading req
+- send request to bibox
 
 
-Main v2.2:
+Main v2.3:
 - implement different sub classes of trader that handles different aspects of trading, 
 	in this order:
-	checker, orderer, distributor, logger
+	orderer, logger, distributor
 
 - test the bots
-translator, generator
-
-- incorporate the translator bot into the implementation of zclasses/zfuncs/tp_funcs.py's functions and test it
+orderer, logger
 
 
 
