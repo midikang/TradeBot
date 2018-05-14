@@ -1,4 +1,5 @@
 from zclasses.TradingPair import TradingPair
+from zclasses.zfuncs.helper_func import eprint
 
 def getAllTPs(platform, validSymbols, dictBot):
     ''' validSymbols are TPs in the string form, containing coins' aliases '''
@@ -6,12 +7,13 @@ def getAllTPs(platform, validSymbols, dictBot):
     tradingPairs = []
     for symbol in validSymbols:
         pl = symbol2pl(platform, symbol, dictBot)
-        tradingPairs.append( TradingPair(pl, symbol = symbol) )
+        tradingPairs.append( TradingPair(pl, symbol, platform) )
         pl.reverse()
-        tradingPairs.append( TradingPair(pl, symbol = symbol, isInverted = True) )
+        tradingPairs.append( TradingPair(pl, symbol, platform, isInverted = True) )
 
     return tradingPairs
 
+"""
 def ps2TP(plat, ps, validpsSet): # not sure if actually useful
     ''' pl2TP(poloniex, ["btc-ltc"], ["btc-ltc"]) -> TP([btc,ltc], not inverted)
         pl2TP(poloniex, ["ltc-btc"], ["btc-ltc") -> TP([btc,ltc], inverted)
@@ -19,6 +21,7 @@ def ps2TP(plat, ps, validpsSet): # not sure if actually useful
         validpsSet is a set where each item is a ps'''
 
     return TradingPair(ps.split("-"), platform = plat, isInverted = ps not in validpsSet)
+"""
 
 def symbol2pl(plat, symbol, dictBot):
     ''' func('bitfinex', "btc-ltc",db)  ->  ( ["btc","ltc"] )  [int,int]
@@ -35,12 +38,13 @@ def symbol2pl(plat, symbol, dictBot):
 
     else: # if no clear delimiter, use dictBot to try to recognize coins
         allRecognizedAliases = dictBot.getDict(plat).getAliasDict().keys()
+        #eprint(allRecognizedAliases)
 
         # for debug
         unknown = True
 
         for alias in allRecognizedAliases:
-            if symbol.startswith(alias) and symbol[len(alias}:] in allRecognizedAliases:
+            if symbol.startswith(alias) and symbol[len(alias):] in allRecognizedAliases:
                 aliasList = [symbol[:len(alias)], symbol[len(alias):]]
                 unknown = False
                 break
@@ -49,7 +53,7 @@ def symbol2pl(plat, symbol, dictBot):
         if unknown:
             mid = len(symbol)//2
             aliasList = [symbol[:mid], symbol[mid:]]
-            eprint("{} not recognized\nUpdate dict accordingly".format(symbol))
+            #eprint("symbol2pl:\t\t|{}| not recognized. Update {} dict accordingly".format(symbol, plat))
 
 
     # translate the list of alias into list of integers
