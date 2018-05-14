@@ -48,7 +48,7 @@ def populateTree(tradingPairs, rootNode, maxDepth, leaf):
     ''' populateTree([TradingPairs], TradingPair) -> rootNode
         this tree only contains branches with leaves leaf '''
 
-    def recurse(crNode, visitedNodes = set(), crDepth):
+    def recurse(crNode, visitedNodes, crDepth):
         ''' determines whether the crNode will lead to forming a valid path
             within maxDepth tree depth (excluding root) '''
 
@@ -75,7 +75,7 @@ def populateTree(tradingPairs, rootNode, maxDepth, leaf):
         return len(crNode.getChildren())
 
 
-    recurse(rootNode, 0)
+    recurse(rootNode, set(), 0)
     #recurse(rootNode, {rootNode.getTail()}, {rootNode.getSymbol()} )
     # """
     return rootNode
