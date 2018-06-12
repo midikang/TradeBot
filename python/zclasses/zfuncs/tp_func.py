@@ -1,9 +1,9 @@
 from zclasses.TradingPair import TradingPair
 from zclasses.zfuncs.helper_func import eprint
 
-def printPathTP(pathTP):
+def pathStr(pathTP):
     lst = list(map(str,pathTP))
-    print(lst)
+    #print(lst)
     return " -> ".join(lst)
 
 def getAllTPs(platform, validSymbols, dictBot):
@@ -63,7 +63,7 @@ def symbol2pl(plat, symbol, dictBot):
         if unknown:
             mid = len(symbol)//2
             aliasList = [symbol[:mid], symbol[mid:]]
-            eprint("symbol2pl:\t\t|{}| not recognized. \nUpdate {} dict accordingly\n".format(symbol, plat))
+            #eprint("symbol2pl:\t\t|{}| not recognized. \nUpdate {} dict accordingly\n".format(symbol, plat))
 
 
     # translate the list of alias into list of integers
