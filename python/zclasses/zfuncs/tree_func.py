@@ -65,7 +65,8 @@ def populateTree(tradingPairs, rootNode, maxDepth, leaf):
 
         #print("{}->{}kids".format(crNode, len(nextNodes)) )
         #for p in nextNodes: print(p, end="")
-        #print()
+        #print
+
         for nextNode in nextNodes:
             child = nextNode.duplicate()
             if recurse( child, set(visitedNodes), crDepth+1): # make a copy of visitedNodes
@@ -76,6 +77,3 @@ def populateTree(tradingPairs, rootNode, maxDepth, leaf):
 
 
     recurse(rootNode, set(), 0)
-    #recurse(rootNode, {rootNode.getTail()}, {rootNode.getSymbol()} )
-    # """
-    return rootNode
