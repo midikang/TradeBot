@@ -1,10 +1,6 @@
 from zclasses.TradingPair import TradingPair
 from zclasses.zfuncs.helper_func import eprint
 
-def pathStr(pathTP):
-    lst = list(map(str,pathTP))
-    #print(lst)
-    return " -> ".join(lst)
 
 def getAllTPs(platform, validSymbols, dictBot):
     ''' validSymbols are TPs in the string form, containing coins' aliases '''
