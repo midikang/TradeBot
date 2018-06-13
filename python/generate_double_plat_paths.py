@@ -39,6 +39,7 @@ for i in range(2): # populate coinLists
 
 overlappingCoins = coinLists[0].intersection(coinLists[1])
 
+print("generating paths with max length 3 across plats {} and {}".format(plat1,plat2))
 for int in overlappingCoins:
     pathsPart1 = genBot.genPathsWithInt(plat1,2,endInt = int)
 
