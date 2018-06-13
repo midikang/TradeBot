@@ -1,8 +1,10 @@
 from zclasses.zfuncs.helper_func import eprint
-
 import sys
-if len(sys.argv) != 3:
-    eprint("Usage: python gen_double_plat_paths.py plat1 plat2")
+
+amt_arg = len(sys.argv)
+if amt_arg != 3 and amt_arg != 5:
+    eprint("Usage: python gen_double_plat_paths.py plat1 plat2 opt(amtTP amtTP)")
+    eprint("\t\tamtTP defaults to 1")
     exit()
 
 from zclasses.Generator import Generator
@@ -12,6 +14,12 @@ from zclasses.zfuncs.helper_func import pathToString
 
 plat1 = sys.argv[1]
 plat2 = sys.argv[2]
+amtTP1 = 1
+amtTP2 = 1
+
+if amt_arg == 5:
+    amtTP1 = sys.argv[3]
+    amtTP2 = sys.argv[4]
 
 dictBot = Translator()
 genBot  = Generator()
@@ -39,16 +47,19 @@ for i in range(2): # populate coinLists
 
 overlappingCoins = coinLists[0].intersection(coinLists[1])
 
-print("generating paths with max length 3 across plats {} and {}".format(plat1,plat2))
+print("generating paths with max length {} coins across \nplatforms \t{} \tand \t{}".format(amtTP1+amtTP2,plat1,plat2))
 for int in overlappingCoins:
-    pathsPart1 = genBot.genPathsWithInt(plat1,2,endInt = int)
+    pathsPart1 = genBot.genPathsWithInt(plat1,amtTP1,endInt = int)
 
     for pathPart1 in pathsPart1:
-        pathsPart2 = genBot.genPathsWithInt(plat2,2,startInt = int,
+        if pathPart1[0].getHead() == int: # pathPart1 shouldn't form a loop by itself
+            continue # avoid looking at these kind of paths
+
+
+        pathsPart2 = genBot.genPathsWithInt(plat2,amtTP2,startInt = int,
                                             endInt = pathPart1[0].getHead())
         for pathPart2 in pathsPart2:
             fullPath = pathPart1 + pathPart2
             # the length of a path is determined by amount of diff coins involved
-            # since the pair of coins in each TP in the path is unique
-            # therefore amount of diff coins involved in the path is amt(TP)-1
-            print("\n{},{}\n".format(len(fullPath)-1,pathToString(fullPath)))
+
+            print("\n{},{}\n".format(len(fullPath),pathToString(fullPath)))
