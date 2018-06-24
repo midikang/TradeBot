@@ -2,6 +2,11 @@ from __future__ import print_function
 from sys import stderr
 import json
 
+def pathToString(pathTP):
+    lst = list(map(str,pathTP))
+    #print(lst)
+    return " -> ".join(lst)
+
 def eprint(*args, **kwargs):
     print(*args, file=stderr, **kwargs)
 

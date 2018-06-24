@@ -1,12 +1,18 @@
 from zclasses.TradingPair import TradingPair
 from zclasses.zfuncs.helper_func import eprint
 
+
 def getAllTPs(platform, validSymbols, dictBot):
     ''' validSymbols are TPs in the string form, containing coins' aliases '''
 
     tradingPairs = []
     for symbol in validSymbols:
         pl = symbol2pl(platform, symbol, dictBot)
+
+        if 0 in pl: # there exists a coin alias which dictBot doesn't know of
+            continue
+
+
         tradingPairs.append( TradingPair(pl, symbol, platform) )
         pl.reverse()
         tradingPairs.append( TradingPair(pl, symbol, platform, isInverted = True) )
@@ -53,7 +59,7 @@ def symbol2pl(plat, symbol, dictBot):
         if unknown:
             mid = len(symbol)//2
             aliasList = [symbol[:mid], symbol[mid:]]
-            #eprint("symbol2pl:\t\t|{}| not recognized. Update {} dict accordingly".format(symbol, plat))
+            #eprint("symbol2pl:\t\t|{}| not recognized. \nUpdate {} dict accordingly\n".format(symbol, plat))
 
 
     # translate the list of alias into list of integers

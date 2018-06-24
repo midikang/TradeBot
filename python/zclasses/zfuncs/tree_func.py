@@ -52,8 +52,7 @@ def populateTree(tradingPairs, rootNode, maxDepth, leaf):
         ''' determines whether the crNode will lead to forming a valid path
             within maxDepth tree depth (excluding root) '''
 
-        # if maxDepth is -1, then there's no restriction o max steps
-        if crDepth == maxDepth:
+        if crDepth >= maxDepth:
             return False
 
         if crNode.getTail() == leaf: # crNode leads back to firstCoin
@@ -66,16 +65,15 @@ def populateTree(tradingPairs, rootNode, maxDepth, leaf):
 
         #print("{}->{}kids".format(crNode, len(nextNodes)) )
         #for p in nextNodes: print(p, end="")
-        #print()
+        #print
+
         for nextNode in nextNodes:
             child = nextNode.duplicate()
-            if recurse( child, set(visitedNodes), crDepth): # make a copy of visitedNodes
+            if recurse( child, set(visitedNodes), crDepth+1): # make a copy of visitedNodes
                 crNode.addChild(child) # only add pairs that leads to forming a path
+
         # crNode leads to forming a path => prevNode should adopt crNode as child
         return len(crNode.getChildren())
 
 
     recurse(rootNode, set(), 0)
-    #recurse(rootNode, {rootNode.getTail()}, {rootNode.getSymbol()} )
-    # """
-    return rootNode

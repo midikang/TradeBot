@@ -1,22 +1,17 @@
 project5: crypto-trading bot
 
 Support v1.6:
-- figure out why cannot pass auth test for zb's trading req
-- send request to bibox
-
+- wait for api to be released by new platforms
+- try to get MySQL setup to store all the translation info under python\zclasses\coins
+	this way the need to make different instances of 
+	the same translator bot can be eliminated
 
 Main v2.3:
-- implement different sub classes of trader that handles different aspects of trading, 
-	in this order:
-	orderer, logger, distributor
+- implement and test the checker class
 
-- test the bots
-orderer, logger
+- implement module #3
 
 
-
-- how to decide how much to trade for a given process
-- logger to see monthly progress with a given process
 
 
 Basic Design:
@@ -30,6 +25,18 @@ Basic Design:
 
 - variety of .php files that performs different tasks
 
+
+- there are 6 classes that handles different aspects of trading, 
+	in this order:
+	generator, checker, translator, orderer, logger, distributor
+
+- implement the 5 modules that is used:
+	1. generate paths
+	2. storing paths
+	3. select paths and constructing obj using what is stored
+	4. monitoring
+	5. trading
+	opt. logging and outputing reports for analysis
 
 References Used:
 	- github |coinables|: php wrapper for bitfinex API
