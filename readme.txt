@@ -1,17 +1,15 @@
 project5: crypto-trading bot
 
-Support v1.6:
+Support v1.7:
 - wait for api to be released by new platforms
-- try to get MySQL setup to store all the translation info under python\zclasses\coins
-	this way the need to make different instances of 
-	the same translator bot can be eliminated
+
+- finish implementing and testing look_up_functions.php to completely replace Translator bot
+
 
 Main v2.3:
 - implement and test the checker class
 
 - implement module #3
-
-
 
 
 Basic Design:
@@ -33,7 +31,7 @@ Basic Design:
 - implement the 5 modules that is used:
 	1. generate paths
 	2. storing paths
-	3. select paths and constructing obj using what is stored
+	3. select paths and constructing obj using the stored path's str_repr
 	4. monitoring
 	5. trading
 	opt. logging and outputing reports for analysis
