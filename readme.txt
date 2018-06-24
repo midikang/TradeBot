@@ -1,7 +1,7 @@
 project5: crypto-trading bot
 
-Support v1.6:
-- figure out why cannot pass auth test for zb's trading req
+Support v1.7:
+- finish implementing and testing look_up_functions.php 
 
 
 Main v2.2:
@@ -9,10 +9,8 @@ Main v2.2:
 	in this order:
 	checker, orderer, distributor, logger
 
-- test the bots
+- tested the bots
 translator, generator
-
-- incorporate the translator bot into the implementation of zclasses/zfuncs/tp_funcs.py's functions and test it
 
 
 
