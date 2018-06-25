@@ -1,6 +1,31 @@
 <?php
 require_once 'connection.php';
 
+function call_func($cmd){
+  switch($cmd){
+    case "getIntWithName":
+      return getIntWithName($_GET['name']);
+
+    case "getNameWithInt":
+      return getNameWithInt($_GET['int']);
+
+    case "getNameWithAlias":
+      return getNameWithAlias($_GET['platform'], $_GET['alias']);
+
+    case "getAliasWithName":
+      return getAliasWithName($_GET['platform'], $_GET['name']);
+
+    case "getIntWithAlias":
+      return getIntWithAlias($_GET['platform'], $_GET['alias']);
+
+    case "getAliasWithInt":
+      return getAliasWithInt($_GET['platform'], $_GET['int']);
+
+    default:
+        die("unrecognized translate command:       $cmd");
+  }
+}
+
 function executeSelect($select_field, $select_table, $cond_field, $cond_value){
   $cxn = OpenDBCxn();
 
@@ -16,6 +41,7 @@ function executeSelect($select_field, $select_table, $cond_field, $cond_value){
     while($row = $result->fetch_assoc()) {
         return $row[$select_field];
     }
+
   } else { // return default values
     if ($select_field == "int_repr"){
       return 0;
