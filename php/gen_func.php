@@ -18,12 +18,4 @@ function getJSON($url, $headers = ""){
   return json_decode(getJSONstr($url, $headers), true);
 }
 
-function handlingErr($msg){
-  throw new Exception("\n{$_GET['platform']}/{$_GET['reqType']}_req.php\nHandling unknown $msg\n");
-}
-
-function invalidErr($msg){
-  throw new Exception("\nplatform:{$_GET['platform']}\tcmd:{$_GET['cmd']}\nHandling invalid $msg\n");
-}
-
 ?>

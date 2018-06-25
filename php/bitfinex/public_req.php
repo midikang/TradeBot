@@ -7,8 +7,8 @@ function call_func($cmd){
     case "getValidPairs":
     return getValidPairs();
 
-    default:
-        throwErr("cmd: '".$cmd."'");
+  default:
+      die("unrecognized translate command:       $cmd");
   }
 }
 
