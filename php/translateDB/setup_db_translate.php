@@ -4,7 +4,7 @@ require_once 'init_db.php';
 require_once 'init_table.php';
 require_once 'helper_func.php';
 
-createTranslateDB("translate"); # gives name to db
+createTranslateDB();
 
 $prefix = '../../htdocs/tradebot/php/translateDB'; # this is an ad-hoc for using XAMPP
 createPlatformsTable();

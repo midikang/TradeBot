@@ -2,24 +2,22 @@
 require_once 'connection.php';
 require_once 'helper_func.php';
 
-function createTranslateDB($dbname){
+function createTranslateDB(){
   echo "createTranslateDB()<br>";
 
   $cxn = OpenServerCxn();
 
-  $sql = "drop database if exists $dbname
+  $sql = "drop database if exists translate
   ;
-  create database $dbname
+  create database translate
   ";
 
   if (mysqli_multi_query($cxn,$sql)){
     freeMultiQueryNoResult($cxn);
 
-    $GLOBALS['dbname'] = $dbname;
-
     $cxn->close();
   } else {
-    die("error creating the database: $dbname<br>$cxn->error");
+    die("error creating the database: translate<br>$cxn->error");
   }
 }
 ?>
