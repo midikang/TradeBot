@@ -7,8 +7,7 @@ function importCSVintoTable($infile,$table_name)
   $cxn = openDBCxn();
 
   $sql = "load data infile '$infile' into table $table_name
-  fields terminated by ','
-  lines terminated by '\n'";
+  fields terminated by ','";
 
   if ($cxn->query($sql)){
     $cxn->close();
