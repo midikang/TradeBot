@@ -7,7 +7,7 @@ function executeSelect($select_field, $select_table, $cond_field, $cond_value){
   $sql = "select $select_field from $select_table where $cond_field = '$cond_value'";
   #$sql = "select coin_name from int2name where coin_name = 'bitcoin'";
 
-  echo "<br>$sql<br>";
+  #echo "<br>$sql<br>";
 
   $result = $cxn->query($sql);
 
@@ -55,5 +55,5 @@ function getAliasWithInt($platform, $int){
   return getAliasWithName($platform,getNameWithInt($int));
 }
 
-// echo getIntWithAlias("bitfinex","btc"); // 33
+#echo getIntWithAlias("yobit","btc"); // 33 regardless of platform
 ?>
