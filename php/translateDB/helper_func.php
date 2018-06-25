@@ -4,11 +4,10 @@ require_once 'connection.php';
 function importCSVintoTable($infile,$table_name)
 {
   echo "import $infile into translate.$table_name<br>";
-  $cxn = openDBCxn("translate");
+  $cxn = openDBCxn();
 
   $sql = "load data infile '$infile' into table $table_name
-  fields terminated by ','
-  lines terminated by '\n'";
+  fields terminated by ','";
 
   if ($cxn->query($sql)){
     $cxn->close();
@@ -21,7 +20,7 @@ function getPlatforms()
 {
   echo "getting all platforms<br>";
 
-  $cxn = openDBCxn("translate");
+  $cxn = openDBCxn();
 
   $sql = "select platform from platforms";
 

@@ -17,7 +17,7 @@ function createTranslateDB(){
 
     $cxn->close();
   } else {
-    die("error creating the database<br>$cxn->error");
+    die("error creating the database: translate<br>$cxn->error");
   }
 }
 ?>

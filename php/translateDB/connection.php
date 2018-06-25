@@ -1,30 +1,27 @@
 <?php
-include 'login_info.php';
+require_once 'login_info.php';
 
-function OpenDBCxn($dbname)
- {
- $conn = new mysqli($GLOBALS['servername'], $GLOBALS['username'], $GLOBALS['password'], $dbname);
+function OpenDBCxn()
+{
+  $conn = new mysqli($GLOBALS['servername'], $GLOBALS['username'], $GLOBALS['password'], "translate");
 
- if ($conn->connect_error){
-   die("Connect to db $dbname failed: <br>$conn->connect_error");
- }
+  if ($conn->connect_error){
+   die("Connect to db <br>translate<br> failed: <br>$conn->connect_error");
+  }
 
- //echo "successfully connected to localhost's MySQL";
+  return $conn;
+}
 
- return $conn;
- }
 
 function OpenServerCxn()
 {
-$conn = new mysqli($GLOBALS['servername'], $GLOBALS['username'], $GLOBALS['password']);
+  $conn = new mysqli($GLOBALS['servername'], $GLOBALS['username'], $GLOBALS['password']);
 
-if ($conn->connect_error){
-  die("Connect to server $servername failed: <br>$conn->connect_error");
-}
+  if ($conn->connect_error){
+    die("Connect to server ".$GLOBALS['servername']." failed: <br>$conn->connect_error");
+  }
 
-//echo "successfully connected to localhost's MySQL";
-
-return $conn;
+  return $conn;
 }
 
 ?>

@@ -6,8 +6,8 @@ require_once 'helper_func.php';
 
 createTranslateDB();
 
-$prefix = '../../htdocs/tradebot/php/translateDB';
-createPlatformsTable(); # table is named platforms
+$prefix = '../../htdocs/tradebot/php/translateDB'; # this is an ad-hoc for using XAMPP
+createPlatformsTable();
 importCSVintoTable("$prefix/resources/platforms.csv","platforms");
 
 createInt2NameDict();

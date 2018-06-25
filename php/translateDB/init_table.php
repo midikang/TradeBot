@@ -5,7 +5,7 @@ require_once 'helper_func.php';
 function createPlatformsTable(){
   echo "createPlatformsTable()<br>";
 
-  $cxn = OpenDBCxn("translate");
+  $cxn = OpenDBCxn();
 
   $sql = "drop table if exists platforms
   ;
@@ -28,7 +28,7 @@ function createPlatformsTable(){
 function createInt2NameDict(){
   echo "createInt2NameDict()<br>";
 
-  $cxn = OpenDBCxn("translate");
+  $cxn = OpenDBCxn();
 
   $sql = "drop table if exists int2name
   ;
@@ -52,7 +52,7 @@ function createInt2NameDict(){
 function createAlias2NameDict($platform){
   echo "createAlias2NameDict()<br>";
 
-  $cxn = OpenDBCxn("translate");
+  $cxn = OpenDBCxn();
 
   $sql = "drop table if exists $platform
   ;
