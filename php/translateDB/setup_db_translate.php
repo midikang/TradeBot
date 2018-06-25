@@ -4,10 +4,10 @@ require_once 'init_db.php';
 require_once 'init_table.php';
 require_once 'helper_func.php';
 
-createTranslateDB();
+createTranslateDB("translate"); # gives name to db
 
-$prefix = '../../htdocs/tradebot/php/translateDB';
-createPlatformsTable(); # table is named platforms
+$prefix = '../../htdocs/tradebot/php/translateDB'; # this is an ad-hoc for using XAMPP
+createPlatformsTable();
 importCSVintoTable("$prefix/resources/platforms.csv","platforms");
 
 createInt2NameDict();

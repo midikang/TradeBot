@@ -2,7 +2,7 @@
 require_once 'connection.php';
 
 function executeSelect($select_field, $select_table, $cond_field, $cond_value){
-  $cxn = OpenCon();
+  $cxn = OpenDBCxn($GLOBALS["dbname"]);
 
   $sql = "select ".$select_field." from ".$select_table." where ".$cond_field." = '".$cond_value."'";
   #$sql = "select int_repr from int2name where coin_name = 'bitcoin'";
