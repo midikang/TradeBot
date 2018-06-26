@@ -3,6 +3,9 @@ require_once 'connection.php';
 
 function call_func($cmd){
   switch($cmd){
+    case "getAliases":
+      return getAliases($_GET['platform']);
+
     case "getIntWithName":
       return getIntWithName($_GET['name']);
 
@@ -26,10 +29,10 @@ function call_func($cmd){
   }
 }
 
-function executeSelect($select_field, $select_table, $cond_field, $cond_value){
+function executeSelect($select_field, $select_table, $condition){
   $cxn = OpenDBCxn();
 
-  $sql = "select $select_field from $select_table where $cond_field = '$cond_value'";
+  $sql = "select $select_field from $select_table where $condition";
   #$sql = "select coin_name from int2name where coin_name = 'bitcoin'";
 
   #echo "<br>$sql<br>";
@@ -57,20 +60,24 @@ function executeSelect($select_field, $select_table, $cond_field, $cond_value){
   $cxn->close();
 }
 
+function getAliases($platform){
+  return executeSelect("coin_alias", $platform, "coin_name <> 'name'");
+}
+
 function getIntWithName($name){
-  return executeSelect("int_repr", "int2name", "coin_name", $name);
+  return executeSelect("int_repr", "int2name", "coin_name = '$name'");
 }
 
 function getNameWithInt($int){
-  return executeSelect("coin_name", "int2name", "int_repr", $int);
+  return executeSelect("coin_name", "int2name", "int_repr = '$int'");
 }
 
 function getNameWithAlias($platform, $alias){
-  return executeSelect("coin_name", $platform, "coin_alias", $alias);
+  return executeSelect("coin_name", $platform, "coin_alias = '$alias'");
 }
 
 function getAliasWithName($platform, $name){
-  return executeSelect("coin_alias", $platform, "coin_name", $name);
+  return executeSelect("coin_alias", $platform, "coin_name = '$name'");
 }
 
 function getIntWithAlias($platform, $alias){
