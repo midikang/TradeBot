@@ -8,7 +8,7 @@ function call_func($cmd){
     return getValidPairs();
 
     default:
-        throwErr("cmd: '".$cmd."'");
+        die("unrecognized cmd: $cmd");
   }
 }
 
