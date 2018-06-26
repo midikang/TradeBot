@@ -21,13 +21,13 @@ function getValidPairs() {
     array_push($pairs,$crPair['symbol']);
   }
   //print_r(json_decode( $allTickerStr, true ));
-  return json_encode($pairs);
+  return $pairs;
 }
 
 function getOrderBook($pair){
   $url = "https://api.binance.com/api/v1/depth?limit=5&symbol=".$pair;
 
-  return getJSONstr($url);
+  return getJSON($url);
 }
 
 ?>

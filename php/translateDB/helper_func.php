@@ -18,7 +18,7 @@ function importCSVintoTable($infile,$table_name)
 
 function getPlatforms()
 {
-  echo "getting all platforms<br>";
+  #echo "getting all platforms<br>";
 
   $cxn = openDBCxn();
 

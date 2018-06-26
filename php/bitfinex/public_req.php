@@ -15,13 +15,13 @@ function call_func($cmd){
 function getOrderBook($pair){
   $url = "https://api.bitfinex.com/v1/book/".$pair;
 
-  return getJSONstr($url);
+  return getJSON($url);
 }
 
 function getValidPairs(){
   $url = "https://api.bitfinex.com/v1/symbols";
 
-  return getJSONstr($url);
+  return getJSON($url);
 }
 
 ?>
