@@ -25,7 +25,7 @@ def reFormatJSON(pyRes, keys = []):
 
     return json.dumps(tmp, sort_keys=True, indent=4)
 
-def sendReq(self, url):
+def sendReq(url):
     #print('\n'+url)
     response = requests.get(url)
 
