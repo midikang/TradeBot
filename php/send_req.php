@@ -21,7 +21,7 @@
   <body>
     <a class = "json_response">
       <?php
-        echo call_func($_GET['cmd']);
+        echo json_encode(call_func($_GET['cmd']));
       ?>
     </a>
 

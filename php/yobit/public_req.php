@@ -8,14 +8,14 @@ function call_func($cmd){
     return getValidPairs();
 
     default:
-        die("unrecognized cmd: $cmd");
+        die("unrecognized translate command:       $cmd");
   }
 }
 
 function getOrderBook($pair){
   $url = "https://yobit.net/api/3/depth/$pair?limit=3";
 
-  return getJSONstr($url);
+  return getJSON($url);
 }
 
 function getValidPairs(){
@@ -23,7 +23,7 @@ function getValidPairs(){
 
   $allPairsToInfo = getJSON($url)["pairs"];
 
-  return json_encode(array_keys( $allPairsToInfo ));
+  return array_keys( $allPairsToInfo );
 }
 
 ?>

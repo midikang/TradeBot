@@ -10,7 +10,7 @@
       <?php
         require_once("translateDB/look_up_functions.php");
 
-        echo call_func($_GET['cmd']);
+        echo json_encode(call_func($_GET['cmd']));
       ?>
     </a>
 

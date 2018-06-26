@@ -18,15 +18,13 @@ function getValidPairs() {
   $allOrderBook = getJSON($url);
 
   //print_r(json_decode( $allTickerStr, true ));
-  return json_encode(array_keys( $allOrderBook ));
+  return array_keys( $allOrderBook );
 }
 
 function getOrderBook($pair){
   $url = "https://poloniex.com/public?command=returnOrderBook&currencyPair=".$pair."&depth=5";
 
-  $orderBookStr = getJSONstr($url);
-
-  return $orderBookStr;
+  return getJSON($url);
 }
 
 /* add new more functions here
