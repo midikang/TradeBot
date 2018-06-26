@@ -26,7 +26,8 @@ def reFormatJSON(pyRes, keys = []):
     return json.dumps(tmp, sort_keys=True, indent=4)
 
 def sendReq(url):
-    #print('\n'+url)
+    #print(url+"\n")
+    
     response = requests.get(url)
 
     # .content gives the response in bytes
