@@ -11,7 +11,6 @@
         switch($_GET['cmd']){
           case "setup_db_translate":
             require_once("translateDB/setup_db_translate.php");
-            break;
 
           case "getPlatforms":
             require_once("translateDB/helper_func.php");

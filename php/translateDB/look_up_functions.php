@@ -3,6 +3,9 @@ require_once 'connection.php';
 
 function call_func($cmd){
   switch($cmd){
+    case "getAliases":
+      return getAliases($_GET['platform']);
+
     case "getIntWithName":
       return getIntWithName($_GET['name']);
 
@@ -26,16 +29,25 @@ function call_func($cmd){
   }
 }
 
-function executeSelect($select_field, $select_table, $cond_field, $cond_value){
+function executeSelect($select_field, $select_table, $condition, $selectOne){
   $cxn = OpenDBCxn();
 
-  $sql = "select $select_field from $select_table where $cond_field = '$cond_value'";
+  $sql = "select $select_field from $select_table where $condition";
   #$sql = "select coin_name from int2name where coin_name = 'bitcoin'";
 
   #echo "<br>$sql<br>";
-
   $result = $cxn->query($sql);
 
+  if ($selectOne){
+    return getResult($select_field, $result);
+  } else {
+    return getResultsArr($select_field, $result);
+  }
+
+  $cxn->close();
+}
+
+function getResult($select_field, $result){
   if ($result and $result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
@@ -53,24 +65,37 @@ function executeSelect($select_field, $select_table, $cond_field, $cond_value){
       return "alias";
     }
   }
+}
 
-  $cxn->close();
+function getResultsArr($select_field, $result){
+  $retArr = array();
+  if ($result and $result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        array_push($retArr,$row[$select_field]);
+    }
+  }
+  return $retArr;
+}
+
+function getAliases($platform){
+  return executeSelect("coin_alias", $platform, "coin_name <> 'name'", false);
 }
 
 function getIntWithName($name){
-  return executeSelect("int_repr", "int2name", "coin_name", $name);
+  return executeSelect("int_repr", "int2name", "coin_name = '$name'", true);
 }
 
 function getNameWithInt($int){
-  return executeSelect("coin_name", "int2name", "int_repr", $int);
+  return executeSelect("coin_name", "int2name", "int_repr = '$int'", true);
 }
 
 function getNameWithAlias($platform, $alias){
-  return executeSelect("coin_name", $platform, "coin_alias", $alias);
+  return executeSelect("coin_name", $platform, "coin_alias = '$alias'", true);
 }
 
 function getAliasWithName($platform, $name){
-  return executeSelect("coin_alias", $platform, "coin_name", $name);
+  return executeSelect("coin_alias", $platform, "coin_name = '$name'", true);
 }
 
 function getIntWithAlias($platform, $alias){
