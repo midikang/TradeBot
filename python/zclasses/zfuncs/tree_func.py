@@ -53,7 +53,8 @@ def populateTree(tradingPairs, rootNode, maxDepth, leaf):
             within maxDepth tree depth (excluding root) '''
 
         if crDepth >= maxDepth:
-            return False
+            # if leaf is not given/specified, exeeding maxDepth is can still form valid path
+            return not leaf # e.g. given leaf means exeeding maxDepth won't form valid path
 
         if crNode.getTail() == leaf: # crNode leads back to firstCoin
             return True
