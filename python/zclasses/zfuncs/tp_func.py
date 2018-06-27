@@ -1,15 +1,15 @@
 from zclasses.TradingPair import TradingPair
 from zclasses.zfuncs.helper_func import eprint
+import zclasses.zfuncs.translateDB as tDB
 
-
-def getAllTPs(platform, validSymbols, dictBot):
+def getAllTPs(platform, validSymbols):
     ''' validSymbols are TPs in the string form, containing coins' aliases '''
 
     tradingPairs = []
     for symbol in validSymbols:
-        pl = symbol2pl(platform, symbol, dictBot)
+        pl = symbol2pl(platform, symbol)
 
-        if 0 in pl: # there exists a coin alias which dictBot doesn't know of
+        if 0 in pl: # there exists a coin alias which tDB doesn't know of
             continue
 
 
@@ -29,21 +29,21 @@ def ps2TP(plat, ps, validpsSet): # not sure if actually useful
     return TradingPair(ps.split("-"), platform = plat, isInverted = ps not in validpsSet)
 """
 
-def symbol2pl(plat, symbol, dictBot):
-    ''' func('bitfinex', "btc-ltc",db)  ->  ( ["btc","ltc"] )  [int,int]
-        func('binance', "btcsc",db)     ->  ( ["btc","sc"] )   [int,int]
-        func('binance', "btcsc",db)     ->  ( ["btc","sc"] )   [int,int]
+def symbol2pl(plat, symbol):
+    ''' func('bitfinex', "btc-ltc")  ->  ( ["btc","ltc"] )  [int,int]
+        func('binance', "btcsc")     ->  ( ["btc","sc"] )   [int,int]
+        func('binance', "btcsc")     ->  ( ["btc","sc"] )   [int,int]
 
         this function tries to recognize 2 coins' aliases and return the symbol
-        in list form with the coins' alias in their int repr '''
+        in list as a pair of int_repr '''
 
     symbol = symbol.lower()
     delimiter = list(filter(lambda x: x in symbol,["-","_"," "]))
     if delimiter:
         aliasList = symbol.split(delimiter[0])
 
-    else: # if no clear delimiter, use dictBot to try to recognize coins
-        allRecognizedAliases = dictBot.getDict(plat).getAliasDict().keys()
+    else: # if no clear delimiter, use tDB to try to recognize coins
+        allRecognizedAliases = tDB.getAliases(plat)
         #eprint(allRecognizedAliases)
 
         # for debug
@@ -63,8 +63,8 @@ def symbol2pl(plat, symbol, dictBot):
 
 
     # translate the list of alias into list of integers
-    intList = [ dictBot.getIntWithAlias(plat,aliasList[0]),
-                dictBot.getIntWithAlias(plat,aliasList[1])]
+    intList = [ tDB.getIntWithAlias(plat,aliasList[0]),
+                tDB.getIntWithAlias(plat,aliasList[1])]
 
 
     if (plat == "bitfinex"):
