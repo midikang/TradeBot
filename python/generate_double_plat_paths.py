@@ -8,7 +8,6 @@ if amt_arg != 3 and amt_arg != 5:
     exit()
 
 from zclasses.Generator import Generator
-from zclasses.Translator import Translator
 from zclasses.zfuncs.tp_func import getAllTPs
 from zclasses.zfuncs.helper_func import pathToString
 
@@ -21,7 +20,6 @@ if amt_arg == 5:
     amtTP1 = sys.argv[3]
     amtTP2 = sys.argv[4]
 
-dictBot = Translator()
 genBot  = Generator()
 #eprint(platform)
 if plat1 == "test":
