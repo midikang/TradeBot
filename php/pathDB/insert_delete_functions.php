@@ -66,31 +66,6 @@ function executeInsert($table, $bracket_cskey, $bracket_csval){
   $cxn->close();
 }
 
-function selectPath($uid){
-  $cxn = OpenDBCxn();
-
-  $sql = "select platform,head,tail,symbol,is_inverted
-  from monitors natural join paths
-  where uid = '$uid'
-  order by index asce";
-
-  #echo "<br>$sql<br>";
-
-  $result = $cxn->query($sql);
-
-  $path_TP = array();
-  if ($result and $result->num_rows > 0) {
-    // output data of each row
-    while($tradePair = $result->fetch_assoc()) {
-        array_push($path_TP,$tradePair);
-    }
-  }
-
-  $cxn->close();
-
-  return $path_TP;
-}
-
 function insertUser($uid, $pw){
   executeInsert("accounts", "(uid,pw)","($uid,$pw)");
 }
