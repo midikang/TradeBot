@@ -86,7 +86,7 @@ function insertPath($pid,$path_jsonStr){
     $bracket_csval .= ",'".$tp["symbol"]."'"; # symbol is varchar so need the ''
     $bracket_csval .= ",".$tp["is_inverted"];
 
-    executeInsert("paths", "(pid,index,platform,head,tail,symbol,is_inverted)",$bracket_csval);
+    executeInsert("paths", "(pid,position,platform,head,tail,symbol,is_inverted)",$bracket_csval);
     $i++;
   }
 }

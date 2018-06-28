@@ -36,13 +36,13 @@ function createPathTable(){
   create table paths
   (
     pid int(4) ,
-    index int(1) ,
+    position int(1) ,
     platform varchar(20) not null,
     head int(3) not null,
     tail int(3) not null,
     symbol varchar(10) not null,
-    is_inverted bool not null,
-    primary key (pid, index)
+    is_inverted boolean not null,
+    primary key (pid, position)
   )
   ";
 
@@ -67,7 +67,7 @@ function createMonitorTable(){
     uid varchar(20),
     pid int(4),
     rate int(5),
-    primary key (coin_name),
+    primary key (uid,pid),
     foreign key (pid) references paths(pid),
     foreign key (uid) references accounts(uid) on delete cascade
   )
