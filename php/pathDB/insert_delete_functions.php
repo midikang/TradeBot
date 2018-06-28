@@ -29,6 +29,10 @@ function call_func($cmd){
   }
 }
 
+function executePPstmt($ppstmt){
+
+}
+
 function executeDelete($table, $condition){
   $cxn = OpenDBCxn();
 
@@ -41,65 +45,72 @@ function executeDelete($table, $condition){
 
   $result = $cxn->query($sql);
 
-  $cxn->close();
-}
-
-function executePPstmt($ppstmt){
-
-}
-
-function getResultsArr($select_field, $result){
-
-}
-
-function selectPath($uid){
-  $cxn = OpenDBCxn();
-
-  $sql = "select platform,head,tail,symbol,is_inverted
-  from monitors natural join paths
-  where uid = '$uid'
-  order by index asce";
-
-  #echo "<br>$sql<br>";
-
-  $result = $cxn->query($sql);
-
-  $path_TP = array();
-  if ($result and $result->num_rows > 0) {
-    // output data of each row
-    while($tradePair = $result->fetch_assoc()) {
-        array_push($path_TP,$tradePair);
-    }
+  if (!$result){
+    echo "<br>deleting from $table wasn't successful<br>";
   }
 
   $cxn->close();
-
-  return $path_TP;
 }
 
-function insertUser($uid){
-  return executeSelect("int_repr", "int2name", "coin_name = '$name'", true);
+function executeInsert($table, $bracket_cskey, $bracket_csval){
+  $cxn = OpenDBCxn();
+
+  $sql = "insert into $table $bracket_cskey values $bracket_csv";
+
+  $result = $cxn->query($sql);
+
+  if (!$result){
+    echo "<br>inserting into $table wasn't successful<br>";
+  }
+
+  $cxn->close();
+}
+
+function insertUser($uid, $pw){
+  executeInsert("accounts", "(uid,pw)","($uid,$pw)");
 }
 
 function insertMonitor($uid, $pid){
-  return executeSelect("coin_name", "int2name", "int_repr = '$int'", true);
+  executeInsert("accounts", "(uid,pw)","($uid,$pw)");
 }
 
-function insertPath($path_jsonStr){
-  return executeSelect("coin_name", $platform, "coin_alias = '$alias'", true);
+function insertPath($pid,$path_jsonStr){
+  $tradePairs = json_decode($path_jsonStr);
+
+  $i = 0;
+  foreach ($tradePairs as $tp){
+    $bracket_csval = "$pid,$i";
+    $bracket_csval .= ",'".$tp["platform"]."'"; # platfrom is varchar so need the ''
+    $bracket_csval .= ",".$tp["head"];        # head is int
+    $bracket_csval .= ",".$tp["tail"];        # tail is int
+    $bracket_csval .= ",'".$tp["symbol"]."'"; # symbol is varchar so need the ''
+    $bracket_csval .= ",".$tp["is_inverted"];
+
+    executeInsert("paths", "(pid,position,platform,head,tail,symbol,is_inverted)",$bracket_csval);
+    $i++;
+  }
 }
 
-function getAliasWithName($platform, $name){
-  return executeSelect("coin_alias", $platform, "coin_name = '$name'", true);
+function deleteUser($uid, $pw){
+  if(isValidUser($uid,$pw)){
+    executeDelete("accounts", "uid='$uid' and pw='$pw'");
+  } else {
+    die("unverified usage of deleteUser()");
+  }
 }
 
-function getIntWithAlias($platform, $alias){
-  return getIntWithName(getNameWithAlias($platform,$alias));
+function deleteMonitor($uid, $pw, $pid){
+  if(isValidUser($uid,$pw)){
+    executeDelete("monitors", "uid='$uid' and pid=$pid");
+  } else {
+    die("unverified usage of deleteUser()");
+  }
 }
 
-function getAliasWithInt($platform, $int){
-  return getAliasWithName($platform,getNameWithInt($int));
+function deletePath($pid){
+  executeDelete("paths", "pid=$pid");
 }
+
 
 #echo getIntWithAlias("yobit","btc"); // 33 regardless of platform
 ?>
