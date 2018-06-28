@@ -3,6 +3,7 @@
 require_once 'init_db.php';
 require_once 'init_table.php';
 require_once 'helper_func.php';
+require_once 'db_funcs.php';
 
 createTranslateDB();
 
