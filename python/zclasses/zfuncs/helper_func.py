@@ -5,32 +5,19 @@ import requests
 import json
 from lxml import html
 
-def pathToString(pathTP):
-    lst = list(map(str,pathTP))
-    #print(lst)
-    return " -> ".join(lst)
-
 def eprint(*args, **kwargs):
     print(*args, file=stderr, **kwargs)
 
-def reFormatJSON(pyRes, keys = []):
-    tmp = pyRes;
+def json_encode(json_obj):
+    return json.dumps(json_obj)
 
-    if len(keys):
-        tmp = {}
-        for key in pyRes:
-            print("{} in {} is {}".format(key, keys, key in keys))
-            if key in keys:
-                tmp[key] = pyRes[key];
+def json_decode(json_str):
+    return json.loads(json_str)
 
-    return json.dumps(tmp, sort_keys=True, indent=4)
+def sendReceiveReq(url):
+    response = sendReq(url)
 
-def sendReq(url):
-    #print(url+"\n")
-    
-    response = requests.get(url)
-
-    # .content gives the response in bytes
+    # response.content gives the response in bytes
     tree = html.fromstring(response.content)
     #print(response.text)
 
@@ -38,3 +25,9 @@ def sendReq(url):
     #print(jsonResStr)
 
     return json.loads(jsonResStr) # response as python obj
+
+def sendReq(url):
+    #print(url+"\n")
+    response = requests.get(url)
+
+    return response
