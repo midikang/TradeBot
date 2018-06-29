@@ -4,10 +4,17 @@ import zclasses.zfuncs.translateDB as tDB
 
 def getAllTPs(platform, validSymbols):
     ''' validSymbols are TPs in the string form, containing coins' aliases '''
+    i = 0
+    tot = len(validSymbols)
 
     tradingPairs = []
     for symbol in validSymbols:
-        pl = symbol2pl(platform, symbol)
+        i+=1
+        if not (i%200):
+            eprint("{}\t{}/{}".format(platform,i,tot))
+            
+
+        pl = symbol2pl(platform, symbol, tDB.getAliases(platform))
 
         if 0 in pl: # there exists a coin alias which tDB doesn't know of
             continue
@@ -19,20 +26,11 @@ def getAllTPs(platform, validSymbols):
 
     return tradingPairs
 
-"""
-def ps2TP(plat, ps, validpsSet): # not sure if actually useful
-    ''' pl2TP(poloniex, ["btc-ltc"], ["btc-ltc"]) -> TP([btc,ltc], not inverted)
-        pl2TP(poloniex, ["ltc-btc"], ["btc-ltc") -> TP([btc,ltc], inverted)
 
-        validpsSet is a set where each item is a ps'''
-
-    return TradingPair(ps.split("-"), platform = plat, isInverted = ps not in validpsSet)
-"""
-
-def symbol2pl(plat, symbol):
-    ''' func('bitfinex', "btc-ltc")  ->  ( ["btc","ltc"] )  [int,int]
-        func('binance', "btcsc")     ->  ( ["btc","sc"] )   [int,int]
-        func('binance', "btcsc")     ->  ( ["btc","sc"] )   [int,int]
+def symbol2pl(plat, symbol, allRecognizedAliases):
+    ''' func('bitfinex', "btc-ltc", [..])  ->  ( ["btc","ltc"] )  [int,int]
+        func('binance', "btcsc", [..])     ->  ( ["btc","sc"] )   [int,int]
+        func('poloniex', "btcsc", [..])    ->  ( ["sc", "btc"] )  [int,int]
 
         this function tries to recognize 2 coins' aliases and return the symbol
         in list as a pair of int_repr '''
@@ -43,10 +41,6 @@ def symbol2pl(plat, symbol):
         aliasList = symbol.split(delimiter[0])
 
     else: # if no clear delimiter, use tDB to try to recognize coins
-        allRecognizedAliases = tDB.getAliases(plat)
-        #eprint(allRecognizedAliases)
-
-        # for debug
         unknown = True
 
         for alias in allRecognizedAliases:
@@ -55,12 +49,15 @@ def symbol2pl(plat, symbol):
                 unknown = False
                 break
 
-        # it's not anything we recognize, do best guess
+        #"""
         if unknown:
-            mid = len(symbol)//2
-            aliasList = [symbol[:mid], symbol[mid:]]
-            #eprint("symbol2pl:\t\t|{}| not recognized. \nUpdate {} dict accordingly\n".format(symbol, plat))
+            return [0,0]
 
+
+            #mid = len(symbol)//2
+            #aliasList = [symbol[:mid], symbol[mid:]]
+            #eprint("symbol2pl:\t\t|{}| not recognized. \nUpdate {} dict accordingly\n".format(symbol, plat))
+        #"""
 
     # translate the list of alias into list of integers
     intList = [ tDB.getIntWithAlias(plat,aliasList[0]),
@@ -77,9 +74,6 @@ def symbol2pl(plat, symbol):
         pass
 
     elif (plat == "yobit"):
-        pass
-
-    elif (plat == "zb"):
         pass
 
     else:
