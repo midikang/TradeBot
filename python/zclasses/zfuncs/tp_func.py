@@ -7,14 +7,15 @@ def getAllTPs(platform, validSymbols):
     i = 0
     tot = len(validSymbols)
 
+    allRecognizedAliases = tDB.getAliases(platform)
     tradingPairs = []
     for symbol in validSymbols:
         i+=1
         if not (i%200):
             eprint("{}\t{}/{}".format(platform,i,tot))
-            
 
-        pl = symbol2pl(platform, symbol, tDB.getAliases(platform))
+
+        pl = symbol2pl(platform, symbol, allRecognizedAliases)
 
         if 0 in pl: # there exists a coin alias which tDB doesn't know of
             continue
