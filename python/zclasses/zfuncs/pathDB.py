@@ -1,4 +1,4 @@
-from zclasses.zfuncs.helper_func import sendReq
+from zclasses.zfuncs.helper_func import sendReq, sendReceiveReq
 
 def getPathDBUrl(cmdAndArgs):
     return "{}cmd={}".format("http://localhost/tradebot/php/pathDB.php?",cmdAndArgs)
@@ -7,10 +7,10 @@ def getPathUrl(cmdAndArgs):
     return "{}cmd={}".format("http://localhost/tradebot/php/path.php?", cmdAndArgs)
 
 def isValidUser(uid,pw):
-    return sendReq(getPathDBUrl('isValidUser&uid={}&pw={}'.format(uid,pw)))
+    return sendReceiveReq(getPathDBUrl('isValidUser&uid={}&pw={}'.format(uid,pw)))
 
 def selectPath(uid):
-    return sendReq(getPathDBUrl('selectPath&uid={}'.format(uid)))
+    return sendReceiveReq(getPathDBUrl('selectPath&uid={}'.format(uid)))
 
 def insertPath(path_jsonStr): #
     sendReq(getPathUrl('insertPath&path_jsonStr={}'.format(path_jsonStr))
