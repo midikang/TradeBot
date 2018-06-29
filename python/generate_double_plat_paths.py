@@ -8,8 +8,9 @@ if amt_arg != 3 and amt_arg != 5:
     exit()
 
 from zclasses.Generator import Generator
-from zclasses.zfuncs.tp_func import getAllTPs
-from zclasses.zfuncs.helper_func import pathToString
+from zclasses.zfuncs.translateDB import getAliases, getIntWithAlias
+from zclasses.zfuncs.helper_func import json_encode
+
 
 plat1 = sys.argv[1]
 plat2 = sys.argv[2]
@@ -20,32 +21,24 @@ if amt_arg == 5:
     amtTP1 = sys.argv[3]
     amtTP2 = sys.argv[4]
 
-genBot  = Generator()
-#eprint(platform)
 if plat1 == "test":
     plat1 = "poloniex"
     plat2 = "bitfinex"
-    plat1list = ["btcusd","xrpltc","ethusd","ethxrp","zeceth","zecbtc"]
-    plat2list = ["usd-btc","btc-xrp","eth-xrp","123-456","ltc-btc"]
-else:
-    genBot.setPlatform(plat1)
-    plat1list = genBot.getValidPairs()
-
-    genBot.setPlatform(plat2)
-    plat2list = genBot.getValidPairs()
 
 
-platformTPs = [getAllTPs(plat1, plat1list, dictBot),getAllTPs(plat2, plat2list, dictBot)]
+genBot  = Generator()
+
+platformAliases = [getAliases(plat1),getAliases(plat2)]
 coinLists = [set(),set()] # set of int repr of coins in plat1 and plat2 respectively
 
 for i in range(2): # populate coinLists
-    for tp in platformTPs[i]:
-        coinLists[i].add(tp.getHead())
-        coinLists[i].add(tp.getTail())
+    for a in platformAliases[i]:
+        coinLists[i].add(getIntWithAlias(plat1,a))
 
 overlappingCoins = coinLists[0].intersection(coinLists[1])
 
-print("generating paths with max length {} coins across \nplatforms \t{} \tand \t{}".format(amtTP1+amtTP2,plat1,plat2))
+eprint("generating paths with max length {} coins across \nplatforms \t{} \tand \t{}\n\n".format(amtTP1+amtTP2,plat1,plat2))
+
 for int in overlappingCoins:
     pathsPart1 = genBot.genPathsWithInt(plat1,amtTP1,endInt = int)
 
@@ -57,7 +50,8 @@ for int in overlappingCoins:
         pathsPart2 = genBot.genPathsWithInt(plat2,amtTP2,startInt = int,
                                             endInt = pathPart1[0].getHead())
         for pathPart2 in pathsPart2:
-            fullPath = pathPart1 + pathPart2
-            # the length of a path is determined by amount of diff coins involved
+            fullPath = []
+            for tp in pathPart1 + pathPart2:
+                fullPath.append(tp.getJSON())
 
-            print("\n{},{}\n".format(len(fullPath),pathToString(fullPath)))
+            print(json_encode(fullPath))
