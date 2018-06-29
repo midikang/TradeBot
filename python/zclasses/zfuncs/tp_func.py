@@ -4,14 +4,14 @@ import zclasses.zfuncs.translateDB as tDB
 
 def getAllTPs(platform, validSymbols):
     ''' validSymbols are TPs in the string form, containing coins' aliases '''
-    i = 0
-    tot = len(validSymbols)
-
     allRecognizedAliases = tDB.getAliases(platform)
     tradingPairs = []
+
+    i = 0
+    tot = len(validSymbols)
     for symbol in validSymbols:
         i+=1
-        if not (i%200):
+        if not (i%90):
             eprint("{}\t{}/{}".format(platform,i,tot))
 
 
