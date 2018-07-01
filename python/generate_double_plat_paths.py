@@ -10,7 +10,7 @@ if amt_arg != 3 and amt_arg != 5:
 from zclasses.Generator import Generator
 from zclasses.zfuncs.translateDB import getAliases, getIntWithAlias
 from zclasses.zfuncs.helper_func import json_encode
-
+eprint("loading args")
 
 plat1 = sys.argv[1]
 plat2 = sys.argv[2]
@@ -26,8 +26,13 @@ if plat1 == "test":
     plat2 = "bitfinex"
 
 
+eprint("setup genbot")
 genBot  = Generator()
 
+genBot.setupPlatsTPs(plat1)
+genBot.setupPlatsTPs(plat2)
+
+eprint("find overlapping coins")
 platformAliases = [getAliases(plat1),getAliases(plat2)]
 coinLists = [set(),set()] # set of int repr of coins in plat1 and plat2 respectively
 
@@ -37,8 +42,8 @@ for i in range(2): # populate coinLists
 
 overlappingCoins = coinLists[0].intersection(coinLists[1])
 
-eprint("generating paths with max length {} coins across \nplatforms \t{} \tand \t{}\n\n".format(amtTP1+amtTP2,plat1,plat2))
 
+eprint("begin generating paths with max length {} coins across \nplatforms \t{} \tand \t{}\n\n".format(amtTP1+amtTP2,plat1,plat2))
 for int in overlappingCoins:
     pathsPart1 = genBot.genPathsWithInt(plat1,amtTP1,endInt = int)
 
@@ -54,4 +59,4 @@ for int in overlappingCoins:
             for tp in pathPart1 + pathPart2:
                 fullPath.append(tp.getJSON())
 
-            print(json_encode(fullPath))
+            print(json_encode([fullPath)])
