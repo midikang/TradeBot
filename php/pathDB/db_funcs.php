@@ -1,6 +1,22 @@
 <?php
 require_once 'connection.php';
 
+function call_func($cmd){
+  switch($cmd){
+    case "isValidUser":
+      return isValidUser($_GET['uid'],$_GET['pw']);
+
+    case "selectMonitors":
+      return selectMonitors($_GET['uid'],$_GET['pw']);
+
+    case "selectPaths":
+      return selectPaths($_GET['from'],$_GET['to']);
+
+    default:
+        die("unrecognized path command:       $cmd");
+  }
+}
+
 function isValidUser($u,$p){
   $cxn = OpenDBCxn();
 
@@ -14,28 +30,54 @@ function isValidUser($u,$p){
 }
 
 
-function selectPath($uid){
+function selectMonitors($uid,$pw){
   $cxn = OpenDBCxn();
 
-  $sql = "select platform,head,tail,symbol,is_inverted
-  from monitors natural join paths
-  where uid = '$uid'
-  order by index asce";
+  $sql = "select m.pid, json_str, rate
+  from accounts as a natural join monitors as m
+    natural join paths
+  where a.uid = '$uid' and a.pw = '$pw'
+  ";
 
   #echo "<br>$sql<br>";
 
   $result = $cxn->query($sql);
 
-  $path_TP = array();
+  $monitors = array();
   if ($result and $result->num_rows > 0) {
     // output data of each row
-    while($tradePair = $result->fetch_assoc()) {
-        array_push($path_TP,$tradePair);
+    while($monitor = $result->fetch_assoc()) {
+        array_push($monitors,$monitor);
     }
   }
 
   $cxn->close();
 
-  return $path_TP;
+  return $monitors;
+}
+
+function selectPaths($from, $to){
+  $cxn = OpenDBCxn();
+
+  $sql = "select pid, json_str
+  from crossPlats natural join paths
+  where from = '$from' and to = '$to'
+  ";
+
+  #echo "<br>$sql<br>";
+
+  $result = $cxn->query($sql);
+
+  $paths = array();
+  if ($result and $result->num_rows > 0) {
+    // output data of each row
+    while($path = $result->fetch_assoc()) {
+        array_push($paths,$path);
+    }
+  }
+
+  $cxn->close();
+
+  return $paths;
 }
 ?>

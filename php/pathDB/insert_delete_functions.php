@@ -4,7 +4,10 @@ require_once 'connection.php';
 function call_func($cmd){
   switch($cmd){
     case "insertMonitor":
-      insertPath($_GET['uid'],$_GET['pid']);
+      insertPath($_GET['uid'],$_GET['pid'],$_GET['rate']);
+
+    case "insertCrossPlat":
+      insertCrossPlat($_GET['from'],$_GET['to'],$_GET['pid']);
 
     case "deleteMonitor":
       deletePath($_GET['uid'],$_GET['pid']);
@@ -67,8 +70,12 @@ function insertUser($uid, $pw){
   executeInsert("accounts", "(uid,pw)","($uid,$pw)");
 }
 
-function insertMonitor($uid, $pid){
-  executeInsert("accounts", "(uid,pw)","($uid,$pw)");
+function insertMonitor($uid, $pid,$rate){
+  executeInsert("monitors", "(uid,pid,rate)","($uid,$pid,$rate)");
+}
+
+function insertCrossPlat($from, $to, $pid){
+  executeInsert("crossPlats", "(from,to,pid)","($from,$to,$pid)");
 }
 
 function insertPath($path_jsonStr){
