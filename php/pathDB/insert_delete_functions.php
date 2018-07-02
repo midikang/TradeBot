@@ -74,21 +74,8 @@ function insertMonitor($uid, $pid){
   executeInsert("accounts", "(uid,pw)","($uid,$pw)");
 }
 
-function insertPath($pid,$path_jsonStr){
-  $tradePairs = json_decode($path_jsonStr);
-
-  $i = 0;
-  foreach ($tradePairs as $tp){
-    $bracket_csval = "$pid,$i";
-    $bracket_csval .= ",'".$tp["platform"]."'"; # platfrom is varchar so need the ''
-    $bracket_csval .= ",".$tp["head"];        # head is int
-    $bracket_csval .= ",".$tp["tail"];        # tail is int
-    $bracket_csval .= ",'".$tp["symbol"]."'"; # symbol is varchar so need the ''
-    $bracket_csval .= ",".$tp["is_inverted"];
-
-    executeInsert("paths", "(pid,position,platform,head,tail,symbol,is_inverted)",$bracket_csval);
-    $i++;
-  }
+function insertPath($path_jsonStr){
+  executeInsert("paths", "(json_str)",$path_jsonStr);
 }
 
 function deleteUser($uid, $pw){

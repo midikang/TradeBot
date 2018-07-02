@@ -35,14 +35,9 @@ function createPathTable(){
   ;
   create table paths
   (
-    pid int(4) ,
-    position int(1) ,
-    platform varchar(20) not null,
-    head int(3) not null,
-    tail int(3) not null,
-    symbol varchar(10) not null,
-    is_inverted boolean not null,
-    primary key (pid, position)
+    pid int(4) auto_increment,
+    json_str varchar(300),
+    primary key (pid)
   )
   ";
 
