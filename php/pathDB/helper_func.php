@@ -12,7 +12,7 @@ function importCSVintoTable($infile,$table_name)
   if ($cxn->query($sql)){
     $cxn->close();
   } else {
-    die("importing failed<br>$cxn->error");
+    die("sql result error in\t\timportCSVintoTable()\n$cxn->error")
   }
 }
 
@@ -27,6 +27,11 @@ function getPlatforms()
   $result = $cxn->query($sql);
 
   $index = 0;
+
+  if (!$result){
+    die("sql result error in\t\tgetPlatforms()\n$cxn->error")
+  }
+
   if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {

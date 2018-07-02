@@ -25,8 +25,10 @@ function getMostRecentPid(){
 
   $sql = "select max(pid) as recentPid from paths";
 
+  $result = $cxn->query($sql);
+
   if (!$result){
-    die("sql result error in\t\tisValidUser()")
+    die("sql result error in\t\tisValidUser()\n$cxn->error")
   }
 
   if ($result->num_rows > 0) {
@@ -40,6 +42,8 @@ function isValidUser($u,$p){
   $cxn = OpenDBCxn();
 
   $sql = "select uid from accounts where uid = '$u' and pw = '$p'";
+
+  $result = $cxn->query($sql);
 
   if (!$result){
     die("sql result error in\t\tisValidUser()")
@@ -67,7 +71,7 @@ function selectMonitors($uid,$pw){
   $result = $cxn->query($sql);
 
   if (!$result){
-    die("sql result error in\t\tisValidUser()")
+    die("sql result error in\t\tselectMonitors()\n$cxn->error")
   }
 
   $monitors = array();
@@ -96,7 +100,7 @@ function selectPaths($from, $to){
   $result = $cxn->query($sql);
 
   if (!$result){
-    die("sql result error in\t\tisValidUser()")
+    die("sql result error in\t\tselectPaths()")
   }
 
   $paths = array();
