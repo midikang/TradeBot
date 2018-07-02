@@ -79,7 +79,7 @@ function selectPaths($plat1, $plat2){
   $result = $cxn->query($sql);
 
   if (!$result){
-    die("sql result error in\t\tselectPaths()");
+    die("sql result error in\t\tselectPaths()\n$cxn->error");
   }
 
   $paths = array();

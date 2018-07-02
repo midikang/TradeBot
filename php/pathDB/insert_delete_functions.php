@@ -49,7 +49,7 @@ function executeDelete($table, $condition){
   $result = $cxn->query($sql);
 
   if (!$result){
-    echo "<br>deleting from $table wasn't successful<br>";
+    echo "<br>deleting from $table wasn't successful<br>\n$cxn->error";
   }
 
   $cxn->close();
@@ -65,7 +65,7 @@ function executeInsert($table, $bracket_cskey, $bracket_csval){
   $result = $cxn->query($sql);
 
   if (!$result){
-    echo "<br>inserting into $table wasn't successful<br>";
+    echo "<br>inserting into $table wasn't successful<br>\n$cxn->error";
   }
 
   $cxn->close();
