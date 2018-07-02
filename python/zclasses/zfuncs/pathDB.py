@@ -13,7 +13,7 @@ def insertPath(path_jsonStr): #
     sendReq(getPathUrl('insertPath&path_jsonStr={}'.format(path_jsonStr)))
 
 def insertCrossPlat(plat1,plat2,pid): #
-    sendReq(getPathUrl('insertCrossPlat&from={}&to={}&pid={}'.format(plat1,plat2,pid)))
+    sendReq(getPathUrl('insertCrossPlat&plat1={}&plat2={}&pid={}'.format(plat1,plat2,pid)))
 
 def getMostRecentPid():
     return sendReceiveReq(getPathDBUrl('getMostRecentPid'))
