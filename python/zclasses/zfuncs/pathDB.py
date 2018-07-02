@@ -12,14 +12,16 @@ def selectPath(uid):
 def insertPath(path_jsonStr): #
     sendReq(getPathUrl('insertPath&path_jsonStr={}'.format(path_jsonStr))
 
+def insertCrossPlat(plat1,plat2,pid): #
+    sendReq(getPathUrl('insertCrossPlat&from={}&to={}&pid={}'.format(plat1,plat2,pid))
 
-
-
+def getMostRecentPid():
+    return sendReceiveReq(getPathDBUrl('getMostRecentPid'))
 
 """     The following functions may not be used here, but it will be implemented regardless
 def isValidUser(uid,pw):
     return sendReceiveReq(getPathDBUrl('isValidUser&uid={}&pw={}'.format(uid,pw)))
-    
+
 def insertMonitor(uid,pid):
     sendReq(getPathUrl('insertMonitor&uid={}&pid={}'.format(uid,pid))
 
