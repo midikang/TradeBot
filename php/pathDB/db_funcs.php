@@ -28,7 +28,7 @@ function getMostRecentPid(){
   $result = $cxn->query($sql);
 
   if (!$result){
-    die("sql result error in\t\tisValidUser()\n$cxn->error")
+    die("sql result error in\t\tisValidUser()\n$cxn->error");
   }
 
   if ($result->num_rows > 0) {
@@ -46,7 +46,7 @@ function isValidUser($u,$p){
   $result = $cxn->query($sql);
 
   if (!$result){
-    die("sql result error in\t\tisValidUser()")
+    die("sql result error in\t\tisValidUser()");
   }
 
   if ($result->num_rows > 0) { # there exists such user
@@ -71,7 +71,7 @@ function selectMonitors($uid,$pw){
   $result = $cxn->query($sql);
 
   if (!$result){
-    die("sql result error in\t\tselectMonitors()\n$cxn->error")
+    die("sql result error in\t\tselectMonitors()\n$cxn->error");
   }
 
   $monitors = array();
@@ -100,7 +100,7 @@ function selectPaths($from, $to){
   $result = $cxn->query($sql);
 
   if (!$result){
-    die("sql result error in\t\tselectPaths()")
+    die("sql result error in\t\tselectPaths()");
   }
 
   $paths = array();
