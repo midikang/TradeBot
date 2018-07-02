@@ -31,11 +31,9 @@ function getMostRecentPid(){
     die("sql result error in\t\tisValidUser()\n$cxn->error");
   }
 
-  if ($result->num_rows > 0) {
-    echo $result->num_rows;
-    while($row = $result->fetch_assoc()) {
-        return $row['recentPid'];
-    }
+  $row = $result->fetch_assoc();
+  if ($row['recentPid']) {
+    return (int)$row['recentPid'];
   }
 
   return 0; # there exists no result
