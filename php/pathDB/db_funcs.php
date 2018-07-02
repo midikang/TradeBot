@@ -3,6 +3,9 @@ require_once 'connection.php';
 
 function call_func($cmd){
   switch($cmd){
+    case "getMostRecentPid":
+      return getMostRecentPid();
+
     case "isValidUser":
       return isValidUser($_GET['uid'],$_GET['pw']);
 
@@ -17,12 +20,32 @@ function call_func($cmd){
   }
 }
 
+function getMostRecentPid(){
+  $cxn = OpenDBCxn();
+
+  $sql = "select max(pid) as recentPid from paths";
+
+  if (!$result){
+    die("sql result error in\t\tisValidUser()")
+  }
+
+  if ($result->num_rows > 0) {
+    return int($result['recentPid']);
+  }
+
+  return 0; # there exists no result
+}
+
 function isValidUser($u,$p){
   $cxn = OpenDBCxn();
 
   $sql = "select uid from accounts where uid = '$u' and pw = '$p'";
 
-  if ($result and $result->num_rows > 0) { # there exists such user
+  if (!$result){
+    die("sql result error in\t\tisValidUser()")
+  }
+
+  if ($result->num_rows > 0) { # there exists such user
     return true;
   }
 
@@ -43,8 +66,12 @@ function selectMonitors($uid,$pw){
 
   $result = $cxn->query($sql);
 
+  if (!$result){
+    die("sql result error in\t\tisValidUser()")
+  }
+
   $monitors = array();
-  if ($result and $result->num_rows > 0) {
+  if ($result->num_rows > 0) {
     // output data of each row
     while($monitor = $result->fetch_assoc()) {
         array_push($monitors,$monitor);
@@ -68,8 +95,12 @@ function selectPaths($from, $to){
 
   $result = $cxn->query($sql);
 
+  if (!$result){
+    die("sql result error in\t\tisValidUser()")
+  }
+
   $paths = array();
-  if ($result and $result->num_rows > 0) {
+  if ($result->num_rows > 0) {
     // output data of each row
     while($path = $result->fetch_assoc()) {
         array_push($paths,$path);
