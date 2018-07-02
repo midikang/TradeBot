@@ -13,7 +13,7 @@ function call_func($cmd){
       return selectMonitors($_GET['uid'],$_GET['pw']);
 
     case "selectPaths":
-      return selectPaths($_GET['from'],$_GET['to']);
+      return selectPaths($_GET['plat1'],$_GET['plat2']);
 
     default:
         die("unrecognized path command:       $cmd");
@@ -32,7 +32,10 @@ function getMostRecentPid(){
   }
 
   if ($result->num_rows > 0) {
-    return int($result['recentPid']);
+    echo $result->num_rows;
+    while($row = $result->fetch_assoc()) {
+        return $row['recentPid'];
+    }
   }
 
   return 0; # there exists no result
@@ -87,12 +90,12 @@ function selectMonitors($uid,$pw){
   return $monitors;
 }
 
-function selectPaths($from, $to){
+function selectPaths($plat1, $plat2){
   $cxn = OpenDBCxn();
 
   $sql = "select pid, json_str
   from crossPlats natural join paths
-  where from = '$from' and to = '$to'
+  where plat1 = '$plat1' and plat2 = '$plat2'
   ";
 
   #echo "<br>$sql<br>";
