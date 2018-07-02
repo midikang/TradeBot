@@ -35,14 +35,9 @@ function createPathTable(){
   ;
   create table paths
   (
-    pid int(4) ,
-    position int(1) ,
-    platform varchar(20) not null,
-    head int(3) not null,
-    tail int(3) not null,
-    symbol varchar(10) not null,
-    is_inverted boolean not null,
-    primary key (pid, position)
+    pid int(4) auto_increment,
+    json_str varchar(300),
+    primary key (pid)
   )
   ";
 
@@ -50,6 +45,31 @@ function createPathTable(){
     freeMultiQueryNoResult($cxn);
   } else {
     die("error creating table for path<br>$cxn->error");
+  }
+
+  $cxn->close();
+}
+
+function createCrossPlatTable(){
+  echo "createCrossPlatTable()<br>";
+
+  $cxn = OpenDBCxn();
+
+  $sql = "drop table if exists crossPlats
+  ;
+  create table crossPlats
+  (
+    pid int(4) auto_increment,
+    from varchar(20) not null,
+    to varchar(20) not null,
+    foreign key(pid) references paths(pid)
+  )
+  ";
+
+  if (mysqli_multi_query($cxn,$sql)){
+    freeMultiQueryNoResult($cxn);
+  } else {
+    die("error creating table for cross plat path<br>$cxn->error");
   }
 
   $cxn->close();

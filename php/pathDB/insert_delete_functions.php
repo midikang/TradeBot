@@ -3,26 +3,26 @@ require_once 'connection.php';
 
 function call_func($cmd){
   switch($cmd){
-    case "selectPath":
-      return selectPath($_GET['uid']);
-
     case "insertMonitor":
-      return insertPath($_GET['uid'],$_GET['pid']);
+      insertPath($_GET['uid'],$_GET['pid'],$_GET['rate']);
+
+    case "insertCrossPlat":
+      insertCrossPlat($_GET['from'],$_GET['to'],$_GET['pid']);
 
     case "deleteMonitor":
-      return deletePath($_GET['uid'],$_GET['pid']);
+      deletePath($_GET['uid'],$_GET['pid']);
 
     case "insertUser":
-      return insertUser($_GET['uid'], $_GET['pw']);
+      insertUser($_GET['uid'], $_GET['pw']);
 
     case "deleteUser":
-      return deleteUser($_GET['uid'], $_GET['pw']);
+      deleteUser($_GET['uid'], $_GET['pw']);
 
     case "insertPath":
-      return insertPath($_GET['path_jsonStr']);
+      insertPath($_GET['path_jsonStr']);
 
     case "deletePath":
-      return deletePath($_GET['pid']);
+      deletePath($_GET['pid']);
 
     default:
         die("unrecognized path command:       $cmd");
@@ -70,25 +70,16 @@ function insertUser($uid, $pw){
   executeInsert("accounts", "(uid,pw)","($uid,$pw)");
 }
 
-function insertMonitor($uid, $pid){
-  executeInsert("accounts", "(uid,pw)","($uid,$pw)");
+function insertMonitor($uid, $pid,$rate){
+  executeInsert("monitors", "(uid,pid,rate)","($uid,$pid,$rate)");
 }
 
-function insertPath($pid,$path_jsonStr){
-  $tradePairs = json_decode($path_jsonStr);
+function insertCrossPlat($from, $to, $pid){
+  executeInsert("crossPlats", "(from,to,pid)","($from,$to,$pid)");
+}
 
-  $i = 0;
-  foreach ($tradePairs as $tp){
-    $bracket_csval = "$pid,$i";
-    $bracket_csval .= ",'".$tp["platform"]."'"; # platfrom is varchar so need the ''
-    $bracket_csval .= ",".$tp["head"];        # head is int
-    $bracket_csval .= ",".$tp["tail"];        # tail is int
-    $bracket_csval .= ",'".$tp["symbol"]."'"; # symbol is varchar so need the ''
-    $bracket_csval .= ",".$tp["is_inverted"];
-
-    executeInsert("paths", "(pid,position,platform,head,tail,symbol,is_inverted)",$bracket_csval);
-    $i++;
-  }
+function insertPath($path_jsonStr){
+  executeInsert("paths", "(json_str)",$path_jsonStr);
 }
 
 function deleteUser($uid, $pw){
