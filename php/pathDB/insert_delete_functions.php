@@ -3,26 +3,23 @@ require_once 'connection.php';
 
 function call_func($cmd){
   switch($cmd){
-    case "selectPath":
-      return selectPath($_GET['uid']);
-
     case "insertMonitor":
-      return insertPath($_GET['uid'],$_GET['pid']);
+      insertPath($_GET['uid'],$_GET['pid']);
 
     case "deleteMonitor":
-      return deletePath($_GET['uid'],$_GET['pid']);
+      deletePath($_GET['uid'],$_GET['pid']);
 
     case "insertUser":
-      return insertUser($_GET['uid'], $_GET['pw']);
+      insertUser($_GET['uid'], $_GET['pw']);
 
     case "deleteUser":
-      return deleteUser($_GET['uid'], $_GET['pw']);
+      deleteUser($_GET['uid'], $_GET['pw']);
 
     case "insertPath":
-      return insertPath($_GET['path_jsonStr']);
+      insertPath($_GET['path_jsonStr']);
 
     case "deletePath":
-      return deletePath($_GET['pid']);
+      deletePath($_GET['pid']);
 
     default:
         die("unrecognized path command:       $cmd");
