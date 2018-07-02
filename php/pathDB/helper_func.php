@@ -12,7 +12,7 @@ function importCSVintoTable($infile,$table_name)
   if ($cxn->query($sql)){
     $cxn->close();
   } else {
-    die("sql result error in\t\timportCSVintoTable()\n$cxn->error")
+    die("sql result error in\t\timportCSVintoTable()\n$cxn->error");
   }
 }
 
@@ -29,7 +29,7 @@ function getPlatforms()
   $index = 0;
 
   if (!$result){
-    die("sql result error in\t\tgetPlatforms()\n$cxn->error")
+    die("sql result error in\t\tgetPlatforms()\n$cxn->error");
   }
 
   if ($result->num_rows > 0) {
