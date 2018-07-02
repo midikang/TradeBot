@@ -7,25 +7,25 @@ function call_func($cmd){
       return isValidUser($_GET['uid'],$_GET['pw']);
 
     case "insertMonitor":
-      insertPath($_GET['uid'],$_GET['pid'],$_GET['rate']);
+      return insertPath($_GET['uid'],$_GET['pid'],$_GET['rate']);
 
     case "insertCrossPlat":
-      insertCrossPlat($_GET['from'],$_GET['to'],$_GET['pid']);
+      return insertCrossPlat($_GET['plat1'],$_GET['plat2'],$_GET['pid']);
 
     case "deleteMonitor":
-      deletePath($_GET['uid'],$_GET['pid']);
+      return deletePath($_GET['uid'],$_GET['pid']);
 
     case "insertUser":
-      insertUser($_GET['uid'], $_GET['pw']);
+      return insertUser($_GET['uid'], $_GET['pw']);
 
     case "deleteUser":
-      deleteUser($_GET['uid'], $_GET['pw']);
+      return deleteUser($_GET['uid'], $_GET['pw']);
 
     case "insertPath":
-      insertPath($_GET['path_jsonStr']);
+      return insertPath($_GET['path_jsonStr']);
 
     case "deletePath":
-      deletePath($_GET['pid']);
+      return deletePath($_GET['pid']);
 
     default:
         die("unrecognized path command:       $cmd");
@@ -58,7 +58,9 @@ function executeDelete($table, $condition){
 function executeInsert($table, $bracket_cskey, $bracket_csval){
   $cxn = OpenDBCxn();
 
-  $sql = "insert into $table $bracket_cskey values $bracket_csv";
+  $sql = "insert into $table $bracket_cskey values $bracket_csval";
+
+  #echo $sql;
 
   $result = $cxn->query($sql);
 
@@ -88,19 +90,19 @@ function isValidUser($u,$p){
 }
 
 function insertUser($uid, $pw){
-  executeInsert("accounts", "(uid,pw)","($uid,$pw)");
+  executeInsert("accounts", "(uid,pw)","('$uid','$pw')");
 }
 
 function insertMonitor($uid, $pid,$rate){
-  executeInsert("monitors", "(uid,pid,rate)","($uid,$pid,$rate)");
+  executeInsert("monitors", "(uid,pid,rate)","('$uid',$pid,$rate)");
 }
 
-function insertCrossPlat($from, $to, $pid){
-  executeInsert("crossPlats", "(from,to,pid)","($from,$to,$pid)");
+function insertCrossPlat($plat1, $plat2, $pid){
+  executeInsert("crossPlats", "(plat1,plat2,pid)","('$plat1','$plat2',$pid)");
 }
 
 function insertPath($path_jsonStr){
-  executeInsert("paths", "(json_str)",$path_jsonStr);
+  executeInsert("paths", "(json_str)","('$path_jsonStr')");
 }
 
 function deleteUser($uid, $pw){
