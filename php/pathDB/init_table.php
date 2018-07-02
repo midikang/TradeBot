@@ -36,7 +36,7 @@ function createPathTable(){
   create table paths
   (
     pid int(4) auto_increment,
-    json_str varchar(300),
+    json_str varchar(300) not null,
     primary key (pid)
   )
   ";
@@ -59,10 +59,10 @@ function createCrossPlatTable(){
   ;
   create table crossPlats
   (
-    pid int(4) auto_increment,
-    from varchar(20) not null,
-    to varchar(20) not null,
-    foreign key(pid) references paths(pid)
+    pid int(4) not null,
+    plat1 varchar(20) not null,
+    plat2 varchar(20) not null,
+    foreign key (pid) references paths(pid)
   )
   ";
 
@@ -86,7 +86,7 @@ function createMonitorTable(){
   (
     uid varchar(20),
     pid int(4),
-    rate int(5),
+    rate int(5) not null,
     primary key (uid,pid),
     foreign key (pid) references paths(pid),
     foreign key (uid) references accounts(uid) on delete cascade
