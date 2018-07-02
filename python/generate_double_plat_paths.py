@@ -59,4 +59,4 @@ for int in overlappingCoins:
             for tp in pathPart1 + pathPart2:
                 fullPath.append(tp.getJSON())
 
-            print(json_encode([fullPath)])
+            print(json_encode([fullPath]))
