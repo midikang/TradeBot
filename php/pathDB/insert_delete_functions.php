@@ -3,6 +3,9 @@ require_once 'connection.php';
 
 function call_func($cmd){
   switch($cmd){
+    case "isValidUser":
+      return isValidUser($_GET['uid'],$_GET['pw']);
+
     case "insertMonitor":
       insertPath($_GET['uid'],$_GET['pid'],$_GET['rate']);
 
@@ -64,6 +67,24 @@ function executeInsert($table, $bracket_cskey, $bracket_csval){
   }
 
   $cxn->close();
+}
+
+function isValidUser($u,$p){
+  $cxn = OpenDBCxn();
+
+  $sql = "select uid from accounts where uid = '$u' and pw = '$p'";
+
+  $result = $cxn->query($sql);
+
+  if (!$result){
+    die("sql result error in\t\tisValidUser()");
+  }
+
+  if ($result->num_rows > 0) { # there exists such user
+    return true;
+  }
+
+  return false;
 }
 
 function insertUser($uid, $pw){

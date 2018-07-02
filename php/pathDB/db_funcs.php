@@ -6,9 +6,6 @@ function call_func($cmd){
     case "getMostRecentPid":
       return getMostRecentPid();
 
-    case "isValidUser":
-      return isValidUser($_GET['uid'],$_GET['pw']);
-
     case "selectMonitors":
       return selectMonitors($_GET['uid'],$_GET['pw']);
 
@@ -38,25 +35,6 @@ function getMostRecentPid(){
 
   return 0; # there exists no result
 }
-
-function isValidUser($u,$p){
-  $cxn = OpenDBCxn();
-
-  $sql = "select uid from accounts where uid = '$u' and pw = '$p'";
-
-  $result = $cxn->query($sql);
-
-  if (!$result){
-    die("sql result error in\t\tisValidUser()");
-  }
-
-  if ($result->num_rows > 0) { # there exists such user
-    return true;
-  }
-
-  return false;
-}
-
 
 function selectMonitors($uid,$pw){
   $cxn = OpenDBCxn();
