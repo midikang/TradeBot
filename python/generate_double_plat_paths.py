@@ -44,6 +44,7 @@ overlappingCoins = coinLists[0].intersection(coinLists[1])
 
 
 eprint("begin generating paths with max length {} coins across \nplatforms \t{} \tand \t{}\n\n".format(amtTP1+amtTP2,plat1,plat2))
+print("{} {}".format(plat1,plat2))
 for int in overlappingCoins:
     pathsPart1 = genBot.genPathsWithInt(plat1,amtTP1,endInt = int)
 
