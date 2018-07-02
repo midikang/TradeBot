@@ -50,6 +50,31 @@ function createPathTable(){
   $cxn->close();
 }
 
+function createCrossPlatTable(){
+  echo "createCrossPlatTable()<br>";
+
+  $cxn = OpenDBCxn();
+
+  $sql = "drop table if exists crossPlats
+  ;
+  create table crossPlats
+  (
+    pid int(4) auto_increment,
+    from varchar(20) not null,
+    to varchar(20) not null,
+    foreign key(pid) references paths(pid)
+  )
+  ";
+
+  if (mysqli_multi_query($cxn,$sql)){
+    freeMultiQueryNoResult($cxn);
+  } else {
+    die("error creating table for cross plat path<br>$cxn->error");
+  }
+
+  $cxn->close();
+}
+
 function createMonitorTable(){
   echo "createMonitorTable()<br>";
 
