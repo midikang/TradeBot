@@ -36,7 +36,7 @@ function createPathTable(){
   create table paths
   (
     pid int(4) auto_increment,
-    json_str varchar(300) not null,
+    json_str varchar(360) not null,
     primary key (pid)
   )
   ";
