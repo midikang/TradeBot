@@ -17,14 +17,7 @@ def json_decode(json_str):
 def sendReceiveReq(url):
     response = sendReq(url)
 
-    # response.content gives the response in bytes
-    tree = html.fromstring(response.content)
-    #print(response.text)
-
-    jsonResStr = tree.xpath('//a[@class="json_response"]/text()')[0] # there's only 1 item in the returned list from xpath
-    #print(jsonResStr)
-
-    return loads(jsonResStr) # response as python obj
+    return response.json() # response as python obj
 
 def sendReq(url):
     #print(url+"\n")
