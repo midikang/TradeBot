@@ -11,4 +11,4 @@ PMapp.directive('zSelect', function() {                    //TODO TODO TODO TODO
   };
 });
 
-alert("z-select loaded");
+//alert("z-select loaded");

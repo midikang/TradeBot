@@ -10,6 +10,7 @@ PMapp.directive("zDisplay",function(){
       $scope.masterList = {"paths":{},"monitors":{}}; // {} in form of {pid:json obj}
       // populate masterList
 
+      
 
 
 
@@ -35,11 +36,11 @@ PMapp.directive("zDisplay",function(){
         // send request to change data in SQL database
       }
 
-      
+
 
     }],
 
     template:z_displayHTML
   };
 });
-alert("z-display loaded");
+//alert("z-display loaded");

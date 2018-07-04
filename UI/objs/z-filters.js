@@ -19,4 +19,4 @@ PMapp.directive('zFilters', function() {                    //TODO TODO TODO TOD
   };
 });
 
-alert("z-filters Loaded");
+//alert("z-filters Loaded");

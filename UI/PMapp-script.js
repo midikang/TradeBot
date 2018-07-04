@@ -9,7 +9,7 @@ PMapp.factory("ViewSettings",function(){
   factory.alias2 = "";
   factory.alias3 = "";
   factory.alias4 = "";
-
+  
   factory.mode = "paths";
   factory.changeMode = function(mode){
     if (["paths","monitors"].contains(mode)){
@@ -22,4 +22,4 @@ PMapp.factory("ViewSettings",function(){
   return factory;
 });
 
-alert("factory loaded");
+//alert("factory loaded");
