@@ -7,6 +7,12 @@ PMapp.directive('zFilters', function() {                    //TODO TODO TODO TOD
     controller: ["$scope","ViewSettings",
     function($scope,ViewSettings){
       $scope.view = ViewSettings;
+
+      $scope.swapPlatforms = function(){
+        let tmp = $scope.view.platform1;
+        $scope.view.platform1 = $scope.view.platform2;
+        $scope.view.platform2 = tmp;
+      }
     }],
 
     template: z_filtersHTML
