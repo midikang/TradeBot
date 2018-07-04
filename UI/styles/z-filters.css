@@ -1,0 +1,56 @@
+.panel{
+  position: absolute;
+  top: 20px;
+  left:40px;
+
+  width:inherit;
+  height:inherit;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+
+.form-container{
+  width:500px;
+  height:auto;
+}
+.formTitle{
+  position: relative;
+  left:220px;
+
+  font-size: 30px;
+}
+
+.component-outter{
+  border: 2px brown;
+  border-style: solid none;
+}
+.component-inner{
+  margin: 10px;
+  font-size: 20px;
+}
+
+#folderDate{
+  height:30px;
+  font-size:20px;
+}
+
+#folderTitle{
+  height: 50px;
+  font-size: 30px;
+  text-align:center;
+  line-height:50px;
+}
+
+#folderDescription{
+  width:550px;
+  height:auto;
+
+  background-color:inherit;
+  font-size: 30px;
+}
+
+.textNewLine{
+  max-width:550px;
+  word-wrap:break-word;
+}
