@@ -20,22 +20,6 @@ PMapp.factory("ViewSettings",function(){
   }
 
   return factory;
-})/*
-.factory("filters",function(){
-  var factory = {};
-
-  factory.selectedTab = "home";
-
-  factory.selectTab = function(label){
-    this.selectedTab = label;
-
-
-    $(".selectedTab").removeClass("selectedTab");
-
-    $("#"+label).addClass("selectedTab"); // change this to using databind on this.selectedTab
-  }
-
-  return factory;
-})*/;
+});
 
 alert("factory loaded");
