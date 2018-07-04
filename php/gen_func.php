@@ -14,9 +14,4 @@ function getJSON($url, $headers = "", $method = "GET"){
   return json_decode($jsonStr, true);
 }
 
-/*
-function getJSON($url, $headers = ""){
-  return json_decode(getJSONstr($url, $headers), true);
-}*/
-
 ?>
