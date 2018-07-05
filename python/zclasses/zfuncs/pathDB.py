@@ -6,7 +6,7 @@ def getPathDBUrl(cmdAndArgs):
 def getPathUrl(cmdAndArgs):
     return "{}cmd={}".format("http://localhost/tradebot/php/path.php?", cmdAndArgs)
 
-def insertPath(plat1,plat2path_jsonStr): #
+def insertPath(plat1,plat2,path_jsonStr): #
     sendReq(getPathUrl('insertPath&plat1={}&plat2={}&path_jsonStr={}'.format(plat1,plat2,path_jsonStr)))
 
 def selectPaths(plat1,plat2):
