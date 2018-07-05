@@ -13,7 +13,7 @@ def selectPaths(plat1,plat2):
     return sendReceiveReq(getPathDBUrl('selectPaths&plat1{}&plat2={}'.format(plat1,plat2)))
 
 def deletePath(pid): #
-    sendReq(getPathUrl('deletePath&pid={}'.format(pid))
+    sendReq(getPathUrl('deletePath&pid={}'.format(pid)))
 
 """     The following functions may not be used here, but it will be implemented regardless for now
 def isValidUser(uid,pw):
