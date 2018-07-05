@@ -10,34 +10,34 @@ PMapp.directive("zDisplay",function(){
       $scope.masterList = {"paths":{},"monitors":{}}; // {} in form of {pid:json obj}
       // populate masterList
 
-      //alert("gettingJSON");
+      alert("gettingJSON");
       $.getJSON("http://localhost/tradebot/php/pathDB.php?cmd=selectPaths&plat1=bitfinex&plat2=binance", function(result){
-        for(i in result){ // result is the decoded json obj
+        for(i in result){
           if (result.hasOwnProperty(i)){
-            //alert(i+"\t\t"+result[i]);
+            alert(i+"\t\t"+result[i]);
           }
         }
       });
 
       $scope.addToMonitors = function(pid){
         // check if pid is in masterList.monitors
-        alert("addToMonitors()\n"+pid);
+
         // add pid masterList.monitors
 
         // send request to change data in SQL database
       }
 
-      $scope.rmFromMonitors = function(pid){
+      $scope.rmFromMonitors = function(mon){
         // check if pid in masterList.monitors
-        alert("rmFromoMonitors()\n"+pid);
+
         // add pid masterList.monitors
 
         // send request to change data in SQL database
       }
 
-      $scope.setMonitorRate = function(rate){
+      $scope.setMonitorRate = function(mon){
         // update value for given monitor obj
-        alert("setMonitorRate()\n"+rate);
+
         // send request to change data in SQL database
       }
 
