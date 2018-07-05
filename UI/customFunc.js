@@ -1,5 +1,5 @@
 function strf(str,args){
-  for (var i = 0; i  < args.length; i++) {
+  for (let i = 0; i  < args.length; i++) {
     str = str.replace('{}',args[i].toString());
   }
   return str;
@@ -10,8 +10,8 @@ function range(p1,p2){
     p2 = p1;
     p1 = 0;
   }
-  var lst = [];
-  for (var i = p1; i < p2; i++) {
+  let lst = [];
+  for (let i = p1; i < p2; i++) {
     lst.push(i);
   }
   return lst;
@@ -22,7 +22,7 @@ Array.prototype.contains = function(obj) {
 }
 
 Array.prototype.replace = function(oldItem,newItem) {
-  var i = this.indexOf(oldItem);
+  let i = this.indexOf(oldItem);
 
   if (i > -1){
     this[i] = newItem;
@@ -30,7 +30,7 @@ Array.prototype.replace = function(oldItem,newItem) {
 }
 
 Array.prototype.remove = function(target) {
-  var i = this.indexOf(target);
+  let i = this.indexOf(target);
 
   if (i > -1){
     this.splice(i,1);
@@ -45,23 +45,14 @@ Array.prototype.get = function(index) {
 }
 
 Array.prototype.count = function(t){
-  var c = 0;
+  let c = 0;
 
-  for (var i = 0; i < this.length; i++) {
+  for (let i = 0; i < this.length; i++) {
     if (this[i] == t){
       c++;
     }
   }
   return c;
-}
-
-String.prototype.shorten = function(maxLength){
-  if (this.length > maxLength + 3) {
-    return this.substring(0,maxLength) + "...";
-  } else {
-    return this;
-  }
-
 }
 
 function subString(s,begin, end){
@@ -80,8 +71,8 @@ function radToDeg(r){
 }
 
 function objToString(obj){
-  var tmp = "";
-  for (var i in obj) {
+  let tmp = "";
+  for (let i in obj) {
     if (obj.hasOwnProperty(i)){
       tmp+= strf("{}:\xa0\xa0\xa0\xa0{}\n",[i,obj[i]]); // the newline "\n" is for alert();
     }
@@ -89,15 +80,15 @@ function objToString(obj){
   return tmp;
 }
 
-var msgs = [];
+let msgs = [];
 
 function log(msg){
   msgs.push(msg.toString())
   alert(objToString(msgs));
 }
 
-function ctPrompt(promptMsg,defaultMsg){
-  var promptAns = prompt(promptMsg,defaultMsg);
+function zPrompt(promptMsg,defaultMsg){
+  let promptAns = prompt(promptMsg,defaultMsg);
 
   if (promptAns.split("").count(" ") == promptAns.length || promptAns == null){
     return false; // invalid promptAns
