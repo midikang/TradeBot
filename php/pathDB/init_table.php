@@ -36,6 +36,8 @@ function createPathTable(){
   create table paths
   (
     pid int(4) auto_increment,
+    plat1 varchar(20) not null,
+    plat2 varchar(20) not null,
     json_str varchar(360) not null,
     primary key (pid)
   )
@@ -45,31 +47,6 @@ function createPathTable(){
     freeMultiQueryNoResult($cxn);
   } else {
     die("error creating table for path<br>$cxn->error");
-  }
-
-  $cxn->close();
-}
-
-function createCrossPlatTable(){
-  echo "createCrossPlatTable()<br>";
-
-  $cxn = OpenDBCxn();
-
-  $sql = "drop table if exists crossPlats
-  ;
-  create table crossPlats
-  (
-    pid int(4) not null,
-    plat1 varchar(20) not null,
-    plat2 varchar(20) not null,
-    foreign key (pid) references paths(pid)
-  )
-  ";
-
-  if (mysqli_multi_query($cxn,$sql)){
-    freeMultiQueryNoResult($cxn);
-  } else {
-    die("error creating table for cross plat path<br>$cxn->error");
   }
 
   $cxn->close();
@@ -86,9 +63,9 @@ function createMonitorTable(){
   (
     uid varchar(20),
     pid int(4),
-    rate int(5) not null,
+    rate int(5) default 10,
     primary key (uid,pid),
-    foreign key (pid) references paths(pid),
+    foreign key (pid) references paths(pid) on delete cascade,
     foreign key (uid) references accounts(uid) on delete cascade
   )
   ";
