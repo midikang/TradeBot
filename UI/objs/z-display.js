@@ -10,9 +10,14 @@ PMapp.directive("zDisplay",function(){
       $scope.masterList = {"paths":{},"monitors":{}}; // {} in form of {pid:json obj}
       // populate masterList
 
-      
-
-
+      alert("gettingJSON");
+      $.getJSON("http://localhost/tradebot/php/pathDB.php?cmd=selectPaths&plat1=bitfinex&plat2=binance", function(result){
+        for(i in result){
+          if (result.hasOwnProperty(i)){
+            alert(i+"\t\t"+result[i]);
+          }
+        }
+      });
 
       $scope.addToMonitors = function(pid){
         // check if pid is in masterList.monitors
