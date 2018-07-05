@@ -60,16 +60,19 @@ function selectPaths($plat1, $plat2){
     die("sql result error in\t\tselectPaths()\n$cxn->error");
   }
 
-  $paths = array();
+  $retArr = array();
   if ($result->num_rows > 0) {
     // output data of each row
-    while($path = $result->fetch_assoc()) {
-        array_push($paths,$path);
+    while($row = $result->fetch_assoc()) {
+      // each row is
+      // { "plat1":"str","plat2":"str","json_str":"x","pid":int }
+      // "x" is a json_encoded string of the object: [json,json,json,...]
+        array_push($retArr,$row);
     }
   }
 
   $cxn->close();
 
-  return $paths;
+  return $retArr;
 }
 ?>
