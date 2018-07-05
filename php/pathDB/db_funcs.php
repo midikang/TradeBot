@@ -6,8 +6,11 @@ function call_func($cmd){
     case "selectMonitors":
       return selectMonitors($_GET['uid'],$_GET['pw']);
 
-    case "selectPaths":
-      return selectPaths($_GET['plat1'],$_GET['plat2']);
+    case "selectCrossPlatPaths":
+      return selectCrossPlatPaths($_GET['plat1'],$_GET['plat2']);
+
+    case "selectAllPaths":
+      return selectAllPaths($_GET['plat1'],$_GET['plat2']);
 
     default:
         die("unrecognized path command:       $cmd");
@@ -44,12 +47,20 @@ function selectMonitors($uid,$pw){
   return $monitors;
 }
 
-function selectPaths($plat1, $plat2){
+function selectCrossPlatPaths($plat1,$plat2){
+  return selectPaths("plat1 = '$plat1' and plat2 = '$plat2'");
+}
+
+function selectAllPaths(){
+  return selectPaths("1=1");
+}
+
+function selectPaths($condition){
   $cxn = OpenDBCxn();
 
   $sql = "select pid, json_str
   from paths
-  where plat1 = '$plat1' and plat2 = '$plat2'
+  where $condition
   ";
 
   #echo "<br>$sql<br>";
