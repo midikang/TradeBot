@@ -19,7 +19,7 @@ function call_func($cmd){
       return deleteUser($_GET['uid'], $_GET['pw']);
 
     case "insertPath":
-      return insertPath($_GET['path_jsonStr']);
+      return insertPath($_GET['plat1'],$_GET['plat2'],$_GET['path_jsonStr']);
 
     case "deletePath":
       return deletePath($_GET['pid']);
