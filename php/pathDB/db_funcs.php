@@ -3,9 +3,6 @@ require_once 'connection.php';
 
 function call_func($cmd){
   switch($cmd){
-    case "getMostRecentPid":
-      return getMostRecentPid();
-
     case "selectMonitors":
       return selectMonitors($_GET['uid'],$_GET['pw']);
 
@@ -15,25 +12,6 @@ function call_func($cmd){
     default:
         die("unrecognized path command:       $cmd");
   }
-}
-
-function getMostRecentPid(){
-  $cxn = OpenDBCxn();
-
-  $sql = "select max(pid) as recentPid from paths";
-
-  $result = $cxn->query($sql);
-
-  if (!$result){
-    die("sql result error in\t\tisValidUser()\n$cxn->error");
-  }
-
-  $row = $result->fetch_assoc();
-  if ($row['recentPid']) {
-    return (int)$row['recentPid'];
-  }
-
-  return 0; # there exists no result
 }
 
 function selectMonitors($uid,$pw){
@@ -70,7 +48,7 @@ function selectPaths($plat1, $plat2){
   $cxn = OpenDBCxn();
 
   $sql = "select pid, json_str
-  from crossPlats natural join paths
+  from paths
   where plat1 = '$plat1' and plat2 = '$plat2'
   ";
 

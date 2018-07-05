@@ -9,9 +9,6 @@ function call_func($cmd){
     case "insertMonitor":
       return insertPath($_GET['uid'],$_GET['pid'],$_GET['rate']);
 
-    case "insertCrossPlat":
-      return insertCrossPlat($_GET['plat1'],$_GET['plat2'],$_GET['pid']);
-
     case "deleteMonitor":
       return deletePath($_GET['uid'],$_GET['pid']);
 
@@ -97,12 +94,8 @@ function insertMonitor($uid, $pid,$rate){
   executeInsert("monitors", "(uid,pid,rate)","('$uid',$pid,$rate)");
 }
 
-function insertCrossPlat($plat1, $plat2, $pid){
-  executeInsert("crossPlats", "(plat1,plat2,pid)","('$plat1','$plat2',$pid)");
-}
-
-function insertPath($path_jsonStr){
-  executeInsert("paths", "(json_str)","('$path_jsonStr')");
+function insertPath($plat1,$plat2,$path_jsonStr){
+  executeInsert("paths", "(plat1,plat2,json_str)","('$plat1','$plat2','$path_jsonStr')");
 }
 
 function deleteUser($uid, $pw){
