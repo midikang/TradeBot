@@ -7,7 +7,7 @@ var z_displayHTML = `
       <th class = "pathStr">path</th>
       <th class = "platform">platform 2</th>
     </tr>
-    <tr class = "path zone" ng-repeat="(pid,path_obj) in masterList.paths">
+    <tr class = "path" ng-repeat="(pid,path_obj) in masterList.paths">
       <td> <button class = "addButton" ng-click=addToMonitors(pid)>+</button></td>
       <td class = "platform">{{pid}}</td>
       <td class = "platform">{{path_obj.plat1}}</td>
