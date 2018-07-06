@@ -38,6 +38,10 @@ function executeSelect($select_field, $select_table, $condition, $selectOne){
   #echo "<br>$sql<br>";
   $result = $cxn->query($sql);
 
+  if (!$result){
+    die("sql result error in\t\texecuteSelect()\n$cxn->error");
+  }
+
   if ($selectOne){
     return getResult($select_field, $result);
   } else {
@@ -48,7 +52,7 @@ function executeSelect($select_field, $select_table, $condition, $selectOne){
 }
 
 function getResult($select_field, $result){
-  if ($result and $result->num_rows > 0) {
+  if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
         return $row[$select_field];
@@ -69,7 +73,7 @@ function getResult($select_field, $result){
 
 function getResultsArr($select_field, $result){
   $retArr = array();
-  if ($result and $result->num_rows > 0) {
+  if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
         array_push($retArr,$row[$select_field]);
