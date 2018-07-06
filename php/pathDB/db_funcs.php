@@ -58,8 +58,7 @@ function selectAllPaths(){
 function selectPaths($condition){
   $cxn = OpenDBCxn();
 
-  $sql = "select pid, json_str
-  from paths
+  $sql = "select pid,plat1,plat2,jsons from paths
   where $condition
   ";
 
