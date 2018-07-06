@@ -1,29 +1,37 @@
 var z_displayHTML = `
-<ul class="listContainer" ng-show = "view.mode == 'paths'">
-    <a class = "label platform">platform 1</a>
-    <a class = "label pathStr">path</a>
-    <a class = "label platform">platform 2</a>
-    <br>
-    <ol class = "path" ng-repeat="() in masterList.paths">
-      <button class = "addButton" ng-click=addToMonitors(path.pid)</button>
-      <a class = "platform">{{path.plat1}}</a>
-      <a class = "pathStr">{{getPathStr(path.pid)}}</a>
-      <a class = "platform">{{path.plat2}}</a>
-    </ol>
-</ul>
-<ul class="listContainer" ng-show = "view.mode == 'monitors'">
-    <a class = "label monitorRate" >Monitor rate (sec)</p>
-    <a class = "label platform">platform 1</a>
-    <a class = "label pathStr">path</a>
-    <a class = "label platform">platform 2</a>
-    <br>
-    <ol class = "monitor" ng-repeat="monitor in masterList.monitors">
-      <button class = "rmButton" ng-click=rmFromMonitors(monitor.pid)</button>
-      <a class = "monitorRate" ng-click = "setMonitorRate(monitor)">{{monitor.rate}}</p>
-      <a class = "platform">{{monitor.plat1}}</a>
-      <a class = "pathStr">{{monitor.pathStr}}</a>
-      <a class = "platform">{{monitor.plat2}}</a>
-    </ol>
-</ul>
+<table class="listContainer" ng-show = "view.mode == 'paths'">
+    <tr>
+      <th></th>
+      <th class = "pid">pid</th>
+      <th class = "platform">platform 1</th>
+      <th class = "pathStr">path</th>
+      <th class = "platform">platform 2</th>
+    </tr>
+    <tr class = "path zone" ng-repeat="(pid,path_obj) in masterList.paths">
+      <td> <button class = "addButton" ng-click=addToMonitors(pid)>+</button></td>
+      <td class = "platform">{{pid}}</td>
+      <td class = "platform">{{path_obj.plat1}}</td>
+      <td class = "pathStr">{{path_obj.str}}</td>
+      <td class = "platform">{{path_obj.plat2}}</td>
+    </tr>
+</table>
+<table class="listContainer" ng-show = "view.mode == 'monitors'">
+    <tr>
+      <th></th>
+      <th class = "pid" >pid</th>
+      <th class = "rate" >Monitor rate (sec)</th>
+      <th class = "platform">platform 1</th>
+      <th class = "pathStr">path</th>
+      <th class = "platform">platform 2</th>
+    </tr>
+    <tr class = "monitor" ng-repeat="(pid,monitor) in masterList.monitors">
+      <td> <button class = "rmButton" ng-click=rmFromMonitors(pid)>x</button></td>
+      <td class = "pid" >{{pid}}</td>
+      <td class = "rate" ng-click = "setMonitorRate(pid)">{{monitor.rate}}</td>
+      <td class = "platform">{{monitor.plat1}}</td>
+      <td class = "pathStr">{{monitor.str}}</td>
+      <td class = "platform">{{monitor.plat2}}</td>
+    </tr>
+</table>
 `;
 //*/
