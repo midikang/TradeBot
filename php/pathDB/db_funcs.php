@@ -10,7 +10,7 @@ function call_func($cmd){
       return selectCrossPlatPaths($_GET['plat1'],$_GET['plat2']);
 
     case "selectAllPaths":
-      return selectAllPaths($_GET['plat1'],$_GET['plat2']);
+      return selectAllPaths();
 
     default:
         die("unrecognized path command:       $cmd");
