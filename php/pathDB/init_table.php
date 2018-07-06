@@ -38,7 +38,7 @@ function createPathTable(){
     pid int(4) auto_increment,
     plat1 varchar(20) not null,
     plat2 varchar(20) not null,
-    jsons varchar(430) not null,
+    jsons varchar(360) not null,
     primary key (pid)
   )
   ";
