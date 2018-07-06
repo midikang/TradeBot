@@ -4,19 +4,22 @@ require_once 'connection.php';
 function call_func($cmd){
   switch($cmd){
     case "isValidUser":
-      return isValidUser($_GET['uid'],$_GET['pw']);
+      return isValidUser($_POST['uid'],$_POST['pw']);
+
+    case "uidExists":
+      return uidExists($_POST['uid']);
 
     case "insertMonitor":
-      return insertPath($_GET['uid'],$_GET['pid'],$_GET['rate']);
+      return insertPath($_POST['uid'],$_POST['pw'],$_POST['pid'],$_POST['rate']);
 
     case "deleteMonitor":
-      return deletePath($_GET['uid'],$_GET['pid']);
+      return deletePath($_POST['uid'],$_POST['PW'],$_POST['pid']);
 
     case "insertUser":
-      return insertUser($_GET['uid'], $_GET['pw']);
+      return insertUser($_POST['uid'], $_POST['pw']);
 
     case "deleteUser":
-      return deleteUser($_GET['uid'], $_GET['pw']);
+      return deleteUser($_POST['uid'], $_POST['pw']);
 
     case "insertPath":
       return insertPath($_GET['plat1'],$_GET['plat2'],$_GET['path_jsonStr']);
@@ -76,7 +79,7 @@ function isValidUser($u,$p){
   $result = $cxn->query($sql);
 
   if (!$result){
-    die("sql result error in\t\tisValidUser()");
+    die("sql result error in\t\tisValidUser()\n$cxn->error");
   }
 
   if ($result->num_rows > 0) { # there exists such user
