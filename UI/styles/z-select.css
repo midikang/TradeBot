@@ -11,12 +11,10 @@ button.selector{width:100px; height:40px;text-align: center;font-size: 15px;}
 
 #ps{
   position: relative;
-
-  top:5px;
 }
 
 #ms{
   position: relative;
 
-  top:20px;
+  top:5px;
 }
