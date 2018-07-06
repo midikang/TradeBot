@@ -95,7 +95,7 @@ function insertMonitor($uid, $pid,$rate){
 }
 
 function insertPath($plat1,$plat2,$path_jsonStr){
-  executeInsert("paths", "(plat1,plat2,json_str)","('$plat1','$plat2','$path_jsonStr')");
+  executeInsert("paths", "(plat1,plat2,jsons)","('$plat1','$plat2','$path_jsonStr')");
 }
 
 function deleteUser($uid, $pw){
