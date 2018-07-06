@@ -32,19 +32,10 @@ function call_func($cmd){
   }
 }
 
-function executePPstmt($ppstmt){
-
-}
-
 function executeDelete($table, $condition){
   $cxn = OpenDBCxn();
 
   $sql = "delete from $table where $condition";
-
-  #echo "<br>$sql<br>";
-
-  # TODO use prepared statements
-  # executePPstmt($ppstmt);
 
   $result = $cxn->query($sql);
 
@@ -71,30 +62,43 @@ function executeInsert($table, $bracket_cskey, $bracket_csval){
   $cxn->close();
 }
 
+function isValidUid($u){
+  return preg_match("/[a-zA-Z](\w{3,14})/", $u) //allows 4-15 characters uid
+}
+
 function isValidUser($u,$p){
-  $cxn = OpenDBCxn();
+  if (isValidUid($u)) {
+    $cxn = OpenDBCxn();
 
-  $sql = "select uid from accounts where uid = '$u' and pw = '$p'";
+    $sql = "select uid from accounts where uid = '$u' and pw = '$p'";
 
-  $result = $cxn->query($sql);
+    $result = $cxn->query($sql);
 
-  if (!$result){
-    die("sql result error in\t\tisValidUser()\n$cxn->error");
+    if (!$result){
+      die("sql result error in\t\tisValidUser()\n$cxn->error");
+    }
+
+    if ($result->num_rows == 1) { # there exists unique user
+      return ($result->fetch_assoc())["uid"] == $u;
+    }
   }
-
-  if ($result->num_rows > 0) { # there exists such user
-    return true;
-  }
-
   return false;
 }
 
 function insertUser($uid, $pw){
-  executeInsert("accounts", "(uid,pw)","('$uid','$pw')");
+  if (isValidUid($uid)) {
+    executeInsert("accounts", "(uid,pw)","('$uid','$pw')");
+  } else {
+    die("unverified usage of insertMonitor()");
+  }
 }
 
-function insertMonitor($uid, $pid,$rate){
-  executeInsert("monitors", "(uid,pid,rate)","('$uid',$pid,$rate)");
+function insertMonitor($uid, $pw, $pid,$rate){
+  if(isValidUser($uid,$pw)){
+    executeInsert("monitors", "(uid,pid,rate)","('$uid',$pid,$rate)");
+  } else {
+    die("unverified usage of insertMonitor()");
+  }
 }
 
 function insertPath($plat1,$plat2,$path_jsonStr){
@@ -113,7 +117,7 @@ function deleteMonitor($uid, $pw, $pid){
   if(isValidUser($uid,$pw)){
     executeDelete("monitors", "uid='$uid' and pid=$pid");
   } else {
-    die("unverified usage of deleteUser()");
+    die("unverified usage of deleteMonitor()");
   }
 }
 
