@@ -7,7 +7,7 @@ var z_displayHTML = `
       <th class = "pathStr">path</th>
       <th class = "platform">platform 2</th>
     </tr>
-    <tr class = "path" ng-repeat="(pid,path_obj) in masterList.paths">
+    <tr class = "path" ng-repeat="(pid,path_obj) in view.paths">
       <td> <button class = "addButton" ng-click=addToMonitors(pid)>+</button></td>
       <td class = "platform">{{pid}}</td>
       <td class = "platform">{{path_obj.plat1}}</td>
@@ -24,7 +24,7 @@ var z_displayHTML = `
       <th class = "pathStr">path</th>
       <th class = "platform">platform 2</th>
     </tr>
-    <tr class = "monitor" ng-repeat="(pid,monitor) in masterList.monitors">
+    <tr class = "monitor" ng-repeat="(pid,monitor) in view.monitors">
       <td> <button class = "rmButton" ng-click=rmFromMonitors(pid)>x</button></td>
       <td class = "pid" >{{pid}}</td>
       <td class = "rate" ng-click = "setMonitorRate(pid)">{{monitor.rate}}</td>
