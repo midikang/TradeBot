@@ -6,6 +6,8 @@ PMapp.directive('zSelect', function() {                    //TODO TODO TODO TODO
     controller: ['$scope',"ViewSettings",
     function ($scope,ViewSettings) {
       $scope.view = ViewSettings;
+
+      $scope.view.changeMode("paths");
     }],
     template: z_selectHTML
   };
