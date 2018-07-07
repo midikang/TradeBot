@@ -20,7 +20,7 @@ function call_func($cmd){
 function selectMonitors($uid,$pw){
   $cxn = OpenDBCxn();
 
-  $sql = "select m.pid, json_str, rate
+  $sql = "select m.pid, jsons, rate
   from accounts as a natural join monitors as m
     natural join paths
   where a.uid = '$uid' and a.pw = '$pw'
