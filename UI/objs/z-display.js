@@ -7,31 +7,46 @@ PMapp.directive("zDisplay",function(){
     function($scope,ViewSettings){
       $scope.view = ViewSettings;
 
-      $scope.masterList = {"paths":{},"monitors":{}};
-
       $scope.addToMonitors = function(pid){
-        // check if pid is in masterList.monitors
+        if($scope.view.monitors.hasOwnProperty(pid)){
+          alert(`path #${pid} already in monitors`);
+          return;
+        }
 
-        // add pid masterList.monitors
-
-        // send request to change data in SQL database
+        $.post($scope.view.insertMonitorURL,$scope.view.getPersonalInfo(),
+        function(result){
+          console.log(result);
+        }, "json")
+        $scope.view.retrieveMonitors();
       }
 
-      $scope.rmFromMonitors = function(mon){
-        // check if pid in masterList.monitors
+      $scope.rmFromMonitors = function(pid){
+        if(!$scope.view.monitors.hasOwnProperty(pid)){
+          alert(`path #${pid} not in monitors`);
+          return;
+        }
 
-        // add pid masterList.monitors
-
-        // send request to change data in SQL database
+        $.post($scope.view.deleteMonitorURL,$scope.view.getPersonalInfo(),
+        function(result){
+          console.log(result);
+        }, "json")
+        $scope.view.retrieveMonitors();
       }
 
-      $scope.setMonitorRate = function(mon){
-        // update value for given monitor obj
+      $scope.setMonitorRate = function(pid,rate){
+        if(!$scope.view.monitors.hasOwnProperty(pid)){
+          alert(`path #${pid} not in monitors`);
+          return;
+        }
 
-        // send request to change data in SQL database
+        $.post($scope.view.updateMonitorRateURL,$scope.view.getPersonalInfo(),
+        function(result){
+          console.log(result);
+        }, "json")
+        $scope.view.retrieveMonitors();
       }
 
-      
+
     }],
 
     template:z_displayHTML
