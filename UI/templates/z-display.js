@@ -27,7 +27,7 @@ var z_displayHTML = `
     <tr class = "monitor" ng-repeat="(pid,monitor) in view.monitors">
       <td> <button class = "rmButton" ng-click=rmFromMonitors(pid)>x</button></td>
       <td class = "pid" >{{pid}}</td>
-      <td class = "rate" ng-click = "setMonitorRate(pid)">{{monitor.rate}}</td>
+      <td class = "rate" ng-dblclick = "setMonitorRate(pid)">{{monitor.rate}}</td>
       <td class = "platform">{{monitor.plat1}}</td>
       <td class = "pathStr">{{monitor.str}}</td>
       <td class = "platform">{{monitor.plat2}}</td>
