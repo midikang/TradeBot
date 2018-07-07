@@ -4,7 +4,7 @@ require_once 'connection.php';
 function call_func($cmd){
   switch($cmd){
     case "selectMonitors":
-      return selectMonitors($_GET['uid'],$_GET['pw']);
+      return selectMonitors($_POST['uid'],$_POST['pw']);
 
     case "selectCrossPlatPaths":
       return selectCrossPlatPaths($_GET['plat1'],$_GET['plat2']);
