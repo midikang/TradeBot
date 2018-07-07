@@ -4,6 +4,7 @@ PMapp.factory("ViewSettings",function(){
   let factory = {};
 
   // set path to local php  scripts
+  factory.testURL="http://localhost/tradebot/ui/test.php";
   factory.selectMonitorsURL="http://localhost/tradebot/php/pathDB.php?cmd=selectMonitors";
   factory.insertMonitorURL="http://localhost/tradebot/php/path.php?cmd=insertMonitor";
   factory.deleteMonitorURL="http://localhost/tradebot/php/path.php?cmd=deleteMonitor";
@@ -76,7 +77,8 @@ PMapp.factory("ViewSettings",function(){
 
   factory.retrieveMonitors = function(){
     this.monitors = {}; // reload all monitors
-    $.post(factory.selectMonitorsURL,factory.getPersonalInfo(),function(result){
+
+    $.post(this.selectMonitorsURL,this.getPersonalInfo(),function(result){
       console.log(result);
       for( let i = 0; i < result.length; i++){
         console.log(strf("{}/{}",[i,result.length-1]));
@@ -87,16 +89,16 @@ PMapp.factory("ViewSettings",function(){
         for (let i = 0; i < jsons.length; i++){
           let json = jsons[i];
           str_reprs.push(strf("({},{})",
-                          [factory.int2name[json.head],
-                          factory.int2name[json.tail]]));
+                          [this.int2name[json.head],
+                          this.int2name[json.tail]]));
         }
-        factory.monitors[row.pid] = {"rate":row.rate,"plat1":row.plat1,"plat2":row.plat2,
+        this.monitors[row.pid] = {"rate":row.rate,"plat1":row.plat1,"plat2":row.plat2,
                                     "str":str_reprs.join(" <> ")};
       }
-    }, "json")
+    }) // */
   }
 
-  factory.sensinfo = {"uid":"tester", "pw":"somethingneat"};
+  factory.sensinfo = {uid:"tester", pw:"somethingneat"};
   factory.retrieveMonitors();
 
   return factory;
