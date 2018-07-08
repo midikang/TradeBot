@@ -3,51 +3,19 @@ PMapp = angular.module("PathManager",[]);
 PMapp.factory("ViewSettings",function(){
   let factory = {};
 
-  // set path to local php  scripts
-  factory.selectMonitorsURL="http://localhost/tradebot/php/pathDB.php?cmd=selectMonitors";
-  factory.insertMonitorURL="http://localhost/tradebot/php/path.php?cmd=insertMonitor";
-  factory.deleteMonitorURL="http://localhost/tradebot/php/path.php?cmd=deleteMonitor";
-  factory.updateMonitorRateURL="http://localhost/tradebot/php/path.php?cmd=updateMonitorRate";
-
-  factory.selectPathsURL="http://localhost/tradebot/php/pathDB.php?cmd=selectAllPaths";
-
   factory.selectPlatformsURL = "http://localhost/tradebot/php/translateDB.php?cmd=getPlatforms";
 
   factory.selectInt2NameURL = "http://localhost/tradebot/php/translateDB.php?cmd=getInt2Name";
 
-  factory.paths = {};
-  $.getJSON(factory.selectInt2NameURL, function(int2name){
+  factory.platforms = sendPostReceiveJSON(factory.selectPlatformsURL,{});
+
+  $.getJSON(factory.selectInt2NameURL, function(res){
     console.log("got int2name");
-    factory.int2name = int2name;
-
-    $.getJSON(factory.selectPathsURL, function(result){
-      console.log("adding paths");
-      // result is a list in json form
-      // the elements of the list are json objs with keys: pid, plat1/2,
-      for( let i = 0; i < result.length; i++){
-        console.log(strf("{}/{}",[i,result.length-1]));
-
-        let row = result[i];
-        let jsons = JSON.parse(row.jsons);
-        let str_reprs = [];
-        for (let i = 0; i < jsons.length; i++){
-          let json = jsons[i];
-          str_reprs.push(strf("({},{})",
-                          [factory.int2name[json.head],
-                          factory.int2name[json.tail]]));
-        }
-        factory.paths[row.pid] = {"plat1":row.plat1,"plat2":row.plat2,
-                                    "str":str_reprs.join(" <> ")};
-      }
-    });// */
-
-    factory.retrieveMonitors();
+    factory.int2name = res;
   });
 
-  $.getJSON(factory.selectPlatformsURL,function(res){
-    console.log(res);
-    factory.platforms = res;
-  })
+  factory.sensinfo = {"rate":-1, "pid":-1, "uid":"tester", "pw":"somethingneat"};
+
 
   factory.platform1 = "";
   factory.platform2 = "";
@@ -64,44 +32,6 @@ PMapp.factory("ViewSettings",function(){
       alert("ViewSettings.changeMode()\ngiven mode "+mode);
     }
   }
-
-  factory.setPersonalInfo = function(key,val){
-    if (this.sensinfo.hasOwnProperty(key)){
-      this.sensinfo[key] = val;
-    } else {
-      console.log(`${key} : ${val}`);
-      alert("why are you doing this");
-    }
-  }
-
-  factory.getPersonalInfo = function(){
-    return this.sensinfo;
-  }
-
-  factory.retrieveMonitors = function(){
-    this.monitors = {}; // reload all monitors
-
-    $.post(this.selectMonitorsURL,this.getPersonalInfo(),function(result){
-      console.log(result);
-      for( let i = 0; i < result.length; i++){
-        console.log(strf("{}/{}",[i,result.length-1]));
-
-        let row = result[i];
-        let jsons = JSON.parse(row.jsons);
-        let str_reprs = [];
-        for (let i = 0; i < jsons.length; i++){
-          let json = jsons[i];
-          str_reprs.push(strf("({},{})",
-                          [factory.int2name[json.head],
-                          factory.int2name[json.tail]]));
-        }
-        factory.monitors[row.pid] = {"rate":row.rate,"plat1":row.plat1,"plat2":row.plat2,
-                                    "str":str_reprs.join(" <> ")};
-      }
-    },"json"); // */
-  }
-
-  factory.sensinfo = {"rate":-1, "pid":-1, "uid":"tester", "pw":"somethingneat"};
   return factory;
 });
 
