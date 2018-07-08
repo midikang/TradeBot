@@ -80,7 +80,7 @@ PMapp.factory("ViewSettings",function(){
 
   factory.retrieveMonitors = function(){
     this.monitors = {}; // reload all monitors
-    
+
     $.post(this.selectMonitorsURL,this.getPersonalInfo(),function(result){
       console.log(result);
       for( let i = 0; i < result.length; i++){
