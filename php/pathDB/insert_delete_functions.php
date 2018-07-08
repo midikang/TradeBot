@@ -10,7 +10,7 @@ function call_func($cmd){
       return uidExists($_POST['uid']);
 
     case "insertMonitor":
-      return insertPath($_POST['uid'],$_POST['pw'],$_POST['pid'],$_POST['rate']);
+      return insertMonitor($_POST['uid'],$_POST['pw'],$_POST['pid'],$_POST['rate']);
 
     case "deleteMonitor":
       return deletePath($_POST['uid'],$_POST['PW'],$_POST['pid']);
@@ -63,7 +63,7 @@ function executeInsert($table, $bracket_cskey, $bracket_csval){
 }
 
 function isValidUid($u){
-  return preg_match("/[a-zA-Z](\w{3,14})/", $u) //allows 4-15 characters uid
+  return preg_match("/[a-zA-Z](\w{3,14})/", $u); //allows 4-15 characters uid
 }
 
 function isValidUser($u,$p){
