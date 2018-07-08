@@ -4,7 +4,6 @@ PMapp.factory("ViewSettings",function(){
   let factory = {};
 
   // set path to local php  scripts
-  factory.testURL="http://localhost/tradebot/ui/test.php";
   factory.selectMonitorsURL="http://localhost/tradebot/php/pathDB.php?cmd=selectMonitors";
   factory.insertMonitorURL="http://localhost/tradebot/php/path.php?cmd=insertMonitor";
   factory.deleteMonitorURL="http://localhost/tradebot/php/path.php?cmd=deleteMonitor";
@@ -17,9 +16,10 @@ PMapp.factory("ViewSettings",function(){
   factory.selectInt2NameURL = "http://localhost/tradebot/php/translateDB.php?cmd=getInt2Name";
 
   factory.paths = {};
-  $.getJSON(factory.selectInt2NameURL, function(result){
+  $.getJSON(factory.selectInt2NameURL, function(int2name){
     console.log("got int2name");
-    factory.int2name = result;
+    factory.int2name = int2name;
+
     $.getJSON(factory.selectPathsURL, function(result){
       console.log("adding paths");
       // result is a list in json form
@@ -40,9 +40,12 @@ PMapp.factory("ViewSettings",function(){
                                     "str":str_reprs.join(" <> ")};
       }
     });// */
+
+    factory.retrieveMonitors();
   });
 
   $.getJSON(factory.selectPlatformsURL,function(res){
+    console.log(res);
     factory.platforms = res;
   })
 
@@ -77,7 +80,7 @@ PMapp.factory("ViewSettings",function(){
 
   factory.retrieveMonitors = function(){
     this.monitors = {}; // reload all monitors
-
+    
     $.post(this.selectMonitorsURL,this.getPersonalInfo(),function(result){
       console.log(result);
       for( let i = 0; i < result.length; i++){
@@ -89,18 +92,16 @@ PMapp.factory("ViewSettings",function(){
         for (let i = 0; i < jsons.length; i++){
           let json = jsons[i];
           str_reprs.push(strf("({},{})",
-                          [this.int2name[json.head],
-                          this.int2name[json.tail]]));
+                          [factory.int2name[json.head],
+                          factory.int2name[json.tail]]));
         }
-        this.monitors[row.pid] = {"rate":row.rate,"plat1":row.plat1,"plat2":row.plat2,
+        factory.monitors[row.pid] = {"rate":row.rate,"plat1":row.plat1,"plat2":row.plat2,
                                     "str":str_reprs.join(" <> ")};
       }
-    }) // */
+    },"json"); // */
   }
 
-  factory.sensinfo = {uid:"tester", pw:"somethingneat"};
-  factory.retrieveMonitors();
-
+  factory.sensinfo = {"rate":-1, "pid":-1, "uid":"tester", "pw":"somethingneat"};
   return factory;
 });
 
