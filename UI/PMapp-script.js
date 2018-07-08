@@ -2,17 +2,15 @@ PMapp = angular.module("PathManager",[]);
 
 PMapp.factory("ViewSettings",function(){
   let factory = {};
+  $.post("http://localhost/tradebot/php/translateDB.php?cmd=getPlatforms",{},function(res){
+    factory.platforms = res;
+  },"json");
 
-  factory.selectPlatformsURL = "http://localhost/tradebot/php/translateDB.php?cmd=getPlatforms";
-
-  factory.selectInt2NameURL = "http://localhost/tradebot/php/translateDB.php?cmd=getInt2Name";
-
-  factory.platforms = sendPostReceiveJSON(factory.selectPlatformsURL,{});
-
-  $.getJSON(factory.selectInt2NameURL, function(res){
-    console.log("got int2name");
+  $.post("http://localhost/tradebot/php/translateDB.php?cmd=getInt2Name",{},function(res){
     factory.int2name = res;
-  });
+  },"json");
+
+  // function to get user id and pw here
 
   factory.sensinfo = {"rate":-1, "pid":-1, "uid":"tester", "pw":"somethingneat"};
 

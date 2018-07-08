@@ -1,10 +1,3 @@
-function sendPostReceiveJSON(url,postData){
-  $.post(url,postData,function(res){
-    console.log(res);
-    return res;
-  }, "json");
-}
-
 function strf(str,args){
   for (let i = 0; i  < args.length; i++) {
     str = str.replace('{}',args[i].toString());
