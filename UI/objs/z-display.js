@@ -13,10 +13,12 @@ PMapp.directive("zDisplay",function(){
           return;
         }
 
+        $scope.view.setPersonalInfo("pid",pid);
+        $scope.view.setPersonalInfo("rate",10);
         $.post($scope.view.insertMonitorURL,$scope.view.getPersonalInfo(),
         function(result){
           console.log(result);
-        }, "json")
+        });
         $scope.view.retrieveMonitors();
       }
 
@@ -29,7 +31,7 @@ PMapp.directive("zDisplay",function(){
         $.post($scope.view.deleteMonitorURL,$scope.view.getPersonalInfo(),
         function(result){
           console.log(result);
-        }, "json")
+        }, "json");
         $scope.view.retrieveMonitors();
       }
 
@@ -42,7 +44,7 @@ PMapp.directive("zDisplay",function(){
         $.post($scope.view.updateMonitorRateURL,$scope.view.getPersonalInfo(),
         function(result){
           console.log(result);
-        }, "json")
+        }, "json");
         $scope.view.retrieveMonitors();
       }
 
