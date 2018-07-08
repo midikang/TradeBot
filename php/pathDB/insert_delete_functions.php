@@ -77,13 +77,11 @@ function isValidUser($u,$p){
     if (!$result){
       die("sql result error in\t\tisValidUser()\n$cxn->error");
     }
-    echo "$u<br>$p";
+
     if ($result->num_rows == 1) { # there exists unique user
-      echo "1 result";
       return ($result->fetch_assoc())["uid"] == $u;
     }
   }
-  echo "bad";
   return false;
 }
 
