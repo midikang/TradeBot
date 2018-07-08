@@ -13,7 +13,7 @@ function call_func($cmd){
       return insertMonitor($_POST['uid'],$_POST['pw'],$_POST['pid'],$_POST['rate']);
 
     case "deleteMonitor":
-      return deletePath($_POST['uid'],$_POST['PW'],$_POST['pid']);
+      return deleteMonitor($_POST['uid'],$_POST['pw'],$_POST['pid']);
 
     case "insertUser":
       return insertUser($_POST['uid'], $_POST['pw']);
@@ -40,10 +40,11 @@ function executeDelete($table, $condition){
   $result = $cxn->query($sql);
 
   if (!$result){
-    echo "<br>deleting from $table wasn't successful<br>\n$cxn->error";
+    die("<br>deleting from $table wasn't successful<br>\n$cxn->error");
   }
 
   $cxn->close();
+  return true;
 }
 
 function executeInsert($table, $bracket_cskey, $bracket_csval){
@@ -56,7 +57,7 @@ function executeInsert($table, $bracket_cskey, $bracket_csval){
   $result = $cxn->query($sql);
 
   if (!$result){
-    echo "<br>inserting into $table wasn't successful<br>\n$cxn->error";
+    die("<br>inserting into $table wasn't successful<br>\n$cxn->error");
   }
 
   $cxn->close();
