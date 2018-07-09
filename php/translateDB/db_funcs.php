@@ -9,6 +9,9 @@ function call_func($cmd){
     case "getInt2Name":
       return getInt2Name();
 
+    case "getInt2Alias":
+      return getInt2Alias($_GET['platform']);
+
     default:
         die("unrecognized translate command:       $cmd");
   }
@@ -64,5 +67,28 @@ function getInt2Name()
   }
   $cxn->close();
   return $int2name;
+}
+
+function getInt2Alias($plat)
+{
+  $cxn = openDBCxn();
+
+  $sql = "select int_repr, coin_alias from $plat natural join int2name";
+
+  $result = $cxn->query($sql);
+
+  if (!$result){
+    die("sql result error in\t\tgetInt2Alias($plat)\n$cxn->error");
+  }
+
+  $int2alias = array();
+  if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        $int2alias[$row['int_repr']] = $row['coin_alias'];
+    }
+  }
+  $cxn->close();
+  return $int2alias;
 }
 ?>
