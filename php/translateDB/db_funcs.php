@@ -24,8 +24,11 @@ function getAllDictionaries(){
   $dictionaries = array();
 
   $plats = getPlatforms();
+
+  $i = 0;
   foreach ($plats as $plat){
-    $dictionaries[$plat] = getInt2Alias($plat);
+    $dictionaries[$i] = array($plat => getInt2Alias($plat));
+    $i += 1;
   }
 
   return $dictionaries;
