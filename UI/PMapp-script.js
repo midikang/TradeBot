@@ -3,30 +3,24 @@ PMapp = angular.module("PathManager",[]);
 PMapp.factory("ViewSettings",function(){
   let factory = {};
 
-  factory.dicts = {};
-  factory.platforms = [];
-  factory.int2name = {};
-
   // load dictionary
-  $.post("http://localhost/tradebot/php/translateDB.php?cmd=getAllDictionaries",{},function(result){
-    factory.dicts = result;
-    //console.log(factory.dicts);
-  },"json");
+  factory.dictFull = $.ajax({
+    url: "http://localhost/tradebot/php/translateDB.php?cmd=getAllDictionaries",
+    method: "GET",
+    async : false,
+    dataType: "json"
+  }).responseJSON;
 
   // load platforms
-  $.post("http://localhost/tradebot/php/translateDB.php?cmd=getPlatforms",{},function(result){
-    factory.platforms = result;
-    //console.log(factory.platforms);
-  },"json");
-
-  // load int2name dictionary
-  $.post("http://localhost/tradebot/php/translateDB.php?cmd=getInt2Name",{},function(res){
-    factory.int2name = res;
-  },"json");
+  factory.platforms = $.ajax({
+    url: "http://localhost/tradebot/php/translateDB.php?cmd=getPlatforms",
+    method: "GET",
+    async : false,
+    dataType: "json"
+  }).responseJSON;
 
   // function to get user id and pw here
   factory.sensinfo = {"rate":-1, "pid":-1, "uid":"tester", "pw":"somethingneat"}; // default
-
 
   factory.platform1 = "";
   factory.platform2 = "";
