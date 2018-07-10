@@ -8,15 +8,12 @@ PMapp.factory("ViewSettings",function(){
   factory.int2name = {};
 
   // load platforms and int2alias dictionary for each platforms
-  $.post("http://localhost/tradebot/php/translateDB.php?cmd=getPlatforms",{},function(result){
-    factory.platforms = result;
+  $.post("http://localhost/tradebot/php/translateDB.php?cmd=getAllDictionaries",{},function(result){
+    factory.dicts = result;
+    console.log(factory.dicts);
 
-    for (let i = 0; i < factory.platforms.length; i++){
-      let plat = factory.platforms[i];
-      $.post(`http://localhost/tradebot/php/translateDB.php?cmd=getInt2Alias&platform=${plat}`,{},function(res){
-        factory.int2alias[plat] = res;
-      },"json");
-    }
+    factory.platforms = getKeys(factory.dicts);
+    console.log(factory.platforms);
   },"json");
 
   // load int2name dictionary
@@ -24,9 +21,6 @@ PMapp.factory("ViewSettings",function(){
     factory.int2name = res;
   },"json");
 
-  console.log(factory.platforms);
-  console.log(factory.int2name);
-  console.log(factory.int2alias);
   // function to get user id and pw here
   factory.sensinfo = {"rate":-1, "pid":-1, "uid":"tester", "pw":"somethingneat"}; // default
 
