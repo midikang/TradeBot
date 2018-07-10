@@ -9,12 +9,26 @@ function call_func($cmd){
     case "getInt2Name":
       return getInt2Name();
 
+    case "getAllDictionaries":
+      return getAllDictionaries();
+
     case "getInt2Alias":
       return getInt2Alias($_GET['platform']);
 
     default:
         die("unrecognized translate command:       $cmd");
   }
+}
+
+function getAllDictionaries(){
+  $dictionaries = array();
+
+  $plats = getPlatforms();
+  foreach ($plats as $plat){
+    $dictionaries[$plat] = getInt2Alias($plat);
+  }
+
+  return $dictionaries;
 }
 
 function getPlatforms()
