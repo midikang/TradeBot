@@ -16,24 +16,25 @@ PMapp.directive("zDisplay",function(){
       let sensinfo = $scope.view.sensinfo;
 
       // init paths
-      $scope.paths = {};
+      $scope.paths = [];
       $.post(selectPathsURL,{},function(res){
         for( let i = 0; i < res.length; i++){
             //console.log(`(${i}/${res.length-1})`);
           let row = res[i];
-          let jsons = JSON.parse(row.jsons);
+          let path_jsons = JSON.parse(row.jsons);
           let str_reprs = [];
-          for (let j = 0; j < jsons.length; j++){
-            let json = jsons[j];
-            str_reprs.push(`(${$scope.view.int2name[json.head]},${$scope.view.int2name[json.tail]})`);
+          for (let j = 0; j < path_jsons.length; j++){
+            let tp = path_jsons[j];
+            str_reprs.push(`(${$scope.view.int2name[tp.head]},${$scope.view.int2name[tp.tail]})`);
           }
-          $scope.paths[row.pid] = {"plat1":row.plat1,"plat2":row.plat2,
-                                      "str":str_reprs.join(" <> ")};
+          row.jsons = str_reprs.join(" <> ");
+          //console.log(row);
+          $scope.paths.push(row);
         }
       },"json");
 
       // init monitors
-      $scope.monitors = {};
+      $scope.monitors = [];
       $.post(selectMonitorsURL,sensinfo,function(res){
         for( let i = 0; i < res.length; i++){
             console.log(`(${i}/${res.length-1})`);
@@ -44,38 +45,41 @@ PMapp.directive("zDisplay",function(){
             let json = jsons[j];
             str_reprs.push(`(${$scope.view.int2name[json.head]},${$scope.view.int2name[json.tail]})`);
           }
-          $scope.monitors[row.pid] = {"rate":row.rate,"plat1":row.plat1,"plat2":row.plat2,
-                                      "str":str_reprs.join(" <> ")};
+          row.jsons = str_reprs.join(" <> ");
+          $scope.monitors.push(row);
         }
       },"json");
 
 
-      $scope.addToMonitors = function(pid){
-        if($scope.monitors.hasOwnProperty(pid)){
-          alert(`path #${pid} already in monitors`);
+      $scope.addToMonitors = function(path_json){
+        if($scope.monitors.contains(path_json)){
+          alert(`path #${path_json.pid} already in monitors`);
           return;
         }
 
-        sensinfo["pid"]=pid;
+        sensinfo["pid"]=path_json.pid;
         sensinfo["rate"]=10;
         $.post(insertMonitorURL,sensinfo,function(result){
           console.log(result);
+          // if result came back successful
+          path_json["rate"] = 10;
+          $scope.monitors.push(path_json);
         });
-        $scope.monitors[pid] = $scope.paths[pid];
-        $scope.monitors[pid]["rate"] = 10;
       }
 
-      $scope.rmFromMonitors = function(pid){
-        if(!$scope.monitors.hasOwnProperty(pid)){
-          alert(`path #${pid} not in monitors`);
+      $scope.rmFromMonitors = function(path_json){
+        /*
+        if(!$scope.monitors.contains(path_json)){
+          alert(`path #${path_json.pid} not in monitors`);
           return;
-        }
+        }*/
 
-        sensinfo["pid"]=pid;
+        sensinfo["pid"]=path_json.pid;
         $.post(deleteMonitorURL,sensinfo, function(result){
           console.log(result);
+          // if result came back successful
+          $scope.monitors.remove(path_json);
         }, "json");
-        delete $scope.monitors[pid];
       }
     }],
 
