@@ -25,8 +25,7 @@ PMapp.directive("zDisplay",function(){
           let str_reprs = [];
           for (let j = 0; j < path_jsons.length; j++){
             let tp = path_jsons[j];
-            //str_reprs.push(`(${$scope.view.int2name[tp.head]},${$scope.view.int2name[tp.tail]})`); /*/
-            str_reprs.push(`(${$scope.view.dicts[tp.head][tp.platform]}, ${$scope.view.dicts[tp.tail][tp.platform]})`); // */
+            str_reprs.push(`(${$scope.view.dictFull[tp.head][tp.platform]}, ${$scope.view.dictFull[tp.tail][tp.platform]})`); // */
           }
           row.jsons = str_reprs.join(" <> ");
           //console.log(row);
@@ -37,16 +36,14 @@ PMapp.directive("zDisplay",function(){
       // init monitors
       $scope.monitors = [];
       $.post(selectMonitorsURL,sensinfo,function(res){
-        console.log($scope.view.dicts);
         for( let i = 0; i < res.length; i++){
-            console.log(`(${i+1}/${res.length})`);
+            //console.log(`(${i+1}/${res.length})`);
           let row = res[i];
           let path_jsons = JSON.parse(row.jsons);
           let str_reprs = [];
           for (let j = 0; j < path_jsons.length; j++){
             let tp = path_jsons[j];
-            //str_reprs.push(`(${$scope.view.int2name[tp.head]},${$scope.view.int2name[tp.tail]})`); /*/
-            str_reprs.push(`(${$scope.view.dicts[tp.head][tp.platform]}, ${$scope.view.dicts[tp.tail][tp.platform]})`); // */
+            str_reprs.push(`(${$scope.view.dictFull[tp.head][tp.platform]}, ${$scope.view.dictFull[tp.tail][tp.platform]})`); // */
           }
           row.jsons = str_reprs.join(" <> ");
           $scope.monitors.push(row);
