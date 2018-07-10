@@ -25,7 +25,8 @@ PMapp.directive("zDisplay",function(){
           let str_reprs = [];
           for (let j = 0; j < path_jsons.length; j++){
             let tp = path_jsons[j];
-            str_reprs.push(`(${$scope.view.int2name[tp.head]},${$scope.view.int2name[tp.tail]})`);
+            str_reprs.push(`(${$scope.view.dicts[tp.platform][tp.head]},
+                            ${$scope.view.dicts[tp.platform][tp.tail]})`);
           }
           row.jsons = str_reprs.join(" <> ");
           //console.log(row);
@@ -39,11 +40,12 @@ PMapp.directive("zDisplay",function(){
         for( let i = 0; i < res.length; i++){
             console.log(`(${i}/${res.length-1})`);
           let row = res[i];
-          let jsons = JSON.parse(row.jsons);
+          let path_jsons = JSON.parse(row.jsons);
           let str_reprs = [];
-          for (let j = 0; j < jsons.length; j++){
-            let json = jsons[j];
-            str_reprs.push(`(${$scope.view.int2name[json.head]},${$scope.view.int2name[json.tail]})`);
+          for (let j = 0; j < path_jsons.length; j++){
+            let tp = path_jsons[j];
+            str_reprs.push(`(${$scope.view.dicts[tp.platform][tp.head]},
+                            ${$scope.view.dicts[tp.platform][tp.tail]})`);
           }
           row.jsons = str_reprs.join(" <> ");
           $scope.monitors.push(row);
