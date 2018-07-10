@@ -3,17 +3,20 @@ PMapp = angular.module("PathManager",[]);
 PMapp.factory("ViewSettings",function(){
   let factory = {};
 
-  factory.int2alias = {};
-  factory.platforms = {};
+  factory.dicts = {};
+  factory.platforms = [];
   factory.int2name = {};
 
-  // load platforms and int2alias dictionary for each platforms
+  // load dictionary
   $.post("http://localhost/tradebot/php/translateDB.php?cmd=getAllDictionaries",{},function(result){
     factory.dicts = result;
-    console.log(factory.dicts);
+    //console.log(factory.dicts);
+  },"json");
 
-    factory.platforms = getKeys(factory.dicts);
-    console.log(factory.platforms);
+  // load platforms
+  $.post("http://localhost/tradebot/php/translateDB.php?cmd=getPlatforms",{},function(result){
+    factory.platforms = result;
+    //console.log(factory.platforms);
   },"json");
 
   // load int2name dictionary

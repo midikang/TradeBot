@@ -1,6 +1,5 @@
 var z_filtersHTML = `
 Platforms: <input id = "pf1" class = "filter" type="text" ng-model = "view.platform1" >
-<button id = "swapPlatButton" ng-click = swapPlatforms()>Swap</button>
 <input id = "pf2" class = "filter" type="text" ng-model = "view.platform2" >
 <br>
 <br>
