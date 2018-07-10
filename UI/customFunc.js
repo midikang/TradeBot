@@ -55,6 +55,17 @@ Array.prototype.count = function(t){
   return c;
 }
 
+getKeys = function(obj){
+  var arr = [];
+
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      arr.push(key);
+    }
+  }
+  return arr;
+}
+
 function subString(s,begin, end){
   if (typeof end == "undefined"){
     end = s.length;
@@ -78,13 +89,6 @@ function objToString(obj){
     }
   }
   return tmp;
-}
-
-let msgs = [];
-
-function log(msg){
-  msgs.push(msg.toString())
-  alert(objToString(msgs));
 }
 
 function zPrompt(promptMsg,defaultMsg){
