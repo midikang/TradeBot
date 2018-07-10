@@ -21,15 +21,41 @@ function call_func($cmd){
 }
 
 function getAllDictionaries(){
-  $dictionaries = array();
-
   $plats = getPlatforms();
 
-  $i = 0;
+  $cxn = openDBCxn();
+
+  $sql = "select int_repr, int2name.coin_name";
   foreach ($plats as $plat){
-    $dictionaries[$i] = array($plat => getInt2Alias($plat));
-    $i += 1;
+    $sql.= ", $plat.coin_alias as $plat";
   }
+
+  $sql.=  " from int2name";
+
+  foreach ($plats as $plat){
+    $sql.= " left join $plat on $plat.coin_name = int2name.coin_name";
+  }
+
+  /*echo $sql."<br><br>"; // */
+
+  $result = $cxn->query($sql);
+
+  if (!$result){
+    die("sql result error in\t\tgetAllDictionaries()\n$cxn->error");
+  }
+
+  $dictionaries = array();
+  if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+      //$dictionaries[$row['int_repr']] = array();
+        foreach ($plats as $plat){
+          $dictionaries[$row['int_repr']][$plat] = $row["$plat"];
+        }
+    }
+  }
+  $cxn->close();
+
 
   return $dictionaries;
 }
