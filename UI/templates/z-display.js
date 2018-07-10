@@ -7,9 +7,7 @@ var z_displayHTML = `
       <th class = "pathStr">path</th>
       <th class = "platform">platform 2</th>
     </tr>
-    <tr class = "path" ng-repeat="path_obj in paths |
-    filter:view.alias1 | filter:view.alias2 | filter:view.alias3| filter:view.platform1 | filter:view.platform2 
-    as pList track by path_obj.pid">
+    <tr class = "path" ng-repeat="path_obj in paths | filter:view.platform1 | filter:view.platform2 as pList track by path_obj.pid">
       <td> <button class = "addButton" ng-click=addToMonitors(path_obj)>+</button></td>
       <td class = "pid">{{path_obj.pid}}</td>
       <td class = "platform">{{path_obj.plat1}}</td>
