@@ -7,6 +7,8 @@ PMapp.directive('zFilters', function() {                    //TODO TODO TODO TOD
     controller: ["$scope","ViewSettings",
     function($scope,ViewSettings){
       $scope.view = ViewSettings;
+
+      $scope.platforms = $scope.view.platforms;
     }],
 
     template: z_filtersHTML
