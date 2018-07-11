@@ -1,10 +1,10 @@
 z-select{
   position: absolute;
 
-  left:600px;
+  left:375px;
 
-  width:180px;
-  height:100px;
+  width:210px;
+  height:50px;
 }
 
 button.selector{width:100px; height:40px;text-align: center;font-size: 15px;}
@@ -15,6 +15,4 @@ button.selector{width:100px; height:40px;text-align: center;font-size: 15px;}
 
 #ms{
   position: relative;
-
-  top:5px;
 }

@@ -1,15 +1,13 @@
 z-filters{
   position: absolute;
 
-  width:490px;
-  height:70px;
+  width:400px;
+  top:15px;
+
 }
 
 
-input.filter{
-  width:100px;
+.filter{
+  width:70px;
+  font-size: 15px;
 }
-
-#pf1{  position: relative; left:50px;}
-#swapPlatButton{ position: relative; left: 100px;}
-#pf2{  position: relative; left:147px;}

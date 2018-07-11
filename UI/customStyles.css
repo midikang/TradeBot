@@ -9,4 +9,10 @@
   background-color: inherit;
 }
 
-body{width: 800px; height:600px; background-color:rgb(150,250,250)}
+body{
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 800px;
+  height:600px;
+  background-color:rgb(150,250,250)}

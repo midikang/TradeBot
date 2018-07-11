@@ -1,16 +1,17 @@
 z-display{
   position: absolute;
 
-  top: 100px;
+  top: 75px;
 
 
-  width:inherit;
+  width:600px;
   height:300px;
   overflow-y:scroll;
 }
 
 td{
-  border: 2px solid;  padding: 5px;
+  border: 2px solid;
+  padding: 5px;
   border-color: grey;
   text-align: center;
   font-size: 15px;
