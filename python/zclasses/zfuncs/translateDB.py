@@ -12,6 +12,9 @@ def getPlatforms():
 def getAliases(platform):
     return sendReceiveReq(getTranslateUrl('getAliases&platform={}'.format(platform)))
 
+def getAlias2Int(platform):
+    return sendReceiveReq(getTranslateDBUrl("getAlias2Int&platform={}".format(platform)))
+
 def getNameWithInt(int):
     url = getTranslateUrl('getNameWithInt&int={}'.format(int))
     #print(url)
