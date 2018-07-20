@@ -4,67 +4,57 @@ import zclasses.zfuncs.translateDB as tDB
 
 def getAllTPs(platform, validSymbols):
     ''' validSymbols are TPs in the string form, containing coins' aliases '''
-    allRecognizedAliases = tDB.getAliases(platform)
+    alias2int = tDB.getAlias2Int(platform)
     tradingPairs = []
 
     i = 0
     tot = len(validSymbols)
     for symbol in validSymbols:
         i+=1
-        if not (i%90):
+        if not (i%100):
             eprint("{}\t{}/{}".format(platform,i,tot))
 
 
-        pl = symbol2pl(platform, symbol, allRecognizedAliases)
+        aliasList = symbol2pl(platform, symbol, alias2int.keys())
 
-        if 0 in pl: # there exists a coin alias which tDB doesn't know of
+        # translate the list of alias into list of integers
+        intList = [ int(alias2int[aliasList[0]]),
+                    int(alias2int[aliasList[1]]) ]
+
+        if 0 in intList: # there exists a coin alias which dictionary doesn't know of
             continue
 
 
-        tradingPairs.append( TradingPair(pl, symbol, platform) )
-        pl.reverse()
-        tradingPairs.append( TradingPair(pl, symbol, platform, isInverted = True) )
+        tradingPairs.append( TradingPair(intList, symbol, platform) )
+        intList.reverse()
+        tradingPairs.append( TradingPair(intList, symbol, platform, isInverted = True) )
 
     return tradingPairs
 
 
-def symbol2pl(plat, symbol, allRecognizedAliases):
-    ''' func('bitfinex', "btc-ltc", [..])  ->  ( ["btc","ltc"] )  [int,int]
-        func('binance', "btcsc", [..])     ->  ( ["btc","sc"] )   [int,int]
-        func('poloniex', "btcsc", [..])    ->  ( ["sc", "btc"] )  [int,int]
+def symbol2pl(plat, symbol, knownAliases):
+    ''' func('bitfinex', "btc-ltc", [..])  ->  ["btc","ltc"]
+        func('binance', "btcsc", [..])     ->  ["btc","sc"]
+        func('poloniex', "btcsc", [..])    ->  ["sc", "btc"]
+        func('bitfinex', "g-uafeji", [..])    ->  ["alias", "alias"]
 
-        this function tries to recognize 2 coins' aliases and return the symbol
-        in list as a pair of int_repr '''
+        this function tries to recognize 2 coins' aliases in the given string symbol
+        and returns a list consisting of the 2 aliases '''
 
-    symbol = symbol.lower()
+    newSymbol = symbol.lower()
     delimiter = list(filter(lambda x: x in symbol,["-","_"," "]))
-    if delimiter:
-        aliasList = symbol.split(delimiter[0])
-
-    else: # if no clear delimiter, use tDB to try to recognize coins
-        unknown = True
-
-        for alias in allRecognizedAliases:
-            if symbol.startswith(alias) and symbol[len(alias):] in allRecognizedAliases:
-                aliasList = [symbol[:len(alias)], symbol[len(alias):]]
-                unknown = False
-                break
-
-        #"""
-        if unknown:
-            return [0,0]
+    if delimiter:  # remove the delimiter from the symbol if exists
+        newSymbol = symbol.replace(delimiter[0],"")
 
 
-            #mid = len(symbol)//2
-            #aliasList = [symbol[:mid], symbol[mid:]]
-            #eprint("symbol2pl:\t\t|{}| not recognized. \nUpdate {} dict accordingly\n".format(symbol, plat))
-        #"""
+    aliasList = ["alias","alias"]
+    # this will work even if symbol contains aliases with variety of lengths
+    for alias in knownAliases:
+        if newSymbol.startswith(alias) and newSymbol[len(alias):] in knownAliases:
+            aliasList = [newSymbol[:len(alias)], newSymbol[len(alias):]]
+            break
 
-    # translate the list of alias into list of integers
-    intList = [ tDB.getIntWithAlias(plat,aliasList[0]),
-                tDB.getIntWithAlias(plat,aliasList[1])]
-
-
+    # special cases
     if (plat == "bitfinex"):
         pass
 
@@ -77,12 +67,4 @@ def symbol2pl(plat, symbol, allRecognizedAliases):
     elif (plat == "yobit"):
         pass
 
-    else:
-        print('''
-        ################# ERROR ####################################################
-        ##  trying to process: |{}| for unrecognized platform: {}
-        ################# ERROR ####################################################
-        '''.format(tmp, plat))
-        exit()
-
-    return intList
+    return aliasList
