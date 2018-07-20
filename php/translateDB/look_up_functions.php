@@ -42,13 +42,13 @@ function executeSelect($select_field, $select_table, $condition, $selectOne){
     die("sql result error in\t\texecuteSelect()\n$cxn->error");
   }
 
+  $cxn->close();
   if ($selectOne){
     return getResult($select_field, $result);
   } else {
     return getResultsArr($select_field, $result);
   }
 
-  $cxn->close();
 }
 
 function getResult($select_field, $result){
