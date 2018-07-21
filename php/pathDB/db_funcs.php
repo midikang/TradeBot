@@ -4,7 +4,10 @@ require_once 'connection.php';
 function call_func($cmd){
   switch($cmd){
     case "selectMonitors":
-      return selectMonitors($_POST['uid'],$_POST['pw']);
+      return selectMonitors($_POST['uid']);
+
+    case "selectUsers":
+      return selectUsers();
 
     case "selectCrossPlatPaths":
       return selectCrossPlatPaths($_GET['plat1'],$_GET['plat2']);
@@ -17,7 +20,34 @@ function call_func($cmd){
   }
 }
 
-function selectMonitors($uid,$pw){
+function selectUsers(){
+  $cxn = OpenDBCxn();
+
+  $sql = "select uid from accounts
+  ";
+
+  #echo "<br>$sql<br>";
+
+  $result = $cxn->query($sql);
+
+  if (!$result){
+    die("sql result error in\t\tselectUsers()\n$cxn->error");
+  }
+
+  $users = array();
+  if ($result->num_rows > 0) {
+    // output data of each row
+    while($user = $result->fetch_assoc()) {
+        array_push($users,$user);
+    }
+  }
+
+  $cxn->close();
+
+  return $users;
+}
+
+function selectMonitors($uid){
   $cxn = OpenDBCxn();
 
   $sql = "select m.pid, plat1,plat2,jsons, rate
