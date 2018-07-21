@@ -29,7 +29,7 @@ def getAllTPs(platform, validSymbols):
         intList.reverse()
         tradingPairs.append( TradingPair(intList, symbol, platform, isInverted = True) )
 
-    #for i in range(0,len(tradingPairs),2): eprint(tradingPairs[i])
+    for i in range(0,len(tradingPairs),2): eprint(tradingPairs[i])
     return tradingPairs
 
 
@@ -54,7 +54,7 @@ def symbol2pl(plat, symbol, knownAliases):
         if newSymbol.startswith(alias) and newSymbol[len(alias):] in knownAliases:
             aliasList = [newSymbol[:len(alias)], newSymbol[len(alias):]]
             break
-
+    
     # special cases
     if (plat == "bitfinex"):
         pass
