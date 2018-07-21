@@ -7,28 +7,28 @@ def getTranslateUrl():
     return "http://localhost/tradebot/php/translate.php?"
 
 def getPlatforms():
-    return sendReceiveReq(getTranslateDBUrl(),data={"cmd":"getPlatforms"})
+    return sendReceiveReq(getTranslateDBUrl(),gdata={"cmd":"getPlatforms"})
 
 def getAliases(platform):
-    return sendReceiveReq(getTranslateUrl(),data={"cmd":"getAliases","platform":platform})
+    return sendReceiveReq(getTranslateUrl(),gdata={"cmd":"getAliases","platform":platform})
 
 def getAlias2Int(platform):
-    return sendReceiveReq(getTranslateDBUrl(),data={"cmd":"getAlias2Int","platform":platform})
+    return sendReceiveReq(getTranslateDBUrl(),gdata={"cmd":"getAlias2Int","platform":platform})
 
 def getNameWithInt(int):
-    return sendReceiveReq(getTranslateUrl(),data={"cmd":"getNameWithInt","int":int})
+    return sendReceiveReq(getTranslateUrl(),gdata={"cmd":"getNameWithInt","int":int})
 
 def getIntWithName(name):
-    return int(sendReceiveReq(getTranslateUrl(),data={"cmd":"getIntWithName","name":name}))
+    return int(sendReceiveReq(getTranslateUrl(),gdata={"cmd":"getIntWithName","name":name}))
 
 def getNameWithAlias(plat, alias):
-    return sendReceiveReq(getTranslateUrl(),data={"cmd":"getNameWithAlias","platform":plat,"alias":alias})
+    return sendReceiveReq(getTranslateUrl(),gdata={"cmd":"getNameWithAlias","platform":plat,"alias":alias})
 
 def getAliasWithName(plat, name):
-    return sendReceiveReq(getTranslateUrl(),data={"cmd":"getAliasWithName","platform":plat,"name":name})
+    return sendReceiveReq(getTranslateUrl(),gdata={"cmd":"getAliasWithName","platform":plat,"name":name})
 
 def getAliasWithInt(plat, int):
-    return sendReceiveReq(getTranslateUrl(),data={"cmd":"getAliasWithInt","platform":plat,"int":int})
+    return sendReceiveReq(getTranslateUrl(),gdata={"cmd":"getAliasWithInt","platform":plat,"int":int})
 
 def getIntWithAlias(plat, alias):
-    return int(sendReceiveReq(getTranslateUrl(),data={"cmd":"getIntWithAlias","platform":plat,"alias":alias}))
+    return int(sendReceiveReq(getTranslateUrl(),gdata={"cmd":"getIntWithAlias","platform":plat,"alias":alias}))
