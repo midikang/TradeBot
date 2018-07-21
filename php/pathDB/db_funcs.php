@@ -37,8 +37,8 @@ function selectUsers(){
   $users = array();
   if ($result->num_rows > 0) {
     // output data of each row
-    while($user = $result->fetch_assoc()) {
-        array_push($users,$user);
+    while($row = $result->fetch_assoc()) {
+        array_push($users,$row["uid"]);
     }
   }
 
