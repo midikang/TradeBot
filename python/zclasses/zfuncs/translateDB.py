@@ -1,43 +1,34 @@
 from zclasses.zfuncs.helper_func import sendReceiveReq
 
-def getTranslateDBUrl(cmdAndArgs):
-    return "{}cmd={}".format("http://localhost/tradebot/php/translateDB.php?",cmdAndArgs)
+def getTranslateDBUrl():
+    return "http://localhost/tradebot/php/translateDB.php?"
 
-def getTranslateUrl(cmdAndArgs):
-    return "{}cmd={}".format("http://localhost/tradebot/php/translate.php?", cmdAndArgs)
+def getTranslateUrl():
+    return "http://localhost/tradebot/php/translate.php?"
 
 def getPlatforms():
-    return sendReceiveReq(getTranslateDBUrl("getPlatforms"))
+    return sendReceiveReq(getTranslateDBUrl(),data={"cmd":"getPlatforms"})
 
 def getAliases(platform):
-    return sendReceiveReq(getTranslateUrl('getAliases&platform={}'.format(platform)))
+    return sendReceiveReq(getTranslateUrl(),data={"cmd":"getAliases","platform":platform})
+
+def getAlias2Int(platform):
+    return sendReceiveReq(getTranslateDBUrl(),data={"cmd":"getAlias2Int","platform":platform})
 
 def getNameWithInt(int):
-    url = getTranslateUrl('getNameWithInt&int={}'.format(int))
-    #print(url)
-    return sendReceiveReq(url)
+    return sendReceiveReq(getTranslateUrl(),data={"cmd":"getNameWithInt","int":int})
 
 def getIntWithName(name):
-    url = getTranslateUrl('getIntWithName&name={}'.format(name))
-    #print(url)
-    return int(sendReceiveReq(url))
+    return int(sendReceiveReq(getTranslateUrl(),data={"cmd":"getIntWithName","name":name}))
 
 def getNameWithAlias(plat, alias):
-    url = getTranslateUrl('getNameWithAlias&platform={}&alias={}'.format(plat,alias))
-    #print(url)
-    return sendReceiveReq(url)
+    return sendReceiveReq(getTranslateUrl(),data={"cmd":"getNameWithAlias","platform":plat,"alias":alias})
 
 def getAliasWithName(plat, name):
-    url = getTranslateUrl('getAliasWithName&platform={}&name={}'.format(plat,name))
-    #print(url)
-    return sendReceiveReq(url)
+    return sendReceiveReq(getTranslateUrl(),data={"cmd":"getAliasWithName","platform":plat,"name":name})
 
 def getAliasWithInt(plat, int):
-    url = getTranslateUrl('getAliasWithInt&platform={}&int={}'.format(plat,int))
-    #print(url)
-    return sendReceiveReq(url)
+    return sendReceiveReq(getTranslateUrl(),data={"cmd":"getAliasWithInt","platform":plat,"int":int})
 
 def getIntWithAlias(plat, alias):
-    url = getTranslateUrl('getIntWithAlias&platform={}&alias={}'.format(plat,alias))
-    #print(url)
-    return int(sendReceiveReq(url))
+    return int(sendReceiveReq(getTranslateUrl(),data={"cmd":"getIntWithAlias","platform":plat,"alias":alias}))
