@@ -39,7 +39,7 @@ alias2intDicts = [getAlias2Int(plat1),getAlias2Int(plat2)]
 
 for i in range(2): # populate coinLists
     for a in platformAliases[i]:
-        coinLists[i].add(alias2intDicts[i][a])
+        coinLists[i].add(int(alias2intDicts[i][a])) # int cast because the dict is {str:str}
 
 overlappingCoins = coinLists[0].intersection(coinLists[1])
 #eprint(overlappingCoins)

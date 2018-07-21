@@ -7,7 +7,7 @@ def getPathUrl():
     return "http://localhost/tradebot/php/path.php?"
 
 def selectUsers():
-    return sendReceiveReq(getPathDBUrl(),data={"cmd":,"selectUsers"})
+    return sendReceiveReq(getPathDBUrl(),data={"cmd":"selectUsers"})
 
 def selectMonitors(user):
     return sendReceiveReq(getPathDBUrl(),method="post",data = {"user":user, "cmd":"selectMonitors"})
@@ -16,7 +16,7 @@ def insertPath(plat1,plat2,path_jsonStr): #
     sendReq(getPathUrl(),data = {"cmd":"insertPath", "plat1":plat1, "plat2":plat2, "path_jsonStr":path_jsonStr})
 
 def selectPaths(plat1,plat2):
-    return sendReceiveReq(getPathDBUrl(),'selectPaths&plat1{}&plat2={}'.format(plat1,plat2)))
+    return sendReceiveReq(getPathDBUrl(),'selectPaths&plat1{}&plat2={}'.format(plat1,plat2))
 
 def deletePath(pid): #
     sendReq(getPathUrl('deletePath&pid={}'.format(pid)))

@@ -44,5 +44,5 @@ def sendReq(url, method = "get", data = {}):
         eprint("sendReq()\nurl: {}\nmethod: {}".format(url,method))
         exit()
 
-    eprint(url)
+    #eprint(url)
     return response

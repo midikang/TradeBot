@@ -10,9 +10,9 @@ def getAllTPs(platform, validSymbols):
     i = 0
     tot = len(validSymbols)
     for symbol in validSymbols:
-        i+=1
         if not (i%100):
             eprint("{}\t{}/{}".format(platform,i,tot))
+        i+=1
 
 
         aliasList = symbol2pl(platform, symbol, alias2int.keys())
@@ -29,6 +29,7 @@ def getAllTPs(platform, validSymbols):
         intList.reverse()
         tradingPairs.append( TradingPair(intList, symbol, platform, isInverted = True) )
 
+    #for i in range(0,len(tradingPairs),2): eprint(tradingPairs[i])
     return tradingPairs
 
 
@@ -44,7 +45,7 @@ def symbol2pl(plat, symbol, knownAliases):
     newSymbol = symbol.lower()
     delimiter = list(filter(lambda x: x in symbol,["-","_"," "]))
     if delimiter:  # remove the delimiter from the symbol if exists
-        newSymbol = symbol.replace(delimiter[0],"")
+        newSymbol = newSymbol.replace(delimiter[0],"")
 
 
     aliasList = ["alias","alias"]
