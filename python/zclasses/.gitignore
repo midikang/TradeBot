@@ -3,7 +3,7 @@ Translator.py
 Checker.py
 Generator.py
 TradingPair.py
-TradingPath.py
+MonitorPath.py
 CoinDict.py
 
 
