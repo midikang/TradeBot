@@ -53,7 +53,7 @@ function selectMonitors($uid){
   $sql = "select m.pid, plat1,plat2,jsons, rate
   from accounts as a natural join monitors as m
     natural join paths
-  where a.uid = '$uid' and a.pw = '$pw'
+  where a.uid = '$uid'
   ";
 
   #echo "<br>$sql<br>";
