@@ -10,7 +10,7 @@ def selectUsers():
     return sendReceiveReq(getPathDBUrl(),gdata={"cmd":"selectUsers"})
 
 def selectMonitors(user):
-    return sendReceiveReq(getPathDBUrl(),method="post",gdata = {"cmd":"selectMonitors"}, pdata = {"user":user})
+    return sendReceiveReq(getPathDBUrl(),method="post",gdata = {"cmd":"selectMonitors"}, pdata = {"uid":user})
 
 def insertPath(plat1,plat2,path_jsonStr): #
     sendReq(getPathUrl(),gdata = {"cmd":"insertPath", "plat1":plat1, "plat2":plat2, "path_jsonStr":path_jsonStr})
