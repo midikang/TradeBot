@@ -29,7 +29,7 @@ def sendReceiveReq(url, method = "get", gdata = {}, pdata = {}):
         eprint("\n{}\njson_response:\n{}\n".format(url,json_response.text))
         exit()
 
-def sendReq(url, method = "get", gdata = {}, pdata{}):
+def sendReq(url, method = "get", gdata = {}, pdata={}):
     #print(url+"\n")
     for k in gdata.keys():
         url += "{}={}&".format(k,gdata[k])
