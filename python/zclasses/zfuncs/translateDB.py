@@ -9,6 +9,9 @@ def getTranslateUrl():
 def getPlatforms():
     return sendReceiveReq(getTranslateDBUrl(),gdata={"cmd":"getPlatforms"})
 
+def getFullDict():
+    return sendReceiveReq(getTranslateDBUrl(),gdata={"cmd":"getAllDictionaries"})
+
 def getAliases(platform):
     return sendReceiveReq(getTranslateUrl(),gdata={"cmd":"getAliases","platform":platform})
 
