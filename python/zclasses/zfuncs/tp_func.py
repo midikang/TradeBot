@@ -25,9 +25,9 @@ def getAllTPs(platform, validSymbols):
             continue
 
 
-        tradingPairs.append( TradingPair(intList, symbol, platform) )
+        tradingPairs.append( TradingPair(intList, platform) )
         intList.reverse()
-        tradingPairs.append( TradingPair(intList, symbol, platform, isInverted = True) )
+        tradingPairs.append( TradingPair(intList, platform, isInverted = True) )
 
     #for i in range(0,len(tradingPairs),2): eprint(tradingPairs[i])
     return tradingPairs
