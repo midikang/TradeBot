@@ -88,7 +88,7 @@ class zb extends trader{
     $headers = $this->generateHeaders($req, $post_data);
 		$url = $this->trading_url."$requestURL?$post_data&sign=$signature&reqTime=".$this->generateNonce();
     // echo $url;
-    return getJSONstr($url, $headers[0], $method);
+    return getJSON($url, $headers[0], $method);
 	}
 
 

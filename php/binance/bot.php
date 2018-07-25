@@ -78,7 +78,7 @@ class binance extends trader{
     $headers = $this->generateHeaders($req, $post_data);
 		$url = $this->trading_url."$requestURL?$post_data&signature=$signature";
 
-    return getJSONstr($url, $headers[0], $method);
+    return getJSON($url, $headers[0], $method);
 	}
 
 

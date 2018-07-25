@@ -34,8 +34,9 @@ class yobit extends trader{
       "method" => "getInfo"
     );
     // return $this->query($data);
-    $balances = json_decode($this->query($data), true)["return"]["funds"];
-    return json_encode(balances);
+    $accInfo = json_decode($this->query($data), true);
+    #print_r($accInfo);
+    return $accInfo["return"]["funds"];
   }
 
   protected function generateNonce(){

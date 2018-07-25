@@ -15,7 +15,7 @@ function call_func($cmd){
 function getOrderBook($pair){
   $url = "http://api.zb.com/data/v1/depth?market=$pair&size=3";
 
-  return getJSONstr($url);
+  return getJSON($url);
 }
 
 function getValidPairs(){
