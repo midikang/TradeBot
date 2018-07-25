@@ -9,8 +9,8 @@ function call_func($cmd){
     case "getInt2Name":
       return getInt2Name();
 
-    case "getAllDictionaries":
-      return getAllDictionaries();
+    case "getFullDictionary":
+      return getFullDictionary();
 
     case "getInt2Alias":
       return getInt2Alias($_GET['platform']);
@@ -23,7 +23,7 @@ function call_func($cmd){
   }
 }
 
-function getAllDictionaries(){
+function getAllDictionary(){
   $plats = getPlatforms();
 
   $cxn = openDBCxn();
