@@ -23,15 +23,12 @@ class binance extends trader{
   }
 
   public function newOrder($pair, $amount, $price, $side) {
-    if ($amount < $this->minTradeAmt){
-      invalidErr("trade amt = $amount < min amt = {$this->minTradeAmt}");
-    }
     //$request = "/api/v3/order";
     $request = "/api/v3/order/test"; // doesn't actually put up order if request succ
     $req = array(
        "symbol" => $pair,
        "side" => $side,
-       "type" => $type,
+       "type" => $this->orderType,
        "timeInForce" => $this->timeInForce,
        "quantity" => $amount,
        "price" => $price,
